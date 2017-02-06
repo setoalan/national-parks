@@ -1,9 +1,17 @@
 var express = require('express');
-var router = express.Router();
+var config = require('../config');
+var foursquare = require('node-foursquare')(config);
+var indexRouter = express.Router();
 
-/* GET home page. */
-router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Express' });
+indexRouter.get('/', function (req, res, next) {
+  res.sendFile('../public/index.html');
 });
 
-module.exports = router;
+indexRouter.get('/api', function (req, res, next) {
+  foursquare.Lists.getList('58955a1e44689a4313e87e7a', null, function (error, data) {
+    if (error) throw error;
+    res.json(data.list.listItems);
+  });
+});
+
+module.exports = indexRouter;
