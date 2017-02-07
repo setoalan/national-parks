@@ -6,6 +6,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>United States National Parks</title>
 
+  <link href="modules/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="stylesheets/style.css" rel="stylesheet">
+
   <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
   <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
   <!--[if lt IE 9]>
@@ -16,13 +19,33 @@
 
 <body>
 
-  <div ng-controller="IndexController">
-    <div ng-repeat="park in parkList">
-      <h1>{{park.venue.name}}</h1>
+  <div class="container" ng-controller="IndexController">
+
+    <div class="row">
+      <div class="col-lg-12">
+        <h1 class="page-header">United States National Parks
+          <small>America's Best Idea</small>
+        </h1>
+      </div>
     </div>
+
+    <div class="row">
+      <div class="col-md-4 portfolio-item" ng-repeat="park in parkList|limitTo:3">
+        <a href="#">
+          <img class="img-responsive" src="http://placekitten.com/700/400" alt="">
+        </a>
+        <h3>
+          <a href="#">{{park.venue.name}}</a>
+        </h3>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam viverra euismod odio, gravida pellentesque urna varius vitae.</p>
+      </div>
+    </div>
+
   </div>
 
-  <script src="scripts/angular.min.js"></script>
+  <script src="modules/jquery/dist/jquery.js"></script>
+  <script src="modules/bootstrap/dist/js/bootstrap.min.js"></script>
+  <script src="modules/angular/angular.min.js"></script>
   <script src="javascripts/controllers.js"></script>
 
 </body>
