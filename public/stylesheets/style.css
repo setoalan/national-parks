@@ -1,3 +1,13 @@
 footer {
   margin: 50px 0;
 }
+
+.park-img {
+  padding: 5px;
+  border: 1px solid black;
+  border-radius: 5px;
+}
+
+.park-square {
+  margin-top: 50px;
+}

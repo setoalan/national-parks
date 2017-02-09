@@ -30,16 +30,21 @@
     </div>
 
     <div class="row" ng-repeat="i in getNumRows() track by $index" ng-init="parentIndex = $index">
-      <div class="col-md-4 portfolio-item" ng-repeat="park in parkList|limitTo:3:parentIndex * 3">
+      <div class="col-md-4 portfolio-item park-square" ng-repeat="park in parkList|limitTo:3:parentIndex * 3">
         <a href="{{park.venue.url}}" target="_blank">
-          <img class="img-responsive" ng-src="{{park.photo.prefix + park.photo.width + park.photo.suffix}}" alt="{{park.venue.name}}">
+          <img class="img-responsive park-img" ng-src="{{park.photo.prefix + park.photo.width + park.photo.suffix}}" alt="{{park.venue.name}}">
         </a>
-        <h3>
+        <h3 class="text-center">
           <a href="{{park.venue.url}}" target="=_blank">{{park.venue.name}}</a>
         </h3>
         <p>Since 1916, the National Park Service has been entrusted with the care of our national parks. With the help of volunteers and partners, we safeguard these special places and share their stories with more than 275 million visitors every year. But our work doesn't stop there.</p>
       </div>
     </div>
+
+    <footer class="footer">
+      <hr  />
+      Made by <a href="http://alanseto.com/" target="_blank">Alan Seto</a>
+    </footer>
 
   </div>
 
