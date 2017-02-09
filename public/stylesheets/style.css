@@ -1,8 +1,13 @@
-body {
-  padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+footer {
+  margin: 50px 0;
 }
 
-a {
-  color: #00B7FF;
+.park-img {
+  padding: 5px;
+  border: 1px solid black;
+  border-radius: 5px;
+}
+
+.park-square {
+  margin-top: 50px;
 }

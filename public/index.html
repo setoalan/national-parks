@@ -6,6 +6,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>United States National Parks</title>
 
+  <link href="modules/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="stylesheets/style.css" rel="stylesheet">
+
   <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
   <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
   <!--[if lt IE 9]>
@@ -16,13 +19,38 @@
 
 <body>
 
-  <div ng-controller="IndexController">
-    <div ng-repeat="park in parkList">
-      <h1>{{park.venue.name}}</h1>
+  <div class="container" ng-controller="IndexController">
+
+    <div class="row">
+      <div class="col-lg-12">
+        <h1 class="page-header">United States National Parks
+          <small>America's Best Idea</small>
+        </h1>
+      </div>
     </div>
+
+    <div class="row" ng-repeat="i in getNumRows() track by $index" ng-init="parentIndex = $index">
+      <div class="col-md-4 portfolio-item park-square" ng-repeat="park in parkList|limitTo:3:parentIndex * 3">
+        <a href="{{park.venue.url}}" target="_blank">
+          <img class="img-responsive park-img" ng-src="{{park.photo.prefix + park.photo.width + park.photo.suffix}}" alt="{{park.venue.name}}">
+        </a>
+        <h3 class="text-center">
+          <a href="{{park.venue.url}}" target="=_blank">{{park.venue.name}}</a>
+        </h3>
+        <p>Since 1916, the National Park Service has been entrusted with the care of our national parks. With the help of volunteers and partners, we safeguard these special places and share their stories with more than 275 million visitors every year. But our work doesn't stop there.</p>
+      </div>
+    </div>
+
+    <footer class="footer">
+      <hr  />
+      Made by <a href="http://alanseto.com/" target="_blank">Alan Seto</a>
+    </footer>
+
   </div>
 
-  <script src="scripts/angular.min.js"></script>
+  <script src="modules/jquery/dist/jquery.js"></script>
+  <script src="modules/bootstrap/dist/js/bootstrap.min.js"></script>
+  <script src="modules/angular/angular.min.js"></script>
   <script src="javascripts/controllers.js"></script>
 
 </body>
