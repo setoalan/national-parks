@@ -40,6 +40,9 @@
             <li ng-repeat="sort in sorts"><a ng-click="sortSelected(sort)">{{sort}}</a></li>
           </ul>
         </div>
+        <div class="input-group pull-right" style="margin-right:10px;">
+          <input type="text" class="form-control" placeholder="Search" ng-model="searchText">
+        </div>
         <div class="pull-right" style="transform: translate(-5%,50%);" ng-if="sortField == '+venue.rating' || sortField == '-venue.rating'">
           Parks with no rating are ommited.
         </div>
@@ -47,7 +50,7 @@
     </div>
 
     <div class="row" ng-repeat="i in getNumRows() track by $index" ng-init="parentIndex = $index">
-      <div class="col-md-4 portfolio-item park-square" ng-repeat="park in parkList | orderBy:sortField | limitTo:3:parentIndex * 3" ng-if="parkListValue(park)">
+      <div class="col-md-4 portfolio-item park-square" ng-repeat="park in parkList | filter:{venue:{name:searchText}} | orderBy:sortField | limitTo:3:parentIndex * 3" ng-if="parkListValue(park)">
         <a href="{{park.venue.url}}" target="_blank">
           <img class="img-responsive park-img" ng-src="{{park.photoUrl}}" alt="{{park.venue.name}}">
         </a>

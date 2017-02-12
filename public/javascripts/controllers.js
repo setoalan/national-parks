@@ -4,11 +4,11 @@ angular.module('national-parks-4sq', [])
   .controller('IndexController', ['$scope', '$http', function ($scope, $http) {
     $scope.sorts = ['Name A-Z', 'Name Z-A', 'Rating +', 'Rating -', 'Checkins +', 'Checkins -'];
     $scope.sortText = $scope.sorts[0];
-    $scope.sortField = '+venue.name'
+    $scope.sortField = '+venue.name';
 
     $scope.getNumRows = function () {
       return new Array($scope.numRows);
-    }
+    };
 
     $http.get('/api')
       .then(function (response) {
@@ -56,5 +56,5 @@ angular.module('national-parks-4sq', [])
 
     $scope.parkListValue = function (park) {
       return ($scope.sortField.substring(1) === 'venue.rating' && !park.venue.rating) ? false : true;
-    }
+    };
   }]);
