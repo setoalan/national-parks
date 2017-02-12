@@ -3,8 +3,8 @@
 angular.module('national-parks-4sq', [])
   .controller('IndexController', ['$scope', '$http', function ($scope, $http) {
     $scope.sorts = ['Name A-Z', 'Name Z-A', 'Rating +', 'Rating -', 'Checkins +', 'Checkins -'];
-    $scope.currentSort = $scope.sorts[0];
-    $scope.filtText = 'Name A-Z';
+    $scope.sortText = $scope.sorts[0];
+    $scope.sortField = '+venue.name'
 
     $scope.getNumRows = function () {
       return new Array($scope.numRows);
@@ -27,32 +27,34 @@ angular.module('national-parks-4sq', [])
                 park.photoUrl = 'https://upload.wikimedia.org/wikipedia/commons/b/bd/Voyageurs_National_Park.jpg';
               }
             }, function (error) {
-              console.log(error);
+              console.log('Error: ' + error);
             });
         })
-
       }, function (error) {
-        console.log(error);
+        console.log('Error: ' + error);
       });
 
     $scope.sortSelected = function (sort) {
-      $scope.currentSort = sort;
+      $scope.sortText = sort;
 
       if (sort === 'Name A-Z') {
-        $scope.sortText = '+venue.name';
+        $scope.sortField = '+venue.name';
       } else if (sort === 'Name Z-A') {
-        $scope.sortText = '-venue.name';;
+        $scope.sortField = '-venue.name';;
       } else if (sort === 'Rating +') {
-        $scope.sortText = '-venue.rating';
+        $scope.sortField = '-venue.rating';
       } else if (sort === 'Rating -') {
-        $scope.sortText = '+venue.rating';
+        $scope.sortField = '+venue.rating';
       } else if (sort === 'Checkins +') {
-        $scope.sortText = '-venue.stats.checkinsCount';
+        $scope.sortField = '-venue.stats.checkinsCount';
       } else if (sort === 'Checkins -') {
-        $scope.sortText = '+venue.stats.checkinsCount';
+        $scope.sortField = '+venue.stats.checkinsCount';
       } else {
-        $scope.sortText = '+venue.name';
+        $scope.sortField = '+venue.name';
       }
     };
 
+    $scope.parkListValue = function (park) {
+      return ($scope.sortField.substring(1) === 'venue.rating' && !park.venue.rating) ? false : true;
+    }
   }]);
