@@ -3,6 +3,10 @@ footer {
 }
 
 .park-img {
+  height: 350px;
+  width: 350px;
+  display: block;
+  margin: auto;
   padding: 5px;
   border: 1px solid black;
   border-radius: 5px;

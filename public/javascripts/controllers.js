@@ -2,8 +2,11 @@
 
 angular.module('national-parks-4sq', [])
   .controller('IndexController', ['$scope', '$http', function ($scope, $http) {
+    $scope.sorts = ['Name A-Z', 'Name Z-A', 'Rating +', 'Rating -', 'Checkins +', 'Checkins -'];
+    $scope.currentSort = $scope.sorts[0];
+    $scope.filtText = 'Name A-Z';
 
-    $scope.getNumRows = function() {
+    $scope.getNumRows = function () {
       return new Array($scope.numRows);
     }
 
@@ -31,5 +34,25 @@ angular.module('national-parks-4sq', [])
       }, function (error) {
         console.log(error);
       });
+
+    $scope.sortSelected = function (sort) {
+      $scope.currentSort = sort;
+
+      if (sort === 'Name A-Z') {
+        $scope.sortText = '+venue.name';
+      } else if (sort === 'Name Z-A') {
+        $scope.sortText = '-venue.name';;
+      } else if (sort === 'Rating +') {
+        $scope.sortText = '-venue.rating';
+      } else if (sort === 'Rating -') {
+        $scope.sortText = '+venue.rating';
+      } else if (sort === 'Checkins +') {
+        $scope.sortText = '-venue.stats.checkinsCount';
+      } else if (sort === 'Checkins -') {
+        $scope.sortText = '+venue.stats.checkinsCount';
+      } else {
+        $scope.sortText = '+venue.name';
+      }
+    };
 
   }]);

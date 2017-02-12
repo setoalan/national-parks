@@ -29,8 +29,24 @@
       </div>
     </div>
 
+    <div class="row">
+      <div class="col-xs-6 col-sm-9 col-md-9"></div>
+      <div class="col-xs-2 col-sm-1 col-md-1">
+        <h4>Sort</h4>
+      </div>
+      <div class="col-xs-2 col-sm-2 col-md-2">
+        <button class="btn btn-default dropdown-toggle" type="button" id="sort" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+          {{currentSort}}
+          <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+          <li ng-repeat="sort in sorts"><a ng-click="sortSelected(sort)">{{sort}}</a></li>
+        </ul>
+      </div>
+    </div>
+
     <div class="row" ng-repeat="i in getNumRows() track by $index" ng-init="parentIndex = $index">
-      <div class="col-md-4 portfolio-item park-square" ng-repeat="park in parkList|limitTo:3:parentIndex * 3">
+      <div class="col-md-4 portfolio-item park-square" ng-repeat="park in parkList | orderBy:sortText | limitTo:3:parentIndex * 3">
         <a href="{{park.venue.url}}" target="_blank">
           <img class="img-responsive park-img" ng-src="{{park.photoUrl}}" alt="{{park.venue.name}}">
         </a>
