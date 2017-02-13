@@ -1,13 +1,20 @@
 'use strict';
 
-angular.module('national-parks-4sq', [])
-  .controller('IndexController', ['$scope', '$http', function ($scope, $http) {
-    $scope.sorts = ['Name A-Z', 'Name Z-A', 'Rating +', 'Rating -', 'Checkins +', 'Checkins -'];
+angular.module('national-parks-4sq')
+  .controller('IndexController', ['$scope', '$http', 'indexFactory', function ($scope, $http, indexFactory) {
+    $scope.states = indexFactory.getStates();
+    $scope.stateText = $scope.states[0];
+    $scope.stateField = undefined;
+    $scope.sorts = indexFactory.getSorts();
     $scope.sortText = $scope.sorts[0];
     $scope.sortField = '+venue.name';
 
     $scope.getNumRows = function () {
       return new Array($scope.numRows);
+    };
+
+    $scope.parkHasRating = function (park) {
+      return ($scope.sortField.substring(1) === 'venue.rating' && !park.venue.rating) ? false : true;
     };
 
     $http.get('/api')
@@ -20,12 +27,10 @@ angular.module('national-parks-4sq', [])
           $http.get('/flickr?parkName=' + parkName)
             .then(function (response) {
               var photo = response.data.body.photos.photo[0];
-              if (photo) {
-                park.photoUrl = `https://farm${photo.farm}.staticflickr.com/${photo.server}/${photo.id}_${photo.secret}.jpg`
-              } else {
+              park.photoUrl = (photo) ?
+                `https://farm${photo.farm}.staticflickr.com/${photo.server}/${photo.id}_${photo.secret}.jpg` :
                 // Voyageurs National Park does not have any photos on Flickr search
-                park.photoUrl = 'https://upload.wikimedia.org/wikipedia/commons/b/bd/Voyageurs_National_Park.jpg';
-              }
+                'https://upload.wikimedia.org/wikipedia/commons/b/bd/Voyageurs_National_Park.jpg';
             }, function (error) {
               console.log('Error: ' + error);
             });
@@ -33,6 +38,11 @@ angular.module('national-parks-4sq', [])
       }, function (error) {
         console.log('Error: ' + error);
       });
+
+    $scope.stateSelected = function (state) {
+      $scope.stateText = state;
+      $scope.stateField = (state === 'All States') ? undefined : state.substring(0, 2);
+    };
 
     $scope.sortSelected = function (sort) {
       $scope.sortText = sort;
@@ -54,7 +64,4 @@ angular.module('national-parks-4sq', [])
       }
     };
 
-    $scope.parkListValue = function (park) {
-      return ($scope.sortField.substring(1) === 'venue.rating' && !park.venue.rating) ? false : true;
-    };
   }]);

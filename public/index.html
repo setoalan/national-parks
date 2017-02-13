@@ -31,26 +31,35 @@
 
     <div class="row">
       <div class="col-xs-12">
-        <div class="dropdown">
-          <button class="btn btn-default dropdown-toggle pull-right" type="button" id="sort" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+        <div class="dropdown pull-right">
+          <button class="btn btn-default dropdown-toggle" type="button" id="sortMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
             {{sortText}}
             <span class="caret"></span>
           </button>
-          <ul class="dropdown-menu pull-right" aria-labelledby="sortMenu">
+          <ul class="dropdown-menu" aria-labelledby="sortMenu">
             <li ng-repeat="sort in sorts"><a ng-click="sortSelected(sort)">{{sort}}</a></li>
+          </ul>
+        </div>
+        <div class="dropdown pull-right" style="margin-right:10px;">
+          <button class="btn btn-default dropdown-toggle" type="button" id="stateMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+            {{stateText}}
+            <span class="caret"></span>
+          </button>
+          <ul class="dropdown-menu" aria-labelledby="stateMenu">
+            <li ng-repeat="state in states"><a ng-click="stateSelected(state)">{{state}}</a></li>
           </ul>
         </div>
         <div class="input-group pull-right" style="margin-right:10px;">
           <input type="text" class="form-control" placeholder="Search" ng-model="searchText">
         </div>
-        <div class="pull-right" style="transform: translate(-5%,50%);" ng-if="sortField == '+venue.rating' || sortField == '-venue.rating'">
+        <div class="pull-right" style="transform:translate(-5%,50%);" ng-if="sortField == '+venue.rating' || sortField == '-venue.rating'">
           Parks with no rating are ommited.
         </div>
       </div>
     </div>
 
     <div class="row" ng-repeat="i in getNumRows() track by $index" ng-init="parentIndex = $index">
-      <div class="col-md-4 portfolio-item park-square" ng-repeat="park in parkList | filter:{venue:{name:searchText}} | orderBy:sortField | limitTo:3:parentIndex * 3" ng-if="parkListValue(park)">
+      <div class="col-md-4 portfolio-item park-square" ng-repeat="park in parkList | filter:{venue:{location:{state:stateField}}} | filter:{venue:{name:searchText}} | orderBy:sortField | limitTo:3:parentIndex * 3" ng-if="parkHasRating(park)">
         <a href="{{park.venue.url}}" target="_blank">
           <img class="img-responsive park-img" ng-src="{{park.photoUrl}}" alt="{{park.venue.name}}">
         </a>
@@ -71,7 +80,9 @@
   <script src="modules/jquery/dist/jquery.js"></script>
   <script src="modules/bootstrap/dist/js/bootstrap.min.js"></script>
   <script src="modules/angular/angular.min.js"></script>
+  <script src="javascripts/app.js"></script>
   <script src="javascripts/controllers.js"></script>
+  <script src="javascripts/services.js"></script>
 
 </body>
 </html>
