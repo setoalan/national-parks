@@ -24,9 +24,8 @@ angular.module('national-parks-4sq')
         $scope.parks.forEach(park => {
           $scope.fetchPhotos(park, park.venue.name.split(' ').join('+'));
         });
-        return response.data.items;
       }, function (error) {
-        console.log('Error: ' + error);
+        console.error('Error: ' + error);
       });
 
     $scope.fetchPhotos = function (park, parkName) {
@@ -37,10 +36,9 @@ angular.module('national-parks-4sq')
             `https://farm${photo.farm}.staticflickr.com/${photo.server}/${photo.id}_${photo.secret}.jpg` :
             // Voyageurs National Park does not return any photos on Flickr search
             'https://upload.wikimedia.org/wikipedia/commons/b/bd/Voyageurs_National_Park.jpg';
-            park.show = true;
-            console.log(park);
+          park.show = true;
         }, function (error) {
-          console.log('Error: ' + error);
+          console.error('Error: ' + error);
         });
     };
 
