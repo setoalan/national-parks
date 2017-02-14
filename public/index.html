@@ -58,15 +58,17 @@
       </div>
     </div>
 
-    <div class="row" ng-repeat="i in getNumRows() track by $index" ng-init="parentIndex = $index">
-      <div class="col-md-4 portfolio-item park-square" ng-repeat="park in parkList | filter:{venue:{location:{state:stateField}}} | filter:{venue:{name:searchText}} | orderBy:sortField | limitTo:3:parentIndex * 3" ng-if="parkHasRating(park)">
-        <a href="{{park.venue.url}}" target="_blank">
-          <img class="img-responsive park-img" ng-src="{{park.photoUrl}}" alt="{{park.venue.name}}">
-        </a>
-        <h3 class="text-center">
-          <a href="{{park.venue.url}}" target="=_blank">{{park.venue.name}}</a>
-        </h3>
-        <p>Since 1916, the National Park Service has been entrusted with the care of our national parks. With the help of volunteers and partners, we safeguard these special places and share their stories with more than 275 million visitors every year. But our work doesn't stop there.</p>
+    <div class="row row-parks" ng-repeat="i in getNumRows() track by $index" ng-init="parentIndex = $index">
+      <div class="col-md-4 portfolio-item" ng-repeat="park in parks | filter:{venue:{location:{state:stateField}}}:true | filter:{venue:{name:searchText}} | orderBy:sortField | limitTo:3:parentIndex * 3" ng-if="parkHasRating(park)">
+        <div ng-if="park.show">
+          <a href="{{park.venue.url}}" target="_blank">
+            <img class="img-responsive park-img" ng-src="{{park.photoUrl}}" alt="{{park.venue.name}}">
+          </a>
+          <h3 class="text-center">
+            <a href="{{park.venue.url}}" target="=_blank">{{park.venue.name}}</a>
+          </h3>
+          <p>Since 1916, the National Park Service has been entrusted with the care of our national parks. With the help of volunteers and partners, we safeguard these special places and share their stories with more than 275 million visitors every year. But our work doesn't stop there.</p>
+        </div>
       </div>
     </div>
 
