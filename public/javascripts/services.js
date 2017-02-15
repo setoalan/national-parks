@@ -1,10 +1,10 @@
 'use strict';
 
 angular.module('national-parks-4sq')
-  .factory('indexFactory', [function () {
-    var indexData = {};
+  .factory('toolBarFactory', [function () {
+    var toolBar = {};
 
-    indexData.getSorts = function () {
+    toolBar.getSorts = function () {
       return [
         'Name A-Z',
         'Name Z-A',
@@ -15,7 +15,7 @@ angular.module('national-parks-4sq')
       ];
     };
 
-    indexData.getStates = function () {
+    toolBar.getStates = function () {
       return [
         'All States',
         'AK - Alaska',
@@ -47,5 +47,36 @@ angular.module('national-parks-4sq')
       ];
     };
 
-    return indexData;
+    return toolBar;
+  }])
+  .factory('parkFactory', ['$http', function ($http) {
+    var park = {};
+
+    park.fetchParks = function () {
+      var data = $http.get('/api')
+        .then(function (response) {
+          var parks = response.data.items;
+          parks.forEach(park => fetchPhotos(park, park.venue.name.split(' ').join('+')));
+          return parks;
+        }, function (error) {
+          console.error('Error: ' + error);
+        });
+      return data;
+    }
+
+    function fetchPhotos(park, parkName) {
+      $http.get('/flickr?parkName=' + parkName)
+        .then(function (response) {
+          var photo = response.data.body.photos.photo[0];
+          park.photoUrl = (photo) ?
+            `https://farm${photo.farm}.staticflickr.com/${photo.server}/${photo.id}_${photo.secret}.jpg` :
+            // Voyageurs National Park does not return any photos on Flickr search
+            'https://upload.wikimedia.org/wikipedia/commons/b/bd/Voyageurs_National_Park.jpg';
+          park.show = true;
+        }, function (error) {
+          console.error('Error: ' + error);
+        });
+    };
+
+    return park;
   }]);
