@@ -2,7 +2,7 @@
 
 angular.module('national-parks')
   .factory('toolBarFactory', [function () {
-    var toolBar = {};
+    let toolBar = {};
 
     toolBar.getSorts = function () {
       return [
@@ -50,12 +50,12 @@ angular.module('national-parks')
     return toolBar;
   }])
   .factory('parkFactory', ['$http', function ($http) {
-    var park = {};
+    let park = {};
 
     function fetchPhotos(park, parkName) {
       $http.get('/flickr?parkName=' + parkName)
         .then(function (response) {
-          var photo = response.data.body.photos.photo[0];
+          let photo = response.data.body.photos.photo[0];
           park.photoUrl = (photo) ?
             `https://farm${photo.farm}.staticflickr.com/${photo.server}/${photo.id}_${photo.secret}.jpg` :
             // Voyageurs National Park does not return any photos on Flickr search
@@ -67,9 +67,9 @@ angular.module('national-parks')
     }
 
     park.fetchParks = function () {
-      var data = $http.get('/api')
+      let data = $http.get('/api')
         .then(function (response) {
-          var parks = response.data.items;
+          let parks = response.data.items;
           parks.forEach(park => fetchPhotos(park, park.venue.name.split(' ').join('+')));
           return parks;
         }, function (error) {

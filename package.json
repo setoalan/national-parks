@@ -2,7 +2,7 @@
   "name": "national-parks",
   "version": "1.0.0",
   "description": "United States National Parks powered by Foursquare",
-  "main": "app.js",
+  "main": "index.html",
   "license": "MIT",
   "author": "Alan Seto",
   "dependencies": {
