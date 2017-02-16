@@ -5,7 +5,7 @@
  */
 
 var app = require('../app');
-var debug = require('debug')('national-parks-4sq:server');
+var debug = require('debug')('national-parks:server');
 var http = require('http');
 
 /**

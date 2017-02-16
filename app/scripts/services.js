@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('national-parks-4sq')
+angular.module('national-parks')
   .factory('toolBarFactory', [function () {
     var toolBar = {};
 

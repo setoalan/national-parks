@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('national-parks-4sq')
+angular.module('national-parks')
   .controller('IndexController', ['$scope', '$http', 'toolBarFactory', 'parkFactory', function ($scope, $http, toolBarFactory, parkFactory) {
     $scope.states = toolBarFactory.getStates();
     $scope.stateText = $scope.states[0];
