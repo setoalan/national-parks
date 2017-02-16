@@ -9,8 +9,6 @@ footer {
 
 .park-img {
   display: inline;
-  height: 350px;
-  width: 350px;
   padding: 5px;
   border: 1px solid black;
   border-radius: 5px;
@@ -36,6 +34,11 @@ footer {
     text-align: center;
   }
 
+  .park-img {
+    height: 350px;
+    width: 350px;
+  }
+
   #stateMenu {
     width: 100%;
   }
@@ -57,5 +60,24 @@ footer {
   .warning-rating {
     transform: translate(0%, 50%);
     text-align: right;
+  }
+
+  .park-img {
+    height: 250px;
+    width: 250px;
+  }
+}
+
+@media (min-width: 970px) {
+  .park-img {
+    height: 300px;
+    width: 300px;
+  }
+}
+
+@media (min-width: 1200px) {
+  .park-img {
+    height: 350px;
+    width: 350px;
   }
 }
