@@ -1,8 +1,8 @@
 {
-  "name": "national-parks-4sq",
+  "name": "national-parks",
   "version": "1.0.0",
   "description": "United States National Parks powered by Foursquare",
-  "main": "app.js",
+  "main": "index.html",
   "license": "MIT",
   "author": "Alan Seto",
   "dependencies": {
@@ -25,10 +25,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/setoalan/national-parks-4sq.git"
+    "url": "git+https://github.com/setoalan/national-parks.git"
   },
   "bugs": {
-    "url": "https://github.com/setoalan/national-parks-4sq/issues"
+    "url": "https://github.com/setoalan/national-parks/issues"
   },
-  "homepage": "https://github.com/setoalan/national-parks-4sq#readme"
+  "homepage": "https://github.com/setoalan/national-parks#readme"
 }

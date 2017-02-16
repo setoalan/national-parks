@@ -16,7 +16,7 @@ indexRouter.get('/api', function (req, res, next) {
 });
 
 indexRouter.get('/flickr', function (req, res, next) {
-    var flickr = new Flickr({
+    const flickr = new Flickr({
       'apiKey': config.flickr.api_key,
       'apiSecret': config.flickr.secret
     });

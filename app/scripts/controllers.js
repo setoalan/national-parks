@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('national-parks-4sq')
+angular.module('national-parks')
   .controller('IndexController', ['$scope', '$http', 'toolBarFactory', 'parkFactory', function ($scope, $http, toolBarFactory, parkFactory) {
     $scope.states = toolBarFactory.getStates();
     $scope.stateText = $scope.states[0];
@@ -20,7 +20,7 @@ angular.module('national-parks-4sq')
       if (sort === 'Name A-Z') {
         $scope.sortField = '+venue.name';
       } else if (sort === 'Name Z-A') {
-        $scope.sortField = '-venue.name';;
+        $scope.sortField = '-venue.name';
       } else if (sort === 'Rating +') {
         $scope.sortField = '-venue.rating';
       } else if (sort === 'Rating -') {
