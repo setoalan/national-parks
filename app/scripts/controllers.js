@@ -56,17 +56,27 @@ angular.module('national-parks')
 
   }])
   .controller('MapController', ['$scope', 'parkFactory', function ($scope, parkFactory) {
-    var center = { lat:  44.580207622, lng: -103.461760283 };
-    var map = new google.maps.Map(document.getElementById('map'), {
+    const center = { lat:  26.7135539881, lng: -117.7395580925 };
+    const map = new google.maps.Map(document.getElementById('map'), {
       zoom: 3,
       center: center,
       scrollwheel: false
     });
     parkFactory.getParks().forEach(park => {
-      var latLng = { lat: park.venue.location.lat, lng: park.venue.location.lng };
-      var marker = new google.maps.Marker({
+      console.table(park.venue.location);
+      const latLng = { lat: park.venue.location.lat, lng: park.venue.location.lng };
+      const marker = new google.maps.Marker({
         position: latLng,
         map: map
+      });
+      const infowindow = new google.maps.InfoWindow({
+        content: park.venue.name
+      });
+      marker.addListener('click', function () {
+        infowindow.open(map, marker);
+      });
+      google.maps.event.addListener(map, 'click', function() {
+        infowindow.close();
       });
     });
   }]);

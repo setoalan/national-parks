@@ -2,6 +2,10 @@ footer {
   margin: 50px 0;
 }
 
+a:hover {
+  text-decoration: none;
+}
+
 .park {
   margin-top: 20px;
   margin-bottom: 20px;
