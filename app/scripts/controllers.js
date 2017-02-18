@@ -42,10 +42,31 @@ angular.module('national-parks')
       return new Array($scope.numRows);
     };
 
-    parkFactory.fetchParks()
-      .then(function (response) {
-        $scope.parks = response;
-        $scope.numRows = Math.ceil(response.length / 3);
-      });
+    let parks = parkFactory.getParks();
+    if (parks) {
+      $scope.parks = parks;
+      $scope.numRows = Math.ceil(parks.length / 3);
+    } else {
+      parkFactory.fetchParks(true)
+        .then(function (response) {
+          $scope.parks = response;
+          $scope.numRows = Math.ceil(response.length / 3);
+        });
+    }
 
+  }])
+  .controller('MapController', ['$scope', 'parkFactory', function ($scope, parkFactory) {
+    var center = { lat:  44.580207622, lng: -103.461760283 };
+    var map = new google.maps.Map(document.getElementById('map'), {
+      zoom: 3,
+      center: center,
+      scrollwheel: false
+    });
+    parkFactory.getParks().forEach(park => {
+      var latLng = { lat: park.venue.location.lat, lng: park.venue.location.lng };
+      var marker = new google.maps.Marker({
+        position: latLng,
+        map: map
+      });
+    });
   }]);
