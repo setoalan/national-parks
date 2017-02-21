@@ -1,21 +1,9 @@
 var express = require('express');
 var config = require('../config');
-var foursquare = require('node-foursquare')(config.foursquare);
 var Flickr = require('flickr-sdk');
-var indexRouter = express.Router();
+var parksRouter = express.Router();
 
-indexRouter.get('/', function (req, res, next) {
-  res.sendFile('../public/index.html');
-});
-
-indexRouter.get('/foursquare', function (req, res, next) {
-  foursquare.Lists.getList('58955a1e44689a4313e87e7a', null, function (error, data) {
-    if (error) throw error;
-    res.json(data.list.listItems);
-  });
-});
-
-indexRouter.get('/flickr', function (req, res, next) {
+parksRouter.get('/flickr', function (req, res, next) {
     const flickr = new Flickr({
       'apiKey': config.flickr.api_key,
       'apiSecret': config.flickr.secret
@@ -37,4 +25,4 @@ indexRouter.get('/flickr', function (req, res, next) {
       });
 });
 
-module.exports = indexRouter;
+module.exports = parksRouter;
