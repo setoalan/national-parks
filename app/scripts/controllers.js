@@ -79,4 +79,7 @@ angular.module('national-parks')
         infowindow.close();
       });
     });
+  }])
+  .controller('ParkController', ['$scope', function ($scope) {
+
   }]);

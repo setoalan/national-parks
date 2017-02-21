@@ -26,6 +26,15 @@ angular.module('national-parks', ['ui.router'])
             controller: 'MapController'
           }
         }
+      })
+      .state('app.park', {
+        url: 'park/:id',
+        views: {
+          'content@':  {
+            templateUrl: 'views/park.html',
+            controller: 'ParkController'
+          }
+        }
       });
 
     $urlRouterProvider.otherwise('/');

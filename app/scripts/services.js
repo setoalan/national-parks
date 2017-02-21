@@ -72,7 +72,9 @@ angular.module('national-parks')
       let data = $http.get('/api')
         .then(function (response) {
           parks = response.data.items;
-          if (requestPhotos) parks.forEach(park => fetchPhotos(park, park.venue.name.split(' ').join('+')));
+          if (requestPhotos) {
+            parks.forEach(park => fetchPhotos(park, park.venue.name.split(' ').join('+')));
+          }
           $localStorage.storeObject('parks', parks);
           return parks;
         }, function (error) {
@@ -101,5 +103,5 @@ angular.module('national-parks')
       getObject: function (key, defaultValue) {
         return JSON.parse($window.localStorage[key] || defaultValue);
       }
-    }
+    };
   }]);
