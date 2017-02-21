@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('national-parks')
-  .controller('IndexController', ['$scope', '$http', 'toolBarFactory', 'parkFactory', function ($scope, $http, toolBarFactory, parkFactory) {
+  .controller('IndexController', ['$scope', '$http', 'toolBarFactory', 'parksFactory', function ($scope, $http, toolBarFactory, parksFactory) {
     $scope.states = toolBarFactory.getStates();
     $scope.stateText = $scope.states[0];
     $scope.stateField = undefined;
@@ -42,12 +42,12 @@ angular.module('national-parks')
       return new Array($scope.numRows);
     };
 
-    let parks = parkFactory.getParks();
+    let parks = parksFactory.getParks();
     if (parks) {
       $scope.parks = parks;
       $scope.numRows = Math.ceil(parks.length / 3);
     } else {
-      parkFactory.fetchParks(true)
+      parksFactory.fetchParks(true)
         .then(function (response) {
           $scope.parks = response;
           $scope.numRows = Math.ceil(response.length / 3);
@@ -55,14 +55,14 @@ angular.module('national-parks')
     }
 
   }])
-  .controller('MapController', ['$scope', 'parkFactory', function ($scope, parkFactory) {
+  .controller('MapController', ['$scope', 'parksFactory', function ($scope, parksFactory) {
     const center = { lat:  26.7135539881, lng: -117.7395580925 };
     const map = new google.maps.Map(document.getElementById('map'), {
       zoom: 3,
       center: center,
       scrollwheel: false
     });
-    parkFactory.getParks().forEach(park => {
+    parksFactory.getParks().forEach(park => {
       const latLng = { lat: park.venue.location.lat, lng: park.venue.location.lng };
       const marker = new google.maps.Marker({
         position: latLng,
@@ -80,6 +80,6 @@ angular.module('national-parks')
       });
     });
   }])
-  .controller('ParkController', ['$scope', function ($scope) {
-
+  .controller('ParkController', ['$scope', '$stateParams', 'parksFactory', function ($scope, $stateParams, parksFactory) {
+    $scope.park = parksFactory.getPark($stateParams.id);
   }]);

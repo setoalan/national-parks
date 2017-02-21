@@ -29,7 +29,7 @@ indexRouter.get('/flickr', function (req, res, next) {
         safe_search: 1,
         media: 'photos',
         page: 1,
-        per_page: 1,
+        per_page: req.query.numPhotos,
         sort: 'interestingness-desc'
       })
       .then(function (response) {

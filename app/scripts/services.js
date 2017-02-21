@@ -49,12 +49,12 @@ angular.module('national-parks')
 
     return toolBar;
   }])
-  .factory('parkFactory', ['$http', '$localStorage', function ($http, $localStorage) {
-    let park = {};
-    var parks = [];
+  .factory('parksFactory', ['$http', '$localStorage', function ($http, $localStorage) {
+    let parksFactory = {};
+    let parks = [];
 
     function fetchPhotos(park, parkName) {
-      $http.get('/flickr?parkName=' + parkName)
+      $http.get('/flickr?parkName=' + parkName + '&numPhotos=1')
         .then(function (response) {
           let photo = response.data.body.photos.photo[0];
           park.photoUrl = (photo) ?
@@ -68,7 +68,7 @@ angular.module('national-parks')
         });
     }
 
-    park.fetchParks = function (requestPhotos) {
+    parksFactory.fetchParks = function (requestPhotos) {
       let data = $http.get('/api')
         .then(function (response) {
           parks = response.data.items;
@@ -83,11 +83,22 @@ angular.module('national-parks')
       return data;
     };
 
-    park.getParks = function () {
+    parksFactory.getParks = function () {
       return $localStorage.getObject('parks');
     };
 
-    return park;
+    parksFactory.getPark = function (id) {
+      return $localStorage.getObject('parks').find(function (park) {
+        return park.id === id;
+      });
+    };
+
+    return parksFactory;
+  }])
+
+  .factory('parkFactory', ['$http', '$localStorage', function ($http, $localStorage) {
+    let parkFactory = {};
+    return parkFactory;
   }])
   .factory('$localStorage', ['$window', function ($window) {
     return {
