@@ -17,6 +17,15 @@ angular.module('national-parks', ['ui.router'])
             templateUrl: 'views/footer.html'
           }
         }
+      })
+      .state('app.map', {
+        url: 'map',
+        views: {
+          'content@': {
+            templateUrl: 'views/map.html',
+            controller: 'MapController'
+          }
+        }
       });
 
     $urlRouterProvider.otherwise('/');

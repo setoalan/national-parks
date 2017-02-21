@@ -49,8 +49,9 @@ angular.module('national-parks')
 
     return toolBar;
   }])
-  .factory('parkFactory', ['$http', function ($http) {
+  .factory('parkFactory', ['$http', '$localStorage', function ($http, $localStorage) {
     let park = {};
+    var parks = [];
 
     function fetchPhotos(park, parkName) {
       $http.get('/flickr?parkName=' + parkName)
@@ -61,16 +62,18 @@ angular.module('national-parks')
             // Voyageurs National Park does not return any photos on Flickr search
             'https://upload.wikimedia.org/wikipedia/commons/b/bd/Voyageurs_National_Park.jpg';
           park.show = true;
+          $localStorage.storeObject('parks', parks);
         }, function (error) {
           console.error('Error: ' + error);
         });
     }
 
-    park.fetchParks = function () {
+    park.fetchParks = function (requestPhotos) {
       let data = $http.get('/api')
         .then(function (response) {
-          let parks = response.data.items;
-          parks.forEach(park => fetchPhotos(park, park.venue.name.split(' ').join('+')));
+          parks = response.data.items;
+          if (requestPhotos) parks.forEach(park => fetchPhotos(park, park.venue.name.split(' ').join('+')));
+          $localStorage.storeObject('parks', parks);
           return parks;
         }, function (error) {
           console.error('Error: ' + error);
@@ -78,5 +81,25 @@ angular.module('national-parks')
       return data;
     };
 
+    park.getParks = function () {
+      return $localStorage.getObject('parks');
+    };
+
     return park;
+  }])
+  .factory('$localStorage', ['$window', function ($window) {
+    return {
+      store: function (key, value) {
+        $window.localStorage[key] = value;
+      },
+      get: function (key, defaultValue) {
+        return $window.localStorage[key] || defaultValue;
+      },
+      storeObject: function (key, value) {
+        $window.localStorage[key] = JSON.stringify(value);
+      },
+      getObject: function (key, defaultValue) {
+        return JSON.parse($window.localStorage[key] || defaultValue);
+      }
+    }
   }]);
