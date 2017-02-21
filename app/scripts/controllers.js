@@ -63,14 +63,14 @@ angular.module('national-parks')
       scrollwheel: false
     });
     parkFactory.getParks().forEach(park => {
-      console.table(park.venue.location);
       const latLng = { lat: park.venue.location.lat, lng: park.venue.location.lng };
       const marker = new google.maps.Marker({
         position: latLng,
         map: map
       });
       const infowindow = new google.maps.InfoWindow({
-        content: park.venue.name
+        content: `<h5>${park.venue.name}</h5>` +
+          `<h6>${park.venue.location.city}, ${park.venue.location.cc}</h6>`
       });
       marker.addListener('click', function () {
         infowindow.open(map, marker);

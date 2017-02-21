@@ -24,6 +24,10 @@ a:hover {
 }
 
 @media (max-width: 768px) {
+  .rwd-break {
+    display: block;
+  }
+
   .btn-map {
     margin-top: 10px;
     width: 100%;
@@ -63,6 +67,10 @@ a:hover {
 }
 
 @media (min-width: 768px) {
+  .rwd-break {
+    display: none;
+  }
+
   .search {
     margin-right: 10px;
   }
