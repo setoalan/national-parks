@@ -101,5 +101,5 @@ angular.module('national-parks')
       getObject: function (key, defaultValue) {
         return JSON.parse($window.localStorage[key] || defaultValue);
       }
-    }
+    };
   }]);

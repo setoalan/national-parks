@@ -3,6 +3,7 @@
 angular.module('national-parks')
   .controller('IndexController', ['$scope', '$http', 'toolBarFactory', 'parkFactory', function ($scope, $http, toolBarFactory, parkFactory) {
     $scope.locationText = 'Get Location';
+    $scope.locationSuccess = undefined;
     $scope.states = toolBarFactory.getStates();
     $scope.stateText = $scope.states[0];
     $scope.stateField = undefined;
@@ -42,20 +43,29 @@ angular.module('national-parks')
     };
 
     $scope.getLocation = function () {
-       navigator.geolocation.getCurrentPosition(function (position) {
-         $scope.userCord = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
-         new google.maps.Geocoder().geocode({'latLng': $scope.userCord}, function(results, status) {
-           if (status === 'OK') {
-             $scope.locationText = `${results[3].address_components[0].short_name}, ${results[3].address_components[2].short_name}`;
-             $scope.sorts.unshift('Distance');
-             $scope.$apply();
-           } else {
-             console.log('Error ' + status);
-           }
-         })
-       }, function (error) {
-         console.log('Error' + error);
-       });
+      $scope.locationText = 'Locating...';
+      $scope.locationSuccess = undefined;
+      navigator.geolocation.getCurrentPosition(function (position) {
+        $scope.userCord = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+        new google.maps.Geocoder().geocode({'latLng': $scope.userCord}, function (results, status) {
+          if (status === 'OK') {
+            $scope.locationText = `${results[3].address_components[0].short_name}, ${results[3].address_components[2].short_name}`;
+            $scope.locationSuccess = 'success';
+            $scope.sorts.unshift('Distance');
+            $scope.$apply();
+          } else {
+            $scope.locationText = 'Error';
+            $scope.locationSuccess = 'error';
+            $scope.$apply();
+            console.log('Error ' + status);
+          }
+        });
+      }, function (error) {
+        $scope.locationText = 'Error';
+        $scope.locationSuccess = 'error';
+        $scope.$apply();
+        console.log('Error ' + error);
+      });
     };
 
     $scope.parkHasRating = function (park) {
