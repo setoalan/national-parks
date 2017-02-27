@@ -4,6 +4,7 @@ angular.module('national-parks')
   .controller('IndexController', ['$scope', '$http', 'toolBarFactory', 'parkFactory', function ($scope, $http, toolBarFactory, parkFactory) {
     $scope.locationText = 'Get Location';
     $scope.locationSuccess = undefined;
+    $scope.locationDisable = false;
     $scope.states = toolBarFactory.getStates();
     $scope.stateText = $scope.states[0];
     $scope.stateField = undefined;
@@ -34,7 +35,7 @@ angular.module('national-parks')
       } else if (sort === 'Distance') {
         $scope.parks.forEach(park => {
           park.venue.location.distanceTo = google.maps.geometry.spherical
-            .computeDistanceBetween($scope.userCord, new google.maps.LatLng(park.venue.location.lat, park.venue.location.lng));
+            .computeDistanceBetween(new google.maps.LatLng($scope.userLocation.lat, $scope.userLocation.lng), new google.maps.LatLng(park.venue.location.lat, park.venue.location.lng));
         });
         $scope.sortField = '+venue.location.distanceTo';
       } else {
@@ -42,30 +43,43 @@ angular.module('national-parks')
       }
     };
 
+    $scope.fetchLocation = function (response) {
+      new google.maps.Geocoder().geocode({'latLng': $scope.userLocation}, function (results, status) {
+        if (status === 'OK') {
+          $scope.locationText = `${results[3].address_components[0].short_name}, ${results[3].address_components[2].short_name}`;
+          $scope.locationSuccess = 'success';
+          $scope.locationDisable = true;
+          $scope.sorts.unshift('Distance');
+          $scope.$apply();
+        } else {
+          $scope.locationText = 'Error';
+          $scope.locationSuccess = 'error';
+          $scope.$apply();
+          console.log('Error ' + status);
+        }
+      });
+    }
+
     $scope.getLocation = function () {
       $scope.locationText = 'Locating...';
       $scope.locationSuccess = undefined;
-      navigator.geolocation.getCurrentPosition(function (position) {
-        $scope.userCord = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
-        new google.maps.Geocoder().geocode({'latLng': $scope.userCord}, function (results, status) {
-          if (status === 'OK') {
-            $scope.locationText = `${results[3].address_components[0].short_name}, ${results[3].address_components[2].short_name}`;
-            $scope.locationSuccess = 'success';
-            $scope.sorts.unshift('Distance');
-            $scope.$apply();
-          } else {
+
+      const userLocation = toolBarFactory.getUserLocation();
+      if (userLocation) {
+        $scope.userLocation = userLocation;
+        $scope.fetchLocation(userLocation);
+      } else {
+        toolBarFactory.fetchUserLocation()
+          .then(function (userLocation) {
+            $scope.userLocation = userLocation;
+            $scope.fetchLocation(userlocation);
+          }, function (error) {
             $scope.locationText = 'Error';
             $scope.locationSuccess = 'error';
             $scope.$apply();
-            console.log('Error ' + status);
-          }
-        });
-      }, function (error) {
-        $scope.locationText = 'Error';
-        $scope.locationSuccess = 'error';
-        $scope.$apply();
-        console.log('Error ' + error);
-      });
+            console.log('Error: ' + error);
+          });
+      }
     };
 
     $scope.parkHasRating = function (park) {
@@ -76,7 +90,7 @@ angular.module('national-parks')
       return new Array($scope.numRows);
     };
 
-    let parks = parkFactory.getParks();
+    const parks = parkFactory.getParks();
     if (parks) {
       $scope.parks = parks;
       $scope.numRows = Math.ceil(parks.length / 3);
@@ -85,6 +99,8 @@ angular.module('national-parks')
         .then(function (response) {
           $scope.parks = response;
           $scope.numRows = Math.ceil(response.length / 3);
+        }, function (error) {
+          console.log('Error: ' + error);
         });
     }
 
