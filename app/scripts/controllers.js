@@ -43,7 +43,7 @@ angular.module('national-parks')
       }
     };
 
-    $scope.fetchLocation = function (response) {
+    const fetchLocation = function () {
       new google.maps.Geocoder().geocode({'latLng': $scope.userLocation}, function (results, status) {
         if (status === 'OK') {
           $scope.locationText = `${results[3].address_components[0].short_name}, ${results[3].address_components[2].short_name}`;
@@ -55,10 +55,10 @@ angular.module('national-parks')
           $scope.locationText = 'Error';
           $scope.locationSuccess = 'error';
           $scope.$apply();
-          console.log('Error ' + status);
+          console.error('Error: ' + status);
         }
       });
-    }
+    };
 
     $scope.getLocation = function () {
       $scope.locationText = 'Locating...';
@@ -67,17 +67,17 @@ angular.module('national-parks')
       const userLocation = toolBarFactory.getUserLocation();
       if (userLocation) {
         $scope.userLocation = userLocation;
-        $scope.fetchLocation(userLocation);
+        fetchLocation($scope.userLocation);
       } else {
         toolBarFactory.fetchUserLocation()
           .then(function (userLocation) {
             $scope.userLocation = userLocation;
-            $scope.fetchLocation(userlocation);
+            fetchLocation($scope.userlocation);
           }, function (error) {
             $scope.locationText = 'Error';
             $scope.locationSuccess = 'error';
             $scope.$apply();
-            console.log('Error: ' + error);
+            console.error('Error: ' + error);
           });
       }
     };
@@ -100,33 +100,50 @@ angular.module('national-parks')
           $scope.parks = response;
           $scope.numRows = Math.ceil(response.length / 3);
         }, function (error) {
-          console.log('Error: ' + error);
+          console.error('Error: ' + error);
         });
     }
 
   }])
-  .controller('MapController', ['$scope', 'parkFactory', function ($scope, parkFactory) {
-    const center = { lat:  26.7135539881, lng: -117.7395580925 };
+  .controller('MapController', ['$scope', 'toolBarFactory', 'parkFactory', function ($scope, toolBarFactory, parkFactory) {
     const map = new google.maps.Map(document.getElementById('map'), {
       zoom: 3,
-      center: center,
+      center: { lat: 26.7135539881, lng: -117.7395580925 },
       scrollwheel: false
     });
+
+    const addMapListeners = function (marker, infoWindow) {
+      marker.addListener('click', function () {
+        infoWindow.open(map, marker);
+      });
+      google.maps.event.addListener(map, 'click', function() {
+        infoWindow.close();
+      });
+    };
+
+    const userLocation = toolBarFactory.getUserLocation();
+    if (userLocation) {
+      const userMarker = new google.maps.Marker({
+        position: userLocation,
+        map: map
+      });
+      userMarker.setIcon('http://maps.google.com/mapfiles/ms/icons/green-dot.png');
+      const infoWindow = new google.maps.InfoWindow({
+        content: '<h5>Your Location</h5>'
+      });
+      addMapListeners(userMarker, infoWindow);
+    }
+
     parkFactory.getParks().forEach(park => {
       const latLng = { lat: park.venue.location.lat, lng: park.venue.location.lng };
       const marker = new google.maps.Marker({
         position: latLng,
         map: map
       });
-      const infowindow = new google.maps.InfoWindow({
+      const infoWindow = new google.maps.InfoWindow({
         content: `<h5>${park.venue.name}</h5>` +
           `<h6>${park.venue.location.city}, ${park.venue.location.cc}</h6>`
       });
-      marker.addListener('click', function () {
-        infowindow.open(map, marker);
-      });
-      google.maps.event.addListener(map, 'click', function() {
-        infowindow.close();
-      });
+      addMapListeners(marker, infoWindow);
     });
   }]);

@@ -65,11 +65,11 @@ angular.module('national-parks')
       }
 
       return location.promise;
-    }
+    };
 
     toolBar.getUserLocation = function () {
       return $localStorage.getObject('userLocation', false);
-    }
+    };
 
     return toolBar;
   }])
