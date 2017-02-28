@@ -33,6 +33,11 @@ a:hover {
     width: 100%;
   }
 
+  .btn-location {
+    margin-top: 10px;
+    width: 100%;
+  }
+
   .search {
     margin-top: 10px;
     width: 100%;
@@ -69,6 +74,10 @@ a:hover {
 @media (min-width: 768px) {
   .rwd-break {
     display: none;
+  }
+
+  .btn-map {
+    margin-right: 6px;
   }
 
   .search {

@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('national-parks')
-  .factory('toolBarFactory', [function () {
-    let toolBar = {};
+  .factory('toolBarFactory', ['$localStorage', '$window', '$q', '$rootScope', function ($localStorage, $window, $q, $rootScope) {
+    const toolBar = {};
 
     toolBar.getSorts = function () {
       return [
@@ -47,11 +47,35 @@ angular.module('national-parks')
       ];
     };
 
+    toolBar.fetchUserLocation = function () {
+      const location = $q.defer();
+      if (!$window.navigator) {
+        console.log('Error: Geolocation is not supported');
+      } else {
+        $window.navigator.geolocation.getCurrentPosition(function (position) {
+          $localStorage.storeObject('userLocation', new google.maps.LatLng(position.coords.latitude, position.coords.longitude));
+          $rootScope.$apply(function () {
+            location.resolve({'lat': position.coords.latitude, 'lng': position.coords.longitude});
+          });
+        }, function (error) {
+          $rootScope.$apply(function() {
+            location.reject(error);
+          });
+        });
+      }
+
+      return location.promise;
+    };
+
+    toolBar.getUserLocation = function () {
+      return $localStorage.getObject('userLocation', false);
+    };
+
     return toolBar;
   }])
   .factory('parkFactory', ['$http', '$localStorage', function ($http, $localStorage) {
-    let park = {};
-    var parks = [];
+    const park = {};
+    let parks = [];
 
     function fetchPhotos(park, parkName) {
       $http.get('/flickr?parkName=' + parkName)
@@ -63,13 +87,14 @@ angular.module('national-parks')
             'https://upload.wikimedia.org/wikipedia/commons/b/bd/Voyageurs_National_Park.jpg';
           park.show = true;
           $localStorage.storeObject('parks', parks);
+          return photo;
         }, function (error) {
           console.error('Error: ' + error);
         });
     }
 
     park.fetchParks = function (requestPhotos) {
-      let data = $http.get('/api')
+      const data = $http.get('/api')
         .then(function (response) {
           parks = response.data.items;
           if (requestPhotos) parks.forEach(park => fetchPhotos(park, park.venue.name.split(' ').join('+')));
@@ -82,7 +107,7 @@ angular.module('national-parks')
     };
 
     park.getParks = function () {
-      return $localStorage.getObject('parks');
+      return $localStorage.getObject('parks', false);
     };
 
     return park;
@@ -101,5 +126,5 @@ angular.module('national-parks')
       getObject: function (key, defaultValue) {
         return JSON.parse($window.localStorage[key] || defaultValue);
       }
-    }
+    };
   }]);
