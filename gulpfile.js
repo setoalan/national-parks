@@ -30,7 +30,7 @@ gulp.task('usemin', ['jshint'], function () {
       return stream
         .pipe(usemin({
           css: [minifycss(), rev()],
-          js: [babel({presets: ['es2015']}), ngannotate(), uglify(), rev()]
+          js: [babel({presets: ['es2015'], compact: false}), ngannotate(), uglify(), rev()]
         }))
         .pipe(gulp.dest('dist/'));
     }))

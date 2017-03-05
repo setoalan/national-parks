@@ -35,15 +35,15 @@
   </div>
 
   <div class="row" ng-repeat="i in getNumRows() track by $index" ng-init="parentIndex = $index">
-    <div class="col-sm-4 park" ng-repeat="park in parks | filter:{venue:{location:{state:stateField}}}:true | filter:{venue:{name:searchText}} | orderBy:sortField | limitTo:3:parentIndex * 3" ng-if="parkHasRating(park)">
+    <div class="col-sm-4 park" ng-repeat="park in parks | orderBy:sortField | limitTo:3:parentIndex * 3" ng-if="parkHasRating(park)">
       <div ng-if="park.show" style="text-align:center;">
-        <a href="{{park.venue.url}}" target="_blank">
-          <img class="img-responsive park-img" ng-src="{{park.photoUrl}}" alt="{{park.venue.name}}">
+        <a href="{{park.url}}" target="_blank">
+          <img class="img-responsive park-img" ng-src="{{park.photoUrl}}" alt="{{park.fullName}}">
         </a>
         <h3 class="text-center">
-          <a href="{{park.venue.url}}" target="=_blank">{{park.venue.name}}</a>
+          <a href="{{park.url}}" target="=_blank">{{park.fullName}}</a>
         </h3>
-        <p>Since 1916, the National Park Service has been entrusted with the care of our national parks. With the help of volunteers and partners, we safeguard these special places and share their stories with more than 275 million visitors every year. But our work doesn't stop there.</p>
+        <p>{{park.description}}</p>
       </div>
     </div>
   </div>

@@ -10,9 +10,9 @@ indexRouter.get('/', function (req, res, next) {
 });
 
 indexRouter.get('/api', function (req, res, next) {
-  foursquare.Lists.getList('58955a1e44689a4313e87e7a', null, function (error, data) {
+  foursquare.Lists.getList('58955a1e44689a4313e87e7a', null, function (error, response, body) {
     if (error) throw error;
-    res.json(data.list.listItems);
+    res.json(response.list.listItems);
   });
 });
 
@@ -30,7 +30,7 @@ indexRouter.get('/flickr', function (req, res, next) {
       safe_search: 1,
       media: 'photos',
       page: 1,
-      per_page: 1,
+      per_page: 2,
       sort: 'interestingness-desc'
     })
     .then(function (response) {
@@ -39,9 +39,8 @@ indexRouter.get('/flickr', function (req, res, next) {
 });
 
 indexRouter.get('/nps', function (req, res, next) {
-  console.log(req);
   const options = {
-    url: 'https://developer.nps.gov/api/v0/parks?q=national%20park',
+    url: 'https://developer.nps.gov/api/v0/parks?q=national%20park&fields=images&limit=62',
     headers: {
       'Authorization': config.nps.api_key,
       'User-Agent': req.headers['user-agent']
@@ -49,7 +48,8 @@ indexRouter.get('/nps', function (req, res, next) {
   };
 
   request.get(options, function (error, response, body) {
-    res.json(response);
+    if (error) throw error;
+    res.json(JSON.parse(response.body));
   });
 });
 

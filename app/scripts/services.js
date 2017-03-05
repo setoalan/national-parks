@@ -80,33 +80,31 @@ angular.module('national-parks')
     function fetchPhotos(park, parkName) {
       $http.get('/flickr?parkName=' + parkName)
         .then(function (response) {
-          let photo = response.data.body.photos.photo[0];
+          let photo = response.data.body.photos.photo[1];
           park.photoUrl = (photo) ?
             `https://farm${photo.farm}.staticflickr.com/${photo.server}/${photo.id}_${photo.secret}.jpg` :
             // Voyageurs National Park does not return any photos on Flickr search
             'https://upload.wikimedia.org/wikipedia/commons/b/bd/Voyageurs_National_Park.jpg';
           park.show = true;
-          $localStorage.storeObject('parks', parks);
           return photo;
         }, function (error) {
           console.error('Error: ' + error);
         });
     }
 
-    park.fetchParks = function (requestPhotos) {
-      const data = $http.get('/api')
+    park.fetchPark = function () {
+      const data = $http.get('/nps')
         .then(function (response) {
-          parks = response.data.items;
-          if (requestPhotos) {
-            parks.forEach(park => fetchPhotos(park, park.venue.name.split(' ').join('+')));
-          }
-          $localStorage.storeObject('parks', parks);
+          const parks = response.data.data.filter(function (park) {
+            return park.designation.includes('National Park') || park.parkCode === 'npsa';
+          });
+          parks.forEach(park => fetchPhotos(park, park.fullName.split(' ').join('+')));
           return parks;
         }, function (error) {
-          console.error('Error: ' + error);
+          console.log('Error: ' + error);
         });
       return data;
-    };
+    }
 
     park.getParks = function () {
       return $localStorage.getObject('parks', false);

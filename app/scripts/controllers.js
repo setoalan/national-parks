@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('national-parks')
-  .controller('IndexController', ['$scope', '$http', 'toolBarFactory', 'parkFactory', function ($scope, $http, toolBarFactory, parkFactory) {
+  .controller('IndexController', ['$scope', '$http', '$localStorage', 'toolBarFactory', 'parkFactory', function ($scope, $http, $localStorage, toolBarFactory, parkFactory) {
     $scope.locationText = 'Get Location';
     $scope.locationSuccess = undefined;
     $scope.locationDisable = false;
@@ -95,15 +95,15 @@ angular.module('national-parks')
       $scope.parks = parks;
       $scope.numRows = Math.ceil(parks.length / 3);
     } else {
-      parkFactory.fetchParks(true)
+      parkFactory.fetchPark()
         .then(function (response) {
           $scope.parks = response;
           $scope.numRows = Math.ceil(response.length / 3);
+          $localStorage.storeObject('parks', response);
         }, function (error) {
           console.error('Error: ' + error);
         });
     }
-
   }])
   .controller('MapController', ['$scope', 'toolBarFactory', 'parkFactory', function ($scope, toolBarFactory, parkFactory) {
     const map = new google.maps.Map(document.getElementById('map'), {
