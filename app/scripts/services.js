@@ -97,7 +97,9 @@ angular.module('national-parks')
       const data = $http.get('/api')
         .then(function (response) {
           parks = response.data.items;
-          if (requestPhotos) parks.forEach(park => fetchPhotos(park, park.venue.name.split(' ').join('+')));
+          if (requestPhotos) {
+            parks.forEach(park => fetchPhotos(park, park.venue.name.split(' ').join('+')));
+          }
           $localStorage.storeObject('parks', parks);
           return parks;
         }, function (error) {

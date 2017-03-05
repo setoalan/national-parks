@@ -1,6 +1,6 @@
 {
   "name": "national-parks",
-  "version": "1.0.0",
+  "version": "0.9.0",
   "description": "United States National Parks powered by Foursquare",
   "main": "index.html",
   "license": "MIT",
@@ -8,16 +8,8 @@
   "dependencies": {
     "angular": "^1.6.1",
     "angular-ui-router": "^0.4.2",
-    "body-parser": "~1.15.2",
     "bootstrap": "^3.3.7",
-    "cookie-parser": "~1.4.3",
-    "debug": "~2.2.0",
-    "express": "~4.14.0",
-    "flickr-sdk": "^2.0.1",
-    "jade": "~1.11.0",
     "jquery": "^3.1.1",
-    "morgan": "~1.7.0",
-    "node-foursquare": "^0.3.0",
     "serve-favicon": "~2.3.0"
   },
   "scripts": {
@@ -30,5 +22,16 @@
   "bugs": {
     "url": "https://github.com/setoalan/national-parks/issues"
   },
-  "homepage": "https://github.com/setoalan/national-parks#readme"
+  "homepage": "https://github.com/setoalan/national-parks#readme",
+  "devDependencies": {
+    "body-parser": "~1.15.2",
+    "cookie-parser": "~1.4.3",
+    "debug": "~2.2.0",
+    "express": "~4.14.0",
+    "flickr-sdk": "^2.0.1",
+    "jade": "~1.11.0",
+    "morgan": "~1.7.0",
+    "node-foursquare": "^0.3.0",
+    "request": "^2.79.0"
+  }
 }

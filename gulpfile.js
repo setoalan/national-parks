@@ -1,4 +1,4 @@
-var gulp = require('gulp'),
+const gulp = require('gulp'),
   minifycss = require('gulp-minify-css'),
   jshint = require('gulp-jshint'),
   stylish = require('jshint-stylish'),
@@ -24,10 +24,6 @@ gulp.task('clean', function () {
   return del(['dist']);
 });
 
-gulp.task('default', ['clean'], function () {
-  gulp.start('usemin', 'copyfonts');
-});
-
 gulp.task('usemin', ['jshint'], function () {
   return gulp.src('./app/**/*.html')
     .pipe(foreach(function (stream, file) {
@@ -43,4 +39,12 @@ gulp.task('usemin', ['jshint'], function () {
 gulp.task('copyfonts', ['clean'], function () {
   gulp.src('./node_modules/bootstrap/dist/fonts/**/*.{ttf,woff,eof,svg}*')
     .pipe(gulp.dest('./dist/fonts'));
+});
+
+gulp.task('default', ['clean'], function () {
+  gulp.start('usemin', 'copyfonts');
+});
+
+gulp.task('watch', function () {
+  gulp.watch('./app/**/*', ['default']);
 });
