@@ -77,6 +77,30 @@ angular.module('national-parks')
     const parksFactory = {};
     let parks = [];
 
+    function fixParkData(response) {
+      // Filter parks that are national parks
+      parks = response.data.data.filter(function (park) {
+        return park.designation.includes('National Park') || park.parkCode === 'npsa';
+      });
+
+      // Congaree National Park duplicate
+      parks.splice(11, 1);
+
+      // Fix Haleakalā National Park name
+      parks[27].fullName = 'Haleakalā National Park';
+
+      // Add missing Kings Canyon National Park data
+      parks[34].description = 'This dramatic landscape testifies to nature\'s size, beauty, and diversity--huge mountains, rugged foothills, deep canyons, vast caverns, and the world\'s largest trees. These two parks lie side by side in the southern Sierra Nevada east of the San Joaquin Valley. Weather varies a lot by season and elevation, which ranges from 1,370\' to 14,494\'. Sequoias grow at 5,000 - 7,000\', above usual snowline.';
+
+      // Add missing Redwood National Park
+      const redwoodNationalPark = {
+        fullName: 'Redwood National Park',
+        description: 'Most people know Redwood as home to the tallest trees Earth .The parks also protect prairies, oak woodlands, riverways, and nearly 40 miles of rugged coastline. For thousands years people have lived this verdant landscape. Together, National Park Service and California State Parks manage these lands the inspiration, enjoyment, and education of all.',
+        latLong: 'lat:41.275871335023865, lng:-124.02997970581055'
+      };
+      parks.splice(46, 0, redwoodNationalPark);
+    }
+
     function fetchPhotos(park, parkName) {
       $http.get('/flickr?parkName=' + parkName)
         .then(function (response) {
@@ -89,13 +113,28 @@ angular.module('national-parks')
         });
     }
 
+    function fetchFoursquareData() {
+      $http.get('/foursquare')
+        .then(function (response) {
+          parks.forEach((park, index) => {
+            park.foursquare = response.data.items[index];
+
+            park.latLong = { lat: parseFloat(park.latLong.split(/:|,/g)[1]), lng: parseFloat(park.latLong.split(/:|,/g)[3]) };
+            fetchPhotos(park, park.fullName.split(' ').join('+'));
+            if (Object.is(park.latLong.lat, NaN)) {
+              [park.latLong.lat, park.latLong.lng] = [park.foursquare.venue.location.lat, park.foursquare.venue.location.lng];
+            }
+          });
+        }, function (error) {
+          console.error('Error: ' + error);
+        });
+    }
+
     parksFactory.fetchParks = function () {
       const data = $http.get('/nps')
         .then(function (response) {
-          parks = response.data.data.filter(function (park) {
-            return park.designation.includes('National Park') || park.parkCode === 'npsa';
-          });
-          parks.forEach(park => fetchPhotos(park, park.fullName.split(' ').join('+')));
+          fixParkData(response);
+          fetchFoursquareData();
           return parks;
         }, function (error) {
           console.log('Error: ' + error);

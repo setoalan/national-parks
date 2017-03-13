@@ -28,14 +28,14 @@
           {{locationText}}
         </button>
       </div>
-      <div class="col-xs-12 col-sm-5 pull-right warning-rating" ng-if="sortField == '+venue.rating' || sortField == '-venue.rating'">
+      <div class="col-xs-12 col-sm-5 pull-right warning-rating" ng-if="sortField === '+foursquare.venue.rating' || sortField === '-foursquare.venue.rating'">
         Parks with no rating are ommited.
       </div>
     </div>
   </div>
 
   <div class="row" ng-repeat="i in getNumRows() track by $index" ng-init="parentIndex = $index">
-    <div class="col-sm-4 park" ng-repeat="park in parks | orderBy:sortField | limitTo:3:parentIndex * 3" ng-if="parkHasRating(park)">
+    <div class="col-sm-4 park" ng-repeat="park in parks | filter:{foursquare:{venue:{location:{state:stateField}}}}:true | filter:{foursquare:{venue:{name:searchText}}} | orderBy:sortField | limitTo:3:parentIndex * 3" ng-if="parkHasRating(park)">
       <div style="text-align:center;">
         <a href="{{park.url}}" target="_blank">
           <img class="img-responsive park-img" ng-src="{{park.photoUrl}}" alt="{{park.fullName}}">

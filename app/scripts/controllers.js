@@ -20,26 +20,34 @@ angular.module('national-parks')
     $scope.sortSelected = function (sort) {
       $scope.sortText = sort;
 
-      if (sort === 'Name A-Z') {
-        $scope.sortField = '+venue.name';
-      } else if (sort === 'Name Z-A') {
-        $scope.sortField = '-venue.name';
-      } else if (sort === 'Rating +') {
-        $scope.sortField = '-venue.rating';
-      } else if (sort === 'Rating -') {
-        $scope.sortField = '+venue.rating';
-      } else if (sort === 'Checkins +') {
-        $scope.sortField = '-venue.stats.checkinsCount';
-      } else if (sort === 'Checkins -') {
-        $scope.sortField = '+venue.stats.checkinsCount';
-      } else if (sort === 'Distance') {
+      switch (sort) {
+      case'Name A-Z':
+        $scope.sortField = '+fullName';
+        break;
+      case 'Name Z-A':
+        $scope.sortField = '-fullName';
+        break;
+      case 'Rating +':
+        $scope.sortField = '-foursquare.venue.rating';
+        break;
+      case 'Rating -':
+        $scope.sortField = '+foursquare.venue.rating';
+        break;
+      case 'Checkins +':
+        $scope.sortField = '-foursquare.venue.stats.checkinsCount';
+        break;
+      case 'Checkins -':
+        $scope.sortField = '+foursquare.venue.stats.checkinsCount';
+        break;
+      case 'Distance':
         $scope.parks.forEach(park => {
-          park.venue.location.distanceTo = google.maps.geometry.spherical
-            .computeDistanceBetween(new google.maps.LatLng($scope.userLocation.lat, $scope.userLocation.lng), new google.maps.LatLng(park.venue.location.lat, park.venue.location.lng));
+          park.distanceTo = google.maps.geometry.spherical
+            .computeDistanceBetween(new google.maps.LatLng($scope.userLocation.lat, $scope.userLocation.lng), new google.maps.LatLng(park.latLong.lat, park.latLong.lng));
         });
-        $scope.sortField = '+venue.location.distanceTo';
-      } else {
-        $scope.sortField = '+venue.name';
+        $scope.sortField = '+distanceTo';
+        break;
+      default:
+        $scope.sortField = '+fillName';
       }
     };
 
@@ -83,7 +91,7 @@ angular.module('national-parks')
     };
 
     $scope.parkHasRating = function (park) {
-      return ($scope.sortField.substring(1) === 'venue.rating' && !park.venue.rating) ? false : true;
+      return ($scope.sortField.substring(1) === 'foursquare.venue.rating' && !park.foursquare.venue.rating) ? false : true;
     };
 
     $scope.getNumRows = function () {
@@ -104,7 +112,7 @@ angular.module('national-parks')
         });
     }
   }])
-  .controller('MapController', ['$scope', 'toolBarFactory', 'parkFactory', function ($scope, toolBarFactory, parkFactory) {
+  .controller('MapController', ['$scope', 'toolBarFactory', 'parksFactory', function ($scope, toolBarFactory, parksFactory) {
     const map = new google.maps.Map(document.getElementById('map'), {
       zoom: 3,
       center: { lat: 26.7135539881, lng: -117.7395580925 },
@@ -133,15 +141,15 @@ angular.module('national-parks')
       addMapListeners(userMarker, infoWindow);
     }
 
-    parkFactory.getParks().forEach(park => {
-      const latLng = { lat: park.venue.location.lat, lng: park.venue.location.lng };
+    parksFactory.getParks().forEach(park => {
+      const latLng = { lat: parseFloat(park.latLong.split(/:|,/g)[1]), lng: parseFloat(park.latLong.split(/:|,/g)[3]) };
       const marker = new google.maps.Marker({
         position: latLng,
         map: map
       });
       const infoWindow = new google.maps.InfoWindow({
-        content: `<h5>${park.venue.name}</h5>` +
-          `<h6>${park.venue.location.city}, ${park.venue.location.cc}</h6>`
+        content: `<h5>${park.fullName}</h5>` +
+          `<h6>${park.foursquare.venue.location.city}, ${park.foursquare.venue.location.cc}</h6>`
       });
       addMapListeners(marker, infoWindow);
     });
