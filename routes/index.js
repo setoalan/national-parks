@@ -9,7 +9,7 @@ indexRouter.get('/', function (req, res, next) {
   res.sendFile('../public/index.html');
 });
 
-indexRouter.get('/api', function (req, res, next) {
+indexRouter.get('/foursquare', function (req, res, next) {
   foursquare.Lists.getList('58955a1e44689a4313e87e7a', null, function (error, response, body) {
     if (error) throw error;
     res.json(response.list.listItems);

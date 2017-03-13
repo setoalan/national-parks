@@ -73,29 +73,26 @@ angular.module('national-parks')
 
     return toolBar;
   }])
-  .factory('parkFactory', ['$http', '$localStorage', function ($http, $localStorage) {
-    const park = {};
+  .factory('parksFactory', ['$http', '$localStorage', function ($http, $localStorage) {
+    const parksFactory = {};
     let parks = [];
 
     function fetchPhotos(park, parkName) {
       $http.get('/flickr?parkName=' + parkName)
         .then(function (response) {
           let photo = response.data.body.photos.photo[1];
-          park.photoUrl = (photo) ?
-            `https://farm${photo.farm}.staticflickr.com/${photo.server}/${photo.id}_${photo.secret}.jpg` :
-            // Voyageurs National Park does not return any photos on Flickr search
-            'https://upload.wikimedia.org/wikipedia/commons/b/bd/Voyageurs_National_Park.jpg';
-          park.show = true;
+          park.photoUrl = `https://farm${photo.farm}.staticflickr.com/${photo.server}/${photo.id}_${photo.secret}.jpg`;
+          $localStorage.storeObject('parks', parks);
           return photo;
         }, function (error) {
           console.error('Error: ' + error);
         });
     }
 
-    park.fetchPark = function () {
+    parksFactory.fetchParks = function () {
       const data = $http.get('/nps')
         .then(function (response) {
-          const parks = response.data.data.filter(function (park) {
+          parks = response.data.data.filter(function (park) {
             return park.designation.includes('National Park') || park.parkCode === 'npsa';
           });
           parks.forEach(park => fetchPhotos(park, park.fullName.split(' ').join('+')));
@@ -104,14 +101,37 @@ angular.module('national-parks')
           console.log('Error: ' + error);
         });
       return data;
-    }
+    };
 
-    park.getParks = function () {
+    parksFactory.getParks = function () {
       return $localStorage.getObject('parks', false);
     };
 
-    return park;
+    parksFactory.getPark = function (id) {
+      return $localStorage.getObject('parks').find(function (park) {
+        return park.id === id;
+      });
+    };
+
+    return parksFactory;
   }])
+  .factory('parkFactory', ['$http', function ($http) {
+    const numPhotos = 10;
+    let parkFactory = {};
+
+    parkFactory.fetchPhotos = function (parkName) {
+      let data = $http.get('/park/flickr?parkName=' + parkName + '&numPhotos=' + numPhotos)
+        .then(function (response) {
+          return response.data.body.photos.photo;
+        }, function (error) {
+          console.error('Error: ' + error);
+        });
+      return data;
+    };
+
+    return parkFactory;
+  }])
+
   .factory('$localStorage', ['$window', function ($window) {
     return {
       store: function (key, value) {

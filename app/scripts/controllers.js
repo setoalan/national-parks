@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('national-parks')
-  .controller('IndexController', ['$scope', '$http', '$localStorage', 'toolBarFactory', 'parkFactory', function ($scope, $http, $localStorage, toolBarFactory, parkFactory) {
+  .controller('IndexController', ['$scope', '$http', 'toolBarFactory', 'parksFactory', function ($scope, $http, toolBarFactory, parksFactory) {
     $scope.locationText = 'Get Location';
     $scope.locationSuccess = undefined;
     $scope.locationDisable = false;
@@ -90,16 +90,15 @@ angular.module('national-parks')
       return new Array($scope.numRows);
     };
 
-    const parks = parkFactory.getParks();
+    const parks = parksFactory.getParks();
     if (parks) {
       $scope.parks = parks;
       $scope.numRows = Math.ceil(parks.length / 3);
     } else {
-      parkFactory.fetchPark()
+      parksFactory.fetchParks()
         .then(function (response) {
           $scope.parks = response;
           $scope.numRows = Math.ceil(response.length / 3);
-          $localStorage.storeObject('parks', response);
         }, function (error) {
           console.error('Error: ' + error);
         });
@@ -146,4 +145,20 @@ angular.module('national-parks')
       });
       addMapListeners(marker, infoWindow);
     });
+  }])
+  .controller('ParkController', ['$scope', '$stateParams', 'parksFactory', 'parkFactory', function ($scope, $stateParams, parksFactory, parkFactory) {
+    $scope.park = parksFactory.getPark($stateParams.id);
+    $scope.park.photos = [];
+
+    parkFactory.fetchPhotos($scope.park.venue.name.split(' ').join('+'))
+      .then(function (response) {
+        response.forEach(function (photo) {
+          $scope.park.photos.push({
+            'src': `https://farm${photo.farm}.staticflickr.com/${photo.server}/${photo.id}_${photo.secret}.jpg`,
+            'alt': photo.title
+          });
+          // $('#parkCarousel').carousel({ interval: 2000 });
+          // $('#parkCarousel').carousel('cycle');
+        });
+      });
   }]);

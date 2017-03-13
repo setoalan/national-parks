@@ -1,17 +1,13 @@
 const gulp = require('gulp'),
-  minifycss = require('gulp-minify-css'),
+  cleancss = require('gulp-clean-css'),
   jshint = require('gulp-jshint'),
   stylish = require('jshint-stylish'),
   uglify = require('gulp-uglify'),
   usemin = require('gulp-usemin'),
-  concat = require('gulp-concat'),
-  cache = require('gulp-cache'),
-  changed = require('gulp-changed'),
   rev = require('gulp-rev'),
-  browserSync = require('browser-sync'),
   ngannotate = require('gulp-ng-annotate'),
   del = require('del'),
-  foreach = require('gulp-foreach'),
+  flatmap = require('gulp-flatmap'),
   babel = require('gulp-babel');
 
 gulp.task('jshint', function () {
@@ -26,14 +22,14 @@ gulp.task('clean', function () {
 
 gulp.task('usemin', ['jshint'], function () {
   return gulp.src('./app/**/*.html')
-    .pipe(foreach(function (stream, file) {
+    .pipe(flatmap(function (stream, file) {
       return stream
         .pipe(usemin({
-          css: [minifycss(), rev()],
+          css: [cleancss(), rev()],
           js: [babel({presets: ['es2015'], compact: false}), ngannotate(), uglify(), rev()]
         }))
         .pipe(gulp.dest('dist/'));
-    }))
+    }));
 });
 
 gulp.task('copyfonts', ['clean'], function () {
