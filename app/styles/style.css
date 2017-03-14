@@ -25,6 +25,14 @@ img {
   object-fit: cover;
 }
 
+.park-state {
+  position: absolute;
+  color: #ffffff;
+  top: 5px;
+  right: 25px;
+  -webkit-text-stroke: 1px #c0c0c0;
+}
+
 .foursquare-and-distance {
   display: flex;
   justify-content: center;
@@ -85,7 +93,7 @@ img {
 @media (min-width: 1200px) {
 
   .park-img {
-    height: 350px;
+    height: 360px;
   }
 
 }

@@ -43,7 +43,9 @@ angular.module('national-parks')
         'UT - Utah',
         'VA - Virgina',
         'WA - Washington',
-        'WY - Wyoming'
+        'WY - Wyoming',
+        'VI - Virgin Islands',
+        'AS - American Samoa'
       ];
     };
 
@@ -90,13 +92,17 @@ angular.module('national-parks')
       parks[27].fullName = 'Haleakalā National Park';
 
       // Add missing Kings Canyon National Park data
+      parks[34].url = 'https://www.nps.gov/seki/index.htm';
       parks[34].description = 'This dramatic landscape testifies to nature\'s size, beauty, and diversity--huge mountains, rugged foothills, deep canyons, vast caverns, and the world\'s largest trees. These two parks lie side by side in the southern Sierra Nevada east of the San Joaquin Valley. Weather varies a lot by season and elevation, which ranges from 1,370\' to 14,494\'. Sequoias grow at 5,000 - 7,000\', above usual snowline.';
 
       // Add missing Redwood National Park
       const redwoodNationalPark = {
-        fullName: 'Redwood National Park',
+        states: 'CA',
+        url: 'https://www.nps.gov/redw/index.htm',
+        latLong: 'lat:41.275871335023865, lng:-124.02997970581055',
         description: 'Most people know Redwood as home to the tallest trees Earth .The parks also protect prairies, oak woodlands, riverways, and nearly 40 miles of rugged coastline. For thousands years people have lived this verdant landscape. Together, National Park Service and California State Parks manage these lands the inspiration, enjoyment, and education of all.',
-        latLong: 'lat:41.275871335023865, lng:-124.02997970581055'
+        fullName: 'Redwood National Park'
+
       };
       parks.splice(46, 0, redwoodNationalPark);
     }
