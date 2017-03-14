@@ -118,11 +118,13 @@ angular.module('national-parks')
         .then(function (response) {
           parks.forEach((park, index) => {
             park.foursquare = response.data.items[index];
-
             park.latLong = { lat: parseFloat(park.latLong.split(/:|,/g)[1]), lng: parseFloat(park.latLong.split(/:|,/g)[3]) };
             fetchPhotos(park, park.fullName.split(' ').join('+'));
             if (Object.is(park.latLong.lat, NaN)) {
               [park.latLong.lat, park.latLong.lng] = [park.foursquare.venue.location.lat, park.foursquare.venue.location.lng];
+            }
+            if (!park.foursquare.venue.rating) {
+              park.foursquare.venue.rating = -1;
             }
           });
         }, function (error) {

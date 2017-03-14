@@ -8,7 +8,9 @@ const gulp = require('gulp'),
   ngannotate = require('gulp-ng-annotate'),
   del = require('del'),
   flatmap = require('gulp-flatmap'),
-  babel = require('gulp-babel');
+  babel = require('gulp-babel'),
+  cache = require('gulp-cache'),
+  imagemin = require('gulp-imagemin');
 
 gulp.task('jshint', function () {
   return gulp.src('./app/scripts/**/*.js')
@@ -32,13 +34,19 @@ gulp.task('usemin', ['jshint'], function () {
     }));
 });
 
+gulp.task('imagemin', function () {
+  return gulp.src('app/assets/**/*')
+    .pipe(cache(imagemin({ optimizationLevel: 3, progressive: true, interlaced: true })))
+    .pipe(gulp.dest('./assets'));
+});
+
 gulp.task('copyfonts', ['clean'], function () {
   gulp.src('./node_modules/bootstrap/dist/fonts/**/*.{ttf,woff,eof,svg}*')
     .pipe(gulp.dest('./dist/fonts'));
 });
 
 gulp.task('default', ['clean'], function () {
-  gulp.start('usemin', 'copyfonts');
+  gulp.start('usemin', 'imagemin', 'copyfonts');
 });
 
 gulp.task('watch', function () {
