@@ -80,7 +80,7 @@ angular.module('national-parks')
     let parks = [];
 
     function fixParkData(response) {
-      // Filter parks that are national parks
+      // filter parks that are national parks
       parks = response.data.data.filter(function (park) {
         return park.designation.includes('National Park') || park.parkCode === 'npsa';
       });
@@ -88,14 +88,14 @@ angular.module('national-parks')
       // Congaree National Park duplicate
       parks.splice(11, 1);
 
-      // Fix Haleakalā National Park name
+      // fix Haleakalā National Park name
       parks[27].fullName = 'Haleakalā National Park';
 
-      // Add missing Kings Canyon National Park data
+      // add missing Kings Canyon National Park data
       parks[34].url = 'https://www.nps.gov/seki/index.htm';
       parks[34].description = 'This dramatic landscape testifies to nature\'s size, beauty, and diversity--huge mountains, rugged foothills, deep canyons, vast caverns, and the world\'s largest trees. These two parks lie side by side in the southern Sierra Nevada east of the San Joaquin Valley. Weather varies a lot by season and elevation, which ranges from 1,370\' to 14,494\'. Sequoias grow at 5,000 - 7,000\', above usual snowline.';
 
-      // Add missing Redwood National Park
+      // add missing Redwood National Park
       const redwoodNationalPark = {
         states: 'CA',
         url: 'https://www.nps.gov/redw/index.htm',

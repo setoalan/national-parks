@@ -1,6 +1,12 @@
 const express = require('express');
-const config = require('../config');
-const foursquare = require('node-foursquare')(config.foursquare);
+const foursquareSecrets = {
+  secrets: {
+    clientId: process.env.FOURSQUARE_CLIENT_ID,
+    clientSecret: process.env.FOURSQUARE_CLIENT_SECRET,
+    redirectUrl: process.env.FOURSQUARE_REDIRECT_URL
+  }
+};
+const foursquare = require('node-foursquare')(foursquareSecrets);
 const flickrSDK = require('flickr-sdk');
 const request = require('request');
 const indexRouter = express.Router();
@@ -10,7 +16,8 @@ indexRouter.get('/', function (req, res, next) {
 });
 
 indexRouter.get('/foursquare', function (req, res, next) {
-  foursquare.Lists.getList('58955a1e44689a4313e87e7a', null, function (error, response, body) {
+  const FOURSQUARE_LIST_ID = '58955a1e44689a4313e87e7a';
+  foursquare.Lists.getList(FOURSQUARE_LIST_ID, null, function (error, response, body) {
     if (error) throw error;
     res.json(response.list.listItems);
   });
@@ -18,8 +25,8 @@ indexRouter.get('/foursquare', function (req, res, next) {
 
 indexRouter.get('/flickr', function (req, res, next) {
   const flickr = new flickrSDK({
-    'apiKey': config.flickr.api_key,
-    'apiSecret': config.flickr.secret
+    'apiKey': process.env.FLICKR_API_KEY,
+    'apiSecret': process.env.FLICKR_SECRET
   });
 
   flickr
@@ -42,7 +49,7 @@ indexRouter.get('/nps', function (req, res, next) {
   const options = {
     url: 'https://developer.nps.gov/api/v0/parks?q=national%20park&fields=images&limit=62',
     headers: {
-      'Authorization': config.nps.api_key,
+      'Authorization': process.env.NPS_API_KEY,
       'User-Agent': req.headers['user-agent']
     }
   };

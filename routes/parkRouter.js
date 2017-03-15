@@ -1,12 +1,11 @@
 const express = require('express');
-const config = require('../config');
 const Flickr = require('flickr-sdk');
 const parksRouter = express.Router();
 
 parksRouter.get('/flickr', function (req, res, next) {
     const flickr = new Flickr({
-      'apiKey': config.flickr.api_key,
-      'apiSecret': config.flickr.secret
+      'apiKey': process.env.FLICKR_API_KEY,
+      'apiSecret': process.env.FLICKR_SECRET
     });
 
     flickr
