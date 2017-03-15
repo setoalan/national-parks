@@ -1,12 +1,12 @@
-const express = require('express'),
-  path = require('path'),
-  favicon = require('serve-favicon'),
-  logger = require('morgan'),
-  cookieParser = require('cookie-parser'),
-  bodyParser = require('body-parser');
+const express = require('express');
+const path = require('path');
+const favicon = require('serve-favicon');
+const logger = require('morgan');
+const cookieParser = require('cookie-parser');
+const bodyParser = require('body-parser');
 
-var indexRouter = require('./routes/index');
-var parkRouter = require('./routes/parkRouter');
+const indexRouter = require('./routes/index');
+const parkRouter = require('./routes/parkRouter');
 
 const app = express();
 
@@ -20,7 +20,7 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'app')));
+app.use(express.static(path.join(__dirname, 'dist')));
 app.use('/node_modules', express.static(__dirname + '/node_modules'));
 
 app.use('/', indexRouter);

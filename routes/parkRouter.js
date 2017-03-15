@@ -1,7 +1,7 @@
-var express = require('express');
-var config = require('../config');
-var Flickr = require('flickr-sdk');
-var parksRouter = express.Router();
+const express = require('express');
+const config = require('../config');
+const Flickr = require('flickr-sdk');
+const parksRouter = express.Router();
 
 parksRouter.get('/flickr', function (req, res, next) {
     const flickr = new Flickr({

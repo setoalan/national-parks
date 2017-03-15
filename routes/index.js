@@ -1,9 +1,9 @@
-const express = require('express'),
-  config = require('../config'),
-  foursquare = require('node-foursquare')(config.foursquare),
-  flickrSDK = require('flickr-sdk'),
-  request = require('request'),
-  indexRouter = express.Router();
+const express = require('express');
+const config = require('../config');
+const foursquare = require('node-foursquare')(config.foursquare);
+const flickrSDK = require('flickr-sdk');
+const request = require('request');
+const indexRouter = express.Router();
 
 indexRouter.get('/', function (req, res, next) {
   res.sendFile('../public/index.html');
