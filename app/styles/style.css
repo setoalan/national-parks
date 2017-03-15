@@ -1,17 +1,17 @@
-p {
-  text-align: center;
-}
-
-footer {
-  margin-bottom: 20px;
-}
-
 a {
   text-decoration: none !important;
 }
 
 img {
   margin: 0 auto;
+}
+
+p {
+  text-align: center;
+}
+
+footer {
+  margin-bottom: 20px;
 }
 
 .park {
@@ -39,8 +39,9 @@ img {
   align-items: center;
 }
 
-.foursquare-and-distance > *{
+.foursquare-and-distance > * {
   flex: 1;
+  margin-bottom: 0;
 }
 
 #map {
@@ -63,6 +64,10 @@ img {
     width: 100%;
   }
 
+  .park-state {
+    margin-top: 0;
+  }
+
 }
 
 @media (min-width: 768px) {
@@ -80,12 +85,20 @@ img {
     height: 220px;
   }
 
+  .foursquare-and-distance > * {
+    font-size: 0.85em;
+  }
+
 }
 
 @media (min-width: 992px) {
 
   .park-img {
     height: 293.33px;
+  }
+
+  .foursquare-and-distance > * {
+    font-size: 1em;
   }
 
 }

@@ -1,7 +1,7 @@
 <div class="row">
   <div class="col-xs-12 toolbar-home">
     <a ui-sref="app.map" class="btn btn-default btn-map" role="button">Map with Parks</a>
-    <button class="btn btn-default btn-location" type="button" ng-click="getLocation()" ng-class="{'btn-success disabled': locationSuccess === 'success', 'btn-danger': locationSuccess === 'error'}" ng-disabled="locationDisable">
+    <button class="btn btn-default btn-location" type="button" ng-click="getLocation()" ng-class="{'btn-success': locationSuccess === 'success', 'btn-danger': locationSuccess === 'error'}">
       {{locationText}}
     </button>
     <div class="input-group search">

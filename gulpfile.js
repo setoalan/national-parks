@@ -37,7 +37,7 @@ gulp.task('usemin', ['jshint'], function () {
 gulp.task('imagemin', function () {
   return gulp.src('app/assets/**/*')
     .pipe(cache(imagemin({ optimizationLevel: 3, progressive: true, interlaced: true })))
-    .pipe(gulp.dest('./assets'));
+    .pipe(gulp.dest('./dist/assets'));
 });
 
 gulp.task('copyfonts', ['clean'], function () {

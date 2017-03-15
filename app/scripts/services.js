@@ -100,7 +100,7 @@ angular.module('national-parks')
         states: 'CA',
         url: 'https://www.nps.gov/redw/index.htm',
         latLong: 'lat:41.275871335023865, lng:-124.02997970581055',
-        description: 'Most people know Redwood as home to the tallest trees Earth .The parks also protect prairies, oak woodlands, riverways, and nearly 40 miles of rugged coastline. For thousands years people have lived this verdant landscape. Together, National Park Service and California State Parks manage these lands the inspiration, enjoyment, and education of all.',
+        description: 'Most people know Redwood as home to the tallest trees Earth. The parks also protect prairies, oak woodlands, riverways, and nearly 40 miles of rugged coastline. For thousands years people have lived this verdant landscape. Together, National Park Service and California State Parks manage these lands the inspiration, enjoyment, and education of all.',
         fullName: 'Redwood National Park'
 
       };

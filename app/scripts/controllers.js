@@ -52,7 +52,6 @@ angular.module('national-parks')
         if (status === 'OK') {
           $scope.locationText = `${results[2].address_components[1].short_name}, ${results[2].address_components[3].short_name}`;
           $scope.locationSuccess = 'success';
-          $scope.locationDisable = true;
           $scope.sorts.unshift('Distance');
           $scope.parks.forEach(park => {
             park.distanceTo = google.maps.geometry.spherical
@@ -71,6 +70,9 @@ angular.module('national-parks')
     $scope.getLocation = function () {
       $scope.locationText = 'Locating...';
       $scope.locationSuccess = undefined;
+      if ($scope.sorts.includes('Distance')) {
+        $scope.sorts.shift();
+      }
       toolBarFactory.fetchUserLocation()
         .then(function (userLocation) {
           $scope.userLocation = userLocation;
