@@ -75,7 +75,7 @@ angular.module('national-parks')
 
     return toolBar;
   }])
-  .factory('parksFactory', ['$http', '$localStorage', function ($http, $localStorage) {
+  .factory('parksFactory', ['$window', '$http', '$localStorage', function ($window, $http, $localStorage) {
     const parksFactory = {};
     let parks = [];
 
@@ -108,10 +108,20 @@ angular.module('national-parks')
     }
 
     function fetchPhotos(park, parkName) {
+      const XS_DEVICE_MAX_WIDTH = 768;
+      const SM_DEVICE_MAX_WIDTH = 992;
+
       $http.get('/flickr?parkName=' + parkName)
         .then(function (response) {
           let photo = response.data.body.photos.photo[1];
-          park.photoUrl = `https://farm${photo.farm}.staticflickr.com/${photo.server}/${photo.id}_${photo.secret}.jpg`;
+          if ($window.innerWidth < XS_DEVICE_MAX_WIDTH) {
+            photo.size = '_n';
+          } else if ($window.innerWidth < SM_DEVICE_MAX_WIDTH) {
+            photo.size = '_m';
+          } else {
+            photo.size = '';
+          }
+          park.photoUrl = `https://farm${photo.farm}.staticflickr.com/${photo.server}/${photo.id}_${photo.secret}${photo.size}.jpg`;
           $localStorage.storeObject('parks', parks);
           return photo;
         }, function (error) {
