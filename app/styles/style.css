@@ -1,114 +1,112 @@
+a {
+  text-decoration: none !important;
+}
+
+img {
+  margin: 0 auto;
+}
+
+p {
+  text-align: center;
+}
+
 footer {
-  margin: 50px 0;
-}
-
-a:hover {
-  text-decoration: none;
-}
-
-.park {
-  margin-top: 20px;
   margin-bottom: 20px;
 }
 
+.park {
+  display: flex;
+  flex-direction: column;
+  margin: 20px 0;
+}
+
 .park-img {
-  display: inline;
-  padding: 5px;
-  border: 1px solid black;
-  border-radius: 5px;
+  width: 100%;
+  object-fit: cover;
+}
+
+.park-state {
+  position: absolute;
+  color: #ffffff;
+  top: 5px;
+  right: 25px;
+  -webkit-text-stroke: 1px #c0c0c0;
+}
+
+.foursquare-and-distance {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.foursquare-and-distance > * {
+  flex: 1;
+  margin-bottom: 0;
 }
 
 #map {
-  height: 100vh;
+  height: 60vh;
   width: 100%;
 }
 
 @media (max-width: 768px) {
-  .rwd-break {
+
+  .break {
     display: block;
   }
 
-  .btn-map {
-    margin-top: 10px;
+  .toolbar-home > * {
+    width: 100%;
+    margin-bottom: 10px;
+  }
+
+  .dropdown > * {
     width: 100%;
   }
 
-  .btn-location {
-    margin-top: 10px;
-    width: 100%;
+  .park-state {
+    margin-top: 0;
   }
 
-  .search {
-    margin-top: 10px;
-    width: 100%;
-  }
-
-  .dropdown-state {
-    width: 100%;
-    margin-top: 10px;
-  }
-
-  .dropdown-sort {
-    width: 100%;
-  }
-
-  .warning-rating {
-    margin-top: 10px;
-    text-align: center;
-  }
-
-  .park-img {
-    height: 350px;
-    width: 350px;
-  }
-
-  #stateMenu {
-    width: 100%;
-  }
-
-  #sortMenu {
-    width: 100%;
-  }
 }
 
 @media (min-width: 768px) {
-  .rwd-break {
+
+  .break {
     display: none;
   }
 
-  .btn-map {
-    margin-right: 6px;
-  }
-
-  .search {
-    margin-right: 10px;
-  }
-
-  .dropdown-state {
-    margin-right: 10px;
-  }
-
-  .warning-rating {
-    transform: translate(0%, 50%);
-    text-align: right;
+  .toolbar-home {
+    display: flex;
+    justify-content: space-between;
   }
 
   .park-img {
-    height: 250px;
-    width: 250px;
+    height: 220px;
   }
+
+  .foursquare-and-distance > * {
+    font-size: 0.85em;
+  }
+
 }
 
-@media (min-width: 970px) {
+@media (min-width: 992px) {
+
   .park-img {
-    height: 300px;
-    width: 300px;
+    height: 293.33px;
   }
+
+  .foursquare-and-distance > * {
+    font-size: 1em;
+  }
+
 }
 
 @media (min-width: 1200px) {
+
   .park-img {
-    height: 350px;
-    width: 350px;
+    height: 360px;
   }
+
 }

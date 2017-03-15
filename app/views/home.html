@@ -1,50 +1,48 @@
-<div>
-  <div class="row">
-    <div class="col-xs-12">
-      <div class="dropdown pull-right dropdown-sort">
-        <button class="btn btn-default dropdown-toggle" type="button" id="sortMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" ng-class="{'btn-success': locationSuccess === 'success'}">
-          {{sortText}}
-          <span class="caret"></span>
-        </button>
-        <ul class="dropdown-menu" aria-labelledby="sortMenu">
-          <li ng-repeat="sort in sorts"><a ng-click="sortSelected(sort)">{{sort}}</a></li>
-        </ul>
-      </div>
-      <div class="dropdown pull-right dropdown-state">
-        <button class="btn btn-default dropdown-toggle" type="button" id="stateMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-          {{stateText}}
-          <span class="caret"></span>
-        </button>
-        <ul class="dropdown-menu" aria-labelledby="stateMenu">
-          <li ng-repeat="state in states"><a ng-click="stateSelected(state)">{{state}}</a></li>
-        </ul>
-      </div>
-      <div class="input-group pull-right search">
-        <input type="text" class="form-control" placeholder="Search" ng-model="searchText">
-      </div>
-      <div>
-        <a ui-sref="app.map" class="btn btn-info btn-map" role="button">Map with Parks</a>
-        <button class="btn btn-default btn-location" type="button" ng-click="getLocation()" ng-class="{'btn-success disabled': locationSuccess === 'success', 'btn-danger': locationSuccess === 'error'}" ng-disabled="locationDisable">
-          {{locationText}}
-        </button>
-      </div>
-      <div class="col-xs-12 col-sm-5 pull-right warning-rating" ng-if="sortField == '+venue.rating' || sortField == '-venue.rating'">
-        Parks with no rating are ommited.
-      </div>
+<div class="row">
+  <div class="col-xs-12 toolbar-home">
+    <a ui-sref="app.map" class="btn btn-default btn-map" role="button">Map with Parks</a>
+    <button class="btn btn-default btn-location" type="button" ng-click="getLocation()" ng-class="{'btn-success': locationSuccess === 'success', 'btn-danger': locationSuccess === 'error'}">
+      {{locationText}}
+    </button>
+    <div class="input-group search">
+      <input type="text" class="form-control" placeholder="Search" ng-model="searchText">
+    </div>
+    <div class="dropdown">
+      <button class="btn btn-default dropdown-toggle" type="button" id="stateMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+        {{stateText}}
+        <span class="caret"></span>
+      </button>
+      <ul class="dropdown-menu" aria-labelledby="stateMenu">
+        <li ng-repeat="state in states"><a ng-click="stateSelected(state)">{{state}}</a></li>
+      </ul>
+    </div>
+    <div class="dropdown">
+      <button class="btn btn-default dropdown-toggle" type="button" id="sortMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" ng-class="{'btn-success': locationSuccess === 'success'}">
+        {{sortText}}
+        <span class="caret"></span>
+      </button>
+      <ul class="dropdown-menu" aria-labelledby="sortMenu">
+        <li ng-repeat="sort in sorts"><a ng-click="sortSelected(sort)">{{sort}}</a></li>
+      </ul>
     </div>
   </div>
+</div>
 
-  <div class="row" ng-repeat="i in getNumRows() track by $index" ng-init="parentIndex = $index">
-    <div class="col-sm-4 park" ng-repeat="park in parks | filter:{venue:{location:{state:stateField}}}:true | filter:{venue:{name:searchText}} | orderBy:sortField | limitTo:3:parentIndex * 3" ng-if="parkHasRating(park)">
-      <div ng-if="park.show" style="text-align:center;">
-        <a href="{{park.venue.url}}" target="_blank">
-          <img class="img-responsive park-img" ng-src="{{park.photoUrl}}" alt="{{park.venue.name}}">
-        </a>
-        <h3 class="text-center">
-          <a href="{{park.venue.url}}" target="=_blank">{{park.venue.name}}</a>
-        </h3>
-        <p>Since 1916, the National Park Service has been entrusted with the care of our national parks. With the help of volunteers and partners, we safeguard these special places and share their stories with more than 275 million visitors every year. But our work doesn't stop there.</p>
+<div class="row" ng-repeat="i in getNumRows() track by $index" ng-init="parentIndex = $index">
+  <div class="col-sm-4" ng-repeat="park in parks | filter:{states:stateField} | filter:{description:searchText} | orderBy:sortField | limitTo:3:parentIndex * 3">
+    <div class="park">
+      <img class="img-responsive park-img" ng-src="{{park.photoUrl}}" alt="{{park.fullName}}">
+      <h2 class="park-state">{{park.states}}</h2>
+      <h3 class="text-center">
+        <a href="{{park.url}}" target="=_blank">{{park.fullName}}</a>
+      </h3>
+      <div class="foursquare-and-distance">
+        <div><img class="img-responsive" ng-src="./assets/foursquare.png" alt="foursquare" /></div>
+        <p>CHECKINS<br>{{park.foursquare.venue.stats.checkinsCount | number}}</p>
+        <p>RATING<br>{{park.foursquare.venue.rating === -1 ? 'N/A' : park.foursquare.venue.rating}}</p>
+        <p ng-if="park.distanceTo">DISTANCE<br>{{park.distanceTo | number:0}} km</p>
       </div>
+      <p>{{park.description}}</p>
     </div>
   </div>
 </div>

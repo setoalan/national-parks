@@ -1,0 +1,7 @@
+FOURSQUARE_CLIENT_ID=foursquare_client_id
+FOURSQUARE_CLIENT_SECRET=foursquare_client_secret
+FOURSQUARE_REDIRECT_URL=foursquare_redirect_url
+FLICKR_API_KEY=flickr_api_key
+FLICKR_SECRET=flickr_secret
+GOOGLE_API_KEY=google_api_key
+NPS_API_KEY=nps_api_key
