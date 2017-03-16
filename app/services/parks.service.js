@@ -51,9 +51,9 @@ angular.module('national-parks')
           } else {
             photo.size = '';
           }
-          park.photoMinUrl = `https://farm${photo.farm}.staticflickr.com/${photo.server}/${photo.id}_${photo.secret}_s.jpg`;
-          park.photoUrl = `farm${photo.farm}.staticflickr.com/${photo.server}/${photo.id}_${photo.secret}${photo.size}.jpg`;
+          park.photoUrl = `https://farm${photo.farm}.staticflickr.com/${photo.server}/${photo.id}_${photo.secret}${photo.size}.jpg`;
           $localStorage.storeObject('parks', parks);
+          bLazy.revalidate();
           return photo;
         }, function (error) {
           console.error('Error: ' + error);

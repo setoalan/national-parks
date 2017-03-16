@@ -1,6 +1,6 @@
 {
   "name": "national-parks",
-  "version": "0.10.4",
+  "version": "0.10.5",
   "description": "United States National Parks",
   "main": "index.html",
   "license": "MIT",
@@ -18,8 +18,8 @@
   "homepage": "https://github.com/setoalan/national-parks#readme",
   "dependencies": {
     "angular": "^1.6.1",
-    "angular-lazy-image": "^0.3.4",
     "angular-ui-router": "^0.4.2",
+    "blazy": "^1.8.2",
     "body-parser": "~1.15.2",
     "bootstrap": "^3.3.7",
     "cookie-parser": "~1.4.3",
