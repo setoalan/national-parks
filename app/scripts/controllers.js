@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('national-parks')
-  .controller('IndexController', ['$scope', '$http', 'toolBarFactory', 'parksFactory', function ($scope, $http, toolBarFactory, parksFactory) {
+  .controller('IndexController', ['$scope', '$window', '$http', 'toolBarFactory', 'parksFactory', function ($scope, $window, $http, toolBarFactory, parksFactory) {
     $scope.locationText = 'Get Location';
     $scope.locationSuccess = undefined;
     $scope.locationDisable = false;
@@ -53,10 +53,12 @@ angular.module('national-parks')
           $scope.locationText = `${results[2].address_components[1].short_name}, ${results[2].address_components[3].short_name}`;
           $scope.locationSuccess = 'success';
           $scope.sorts.unshift('Distance');
-          $scope.parks.forEach(park => {
-            park.distanceTo = google.maps.geometry.spherical
-              .computeDistanceBetween(new google.maps.LatLng($scope.userLocation.lat, $scope.userLocation.lng), new google.maps.LatLng(park.latLong.lat, park.latLong.lng)) / 1000;
-          });
+          if ($scope.parks) {
+            $scope.parks.forEach(park => {
+              park.distanceTo = google.maps.geometry.spherical
+                .computeDistanceBetween(new google.maps.LatLng($scope.userLocation.lat, $scope.userLocation.lng), new google.maps.LatLng(park.latLong.lat, park.latLong.lng)) / 1000;
+            });
+          }
           $scope.$apply();
         } else {
           $scope.locationText = 'Error';

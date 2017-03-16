@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('national-parks', ['ui.router'])
+angular.module('national-parks', ['ui.router', 'afkl.lazyImage'])
   .config(function ($stateProvider, $urlRouterProvider) {
     $stateProvider
       .state('app', {
