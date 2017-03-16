@@ -1,5 +1,8 @@
-const express = require('express');
-const Flickr = require('flickr-sdk');
+'user strict';
+
+import express from 'express';
+import flickr from 'flickr-sdk';
+
 const parkRouter = express.Router();
 
 parkRouter.get('/flickr', function (req, res, next) {
