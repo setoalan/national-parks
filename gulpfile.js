@@ -13,7 +13,7 @@ const cache = require('gulp-cache');
 const imagemin = require('gulp-imagemin');
 
 gulp.task('jshint', function () {
-  return gulp.src('./app/scripts/**/*.js')
+  return gulp.src('./app/**/*.js')
     .pipe(jshint())
     .pipe(jshint.reporter(stylish));
 });

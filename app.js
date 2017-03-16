@@ -10,7 +10,7 @@ const dotenv = require('dotenv');
 dotenv.load();
 
 const indexRouter = require('./routes/index');
-const parkRouter = require('./routes/parkRouter');
+const parkRouter = require('./routes/park');
 
 const app = express();
 
