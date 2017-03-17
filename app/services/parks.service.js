@@ -53,7 +53,6 @@ angular.module('national-parks')
           }
           park.photoUrl = `https://farm${photo.farm}.staticflickr.com/${photo.server}/${photo.id}_${photo.secret}${photo.size}.jpg`;
           $localStorage.storeObject('parks', parks);
-          bLazy.revalidate();
           return photo;
         }, function (error) {
           console.error('Error: ' + error);

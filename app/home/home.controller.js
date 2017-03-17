@@ -2,6 +2,7 @@
 
 angular.module('national-parks')
   .controller('IndexController', ['$scope', '$window', '$http', 'toolBarFactory', 'parksFactory', function ($scope, $window, $http, toolBarFactory, parksFactory) {
+    $scope.loading = true;
     $scope.locationText = 'Get Location';
     $scope.locationSuccess = undefined;
     $scope.locationDisable = false;
@@ -101,11 +102,13 @@ angular.module('national-parks')
     if (parks) {
       $scope.parks = parks;
       $scope.numRows = Math.ceil(parks.length / 3);
+      $scope.loading = false;
     } else {
       parksFactory.fetchParks()
         .then(function (response) {
           $scope.parks = response;
           $scope.numRows = Math.ceil(response.length / 3);
+          $scope.loading = false;
         }, function (error) {
           console.error('Error: ' + error);
         });

@@ -6,7 +6,7 @@ angular.module('national-parks')
       if (scope.$last) {
         $timeout(() => {
           new Blazy({src: 'data-blazy'});
-        }, 0);
+        }, 2500);
       }
     };
   });
