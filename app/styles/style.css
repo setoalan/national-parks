@@ -25,11 +25,24 @@ footer {
   object-fit: cover;
 }
 
+.b-lazy {
+  max-width: 100%;
+  -webkit-transition: opacity 500ms ease-in-out;
+     -moz-transition: opacity 500ms ease-in-out;
+       -o-transition: opacity 500ms ease-in-out;
+          transition: opacity 500ms ease-in-out;
+  opacity: 0;
+}
+
+.b-lazy.b-loaded {
+  opacity: 1;
+}
+
 .park-state {
   position: absolute;
-  color: #ffffff;
   top: 5px;
   right: 25px;
+  color: #ffffff;
   -webkit-text-stroke: 1px #c0c0c0;
 }
 
@@ -40,13 +53,13 @@ footer {
 }
 
 .foursquare-and-distance > * {
-  flex: 1;
   margin-bottom: 0;
+  flex: 1;
 }
 
 #map {
-  height: 60vh;
   width: 100%;
+  height: 60vh;
 }
 
 @media (max-width: 768px) {
@@ -86,7 +99,7 @@ footer {
   }
 
   .foursquare-and-distance > * {
-    font-size: 0.85em;
+    font-size: 0.75em;
   }
 
 }

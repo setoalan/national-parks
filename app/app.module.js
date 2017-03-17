@@ -10,7 +10,7 @@ angular.module('national-parks', ['ui.router'])
             templateUrl: 'views/header.html'
           },
           'content': {
-            templateUrl: 'views/home.html',
+            templateUrl: 'home/home.html',
             controller: 'IndexController'
           },
           'footer': {
@@ -22,7 +22,7 @@ angular.module('national-parks', ['ui.router'])
         url: 'map',
         views: {
           'content@': {
-            templateUrl: 'views/map.html',
+            templateUrl: 'map/map.html',
             controller: 'MapController'
           }
         }
@@ -31,7 +31,7 @@ angular.module('national-parks', ['ui.router'])
         url: 'park/:id',
         views: {
           'content@':  {
-            templateUrl: 'views/park.html',
+            templateUrl: 'park/park.html',
             controller: 'ParkController'
           }
         }

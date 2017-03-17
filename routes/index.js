@@ -1,4 +1,9 @@
-const express = require('express');
+'user strict';
+
+import express from 'express';
+import flickrSDK from 'flickr-sdk';
+import request from 'request';
+
 const foursquareSecrets = {
   secrets: {
     clientId: process.env.FOURSQUARE_CLIENT_ID,
@@ -7,8 +12,7 @@ const foursquareSecrets = {
   }
 };
 const foursquare = require('node-foursquare')(foursquareSecrets);
-const flickrSDK = require('flickr-sdk');
-const request = require('request');
+
 const indexRouter = express.Router();
 
 indexRouter.get('/', function (req, res, next) {

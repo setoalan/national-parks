@@ -4,6 +4,7 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+
   <title>United States National Parks</title>
 
   <!-- build:css ./styles/main.css -->
@@ -36,9 +37,17 @@
     <script src="../node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
     <script src="../node_modules/angular/angular.min.js"></script>
     <script src="../node_modules/angular-ui-router/release/angular-ui-router.min.js"></script>
-    <script src="./scripts/app.js"></script>
-    <script src="./scripts/controllers.js"></script>
-    <script src="./scripts/services.js"></script>
+    <script src="../node_modules/blazy/blazy.min.js"></script>
+    <script>const bLazy = new Blazy({});</script>
+    <script src="./app.module.js"></script>
+    <script src="./home/home.controller.js"></script>
+    <script src="./park/park.controller.js"></script>
+    <script src="./map/map.controller.js"></script>
+    <script src="./home/home.directive.js"></script>
+    <script src="./services/localstorage.service.js"></script>
+    <script src="./services/parks.service.js"></script>
+    <script src="./services/park.service.js"></script>
+    <script src="./services/toolbar.service.js"></script>
   <!-- endbuild -->
   <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD1trrr2iGJkn3xWwKZzGoxsQ8pnJLYSrg&libraries=geometry"></script>
 

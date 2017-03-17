@@ -1,8 +1,11 @@
-const express = require('express');
-const Flickr = require('flickr-sdk');
-const parksRouter = express.Router();
+'user strict';
 
-parksRouter.get('/flickr', function (req, res, next) {
+import express from 'express';
+import flickr from 'flickr-sdk';
+
+const parkRouter = express.Router();
+
+parkRouter.get('/flickr', function (req, res, next) {
     const flickr = new Flickr({
       'apiKey': process.env.FLICKR_API_KEY,
       'apiSecret': process.env.FLICKR_SECRET
@@ -24,4 +27,4 @@ parksRouter.get('/flickr', function (req, res, next) {
       });
 });
 
-module.exports = parksRouter;
+module.exports = parkRouter;

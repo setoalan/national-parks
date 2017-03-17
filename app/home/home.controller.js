@@ -2,6 +2,7 @@
 
 angular.module('national-parks')
   .controller('IndexController', ['$scope', '$http', 'toolBarFactory', 'parksFactory', function ($scope, $http, toolBarFactory, parksFactory) {
+    $scope.loading = true;
     $scope.locationText = 'Get Location';
     $scope.locationSuccess = undefined;
     $scope.locationDisable = false;
@@ -53,10 +54,12 @@ angular.module('national-parks')
           $scope.locationText = `${results[2].address_components[1].short_name}, ${results[2].address_components[3].short_name}`;
           $scope.locationSuccess = 'success';
           $scope.sorts.unshift('Distance');
-          $scope.parks.forEach(park => {
-            park.distanceTo = google.maps.geometry.spherical
-              .computeDistanceBetween(new google.maps.LatLng($scope.userLocation.lat, $scope.userLocation.lng), new google.maps.LatLng(park.latLong.lat, park.latLong.lng)) / 1000;
-          });
+          if ($scope.parks) {
+            $scope.parks.forEach(park => {
+              park.distanceTo = google.maps.geometry.spherical
+                .computeDistanceBetween(new google.maps.LatLng($scope.userLocation.lat, $scope.userLocation.lng), new google.maps.LatLng(park.latLong.lat, park.latLong.lng)) / 1000;
+            });
+          }
           $scope.$apply();
         } else {
           $scope.locationText = 'Error';
@@ -99,71 +102,15 @@ angular.module('national-parks')
     if (parks) {
       $scope.parks = parks;
       $scope.numRows = Math.ceil(parks.length / 3);
+      $scope.loading = false;
     } else {
       parksFactory.fetchParks()
         .then(function (response) {
           $scope.parks = response;
           $scope.numRows = Math.ceil(response.length / 3);
+          $scope.loading = false;
         }, function (error) {
           console.error('Error: ' + error);
         });
     }
-  }])
-  .controller('MapController', ['$scope', 'toolBarFactory', 'parksFactory', function ($scope, toolBarFactory, parksFactory) {
-    const map = new google.maps.Map(document.getElementById('map'), {
-      zoom: 3,
-      center: { lat: 26.7135539881, lng: -117.7395580925 },
-      scrollwheel: false
-    });
-
-    const addMapListeners = function (marker, infoWindow) {
-      marker.addListener('click', function () {
-        infoWindow.open(map, marker);
-      });
-      google.maps.event.addListener(map, 'click', function() {
-        infoWindow.close();
-      });
-    };
-
-    const userLocation = toolBarFactory.getUserLocation();
-    if (userLocation) {
-      const userMarker = new google.maps.Marker({
-        position: userLocation,
-        map: map
-      });
-      userMarker.setIcon('http://maps.google.com/mapfiles/ms/icons/green-dot.png');
-      const infoWindow = new google.maps.InfoWindow({
-        content: '<h5>Your Location</h5>'
-      });
-      addMapListeners(userMarker, infoWindow);
-    }
-
-    parksFactory.getParks().forEach(park => {
-      const latLng = { lat: park.latLong.lat, lng: park.latLong.lng };
-      const marker = new google.maps.Marker({
-        position: latLng,
-        map: map
-      });
-      const infoWindow = new google.maps.InfoWindow({
-        content: `<h5>${park.fullName}</h5>` +
-          `<h6>${park.foursquare.venue.location.city}, ${park.foursquare.venue.location.cc}</h6>`
-      });
-      addMapListeners(marker, infoWindow);
-    });
-  }])
-  .controller('ParkController', ['$scope', '$stateParams', 'parksFactory', 'parkFactory', function ($scope, $stateParams, parksFactory, parkFactory) {
-    $scope.park = parksFactory.getPark($stateParams.id);
-    $scope.park.photos = [];
-
-    parkFactory.fetchPhotos($scope.park.venue.name.split(' ').join('+'))
-      .then(function (response) {
-        response.forEach(function (photo) {
-          $scope.park.photos.push({
-            'src': `https://farm${photo.farm}.staticflickr.com/${photo.server}/${photo.id}_${photo.secret}.jpg`,
-            'alt': photo.title
-          });
-          // $('#parkCarousel').carousel({ interval: 2000 });
-          // $('#parkCarousel').carousel('cycle');
-        });
-      });
   }]);

@@ -1,19 +1,21 @@
-const gulp = require('gulp');
-const cleancss = require('gulp-clean-css');
-const jshint = require('gulp-jshint');
-const stylish = require('jshint-stylish');
-const uglify = require('gulp-uglify');
-const usemin = require('gulp-usemin');
-const rev = require('gulp-rev');
-const ngannotate = require('gulp-ng-annotate');
-const del = require('del');
-const flatmap = require('gulp-flatmap');
-const babel = require('gulp-babel');
-const cache = require('gulp-cache');
-const imagemin = require('gulp-imagemin');
+'use strict';
+
+import gulp from 'gulp';
+import cleancss from 'gulp-clean-css';
+import jshint from 'gulp-jshint';
+import stylish from 'jshint-stylish';
+import uglify from 'gulp-uglify';
+import usemin from 'gulp-usemin';
+import rev from 'gulp-rev';
+import ngannotate from 'gulp-ng-annotate';
+import del from 'del';
+import flatmap from 'gulp-flatmap';
+import babel from 'gulp-babel';
+import cache from 'gulp-cache';
+import imagemin from 'gulp-imagemin';
 
 gulp.task('jshint', function () {
-  return gulp.src('./app/scripts/**/*.js')
+  return gulp.src('./app/**/*.js')
     .pipe(jshint())
     .pipe(jshint.reporter(stylish));
 });

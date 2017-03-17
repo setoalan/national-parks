@@ -1,20 +1,12 @@
 {
   "name": "national-parks",
-  "version": "0.9.6",
+  "version": "0.10.7",
   "description": "United States National Parks",
   "main": "index.html",
   "license": "MIT",
   "author": "Alan Seto <alantseto@gmail.com>",
-  "dependencies": {
-    "angular": "^1.6.1",
-    "angular-ui-router": "^0.4.2",
-    "bootstrap": "^3.3.7",
-    "jquery": "^3.1.1",
-    "serve-favicon": "~2.3.0"
-  },
   "scripts": {
-    "install": "node setup.js",
-    "start": "node ./bin/www"
+    "start": "babel-node ./bin/www"
   },
   "repository": {
     "type": "git",
@@ -24,16 +16,28 @@
     "url": "https://github.com/setoalan/national-parks/issues"
   },
   "homepage": "https://github.com/setoalan/national-parks#readme",
-  "devDependencies": {
-    "babel-cli": "^6.24.0",
-    "babel-preset-es2015": "^6.24.0",
+  "dependencies": {
+    "angular": "^1.6.1",
+    "angular-ui-router": "^0.4.2",
+    "blazy": "^1.8.2",
     "body-parser": "~1.15.2",
+    "bootstrap": "^3.3.7",
     "cookie-parser": "~1.4.3",
-    "debug": "~2.2.0",
-    "del": "^2.2.2",
     "dotenv": "^4.0.0",
     "express": "~4.14.0",
     "flickr-sdk": "^2.0.1",
+    "jquery": "^3.1.1",
+    "morgan": "~1.7.0",
+    "node-foursquare": "^0.3.0",
+    "request": "^2.79.0",
+    "serve-favicon": "~2.3.0"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.24.0",
+    "babel-core": "^6.24.0",
+    "babel-preset-es2015": "^6.24.0",
+    "debug": "~2.2.0",
+    "del": "^2.2.2",
     "gulp": "^3.9.1",
     "gulp-babel": "^6.1.2",
     "gulp-cache": "^0.4.6",
@@ -46,9 +50,6 @@
     "gulp-uglify": "^2.1.0",
     "gulp-usemin": "^0.3.28",
     "jshint": "^2.9.4",
-    "jshint-stylish": "^2.2.1",
-    "morgan": "~1.7.0",
-    "node-foursquare": "^0.3.0",
-    "request": "^2.79.0"
+    "jshint-stylish": "^2.2.1"
   }
 }
