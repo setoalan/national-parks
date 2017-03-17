@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('national-parks')
-  .directive('lazyLoader', function ($timeout) {
+  .directive('lazyLoader', ($timeout) => {
     return (scope) => {
       if (scope.$last) {
         $timeout(() => {

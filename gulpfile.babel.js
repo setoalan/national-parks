@@ -14,19 +14,19 @@ import babel from 'gulp-babel';
 import cache from 'gulp-cache';
 import imagemin from 'gulp-imagemin';
 
-gulp.task('jshint', function () {
+gulp.task('jshint', () => {
   return gulp.src('./app/**/*.js')
     .pipe(jshint())
     .pipe(jshint.reporter(stylish));
 });
 
-gulp.task('clean', function () {
+gulp.task('clean', () => {
   return del(['dist']);
 });
 
-gulp.task('usemin', ['jshint'], function () {
+gulp.task('usemin', ['jshint'], () => {
   return gulp.src('./app/**/*.html')
-    .pipe(flatmap(function (stream, file) {
+    .pipe(flatmap((stream, file) => {
       return stream
         .pipe(usemin({
           css: [cleancss(), rev()],
@@ -36,21 +36,21 @@ gulp.task('usemin', ['jshint'], function () {
     }));
 });
 
-gulp.task('imagemin', function () {
+gulp.task('imagemin', () => {
   return gulp.src('app/assets/**/*')
     .pipe(cache(imagemin({ optimizationLevel: 3, progressive: true, interlaced: true })))
     .pipe(gulp.dest('./dist/assets'));
 });
 
-gulp.task('copyfonts', ['clean'], function () {
+gulp.task('copyfonts', ['clean'], () => {
   gulp.src('./node_modules/bootstrap/dist/fonts/**/*.{ttf,woff,eof,svg}*')
     .pipe(gulp.dest('./dist/fonts'));
 });
 
-gulp.task('default', ['clean'], function () {
+gulp.task('default', ['clean'], () => {
   gulp.start('usemin', 'imagemin', 'copyfonts');
 });
 
-gulp.task('watch', function () {
+gulp.task('watch', () => {
   gulp.watch('./app/**/*', ['default']);
 });

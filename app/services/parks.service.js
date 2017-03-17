@@ -1,13 +1,13 @@
 'use strict';
 
 angular.module('national-parks')
-  .factory('parksFactory', ['$window', '$http', '$localStorage', function ($window, $http, $localStorage) {
+  .factory('parksFactory', ($window, $http, $localStorage) => {
     const parksFactory = {};
     let parks = [];
 
     function fixParkData(response) {
       // filter parks that are national parks
-      parks = response.data.data.filter(function (park) {
+      parks = response.data.data.filter((park) => {
         return park.designation.includes('National Park') || park.parkCode === 'npsa';
       });
 
@@ -42,7 +42,7 @@ angular.module('national-parks')
       const SM_DEVICE_MAX_WIDTH = 992;
 
       $http.get('/flickr?parkName=' + parkName)
-        .then(function (response) {
+        .then((response) => {
           let photo = response.data.body.photos.photo[1];
           if ($window.innerWidth < XS_DEVICE_MAX_WIDTH) {
             photo.size = '_n';
@@ -55,14 +55,14 @@ angular.module('national-parks')
           //$localStorage.storeObject('parks', parks);
           bLazy.revalidate();
           return photo;
-        }, function (error) {
+        }, (error) => {
           console.error('Error: ' + error);
         });
     }
 
     function fetchFoursquareData() {
       $http.get('/foursquare')
-        .then(function (response) {
+        .then((response) => {
           parks.forEach((park, index) => {
             park.foursquare = response.data.items[index];
             park.latLong = { lat: parseFloat(park.latLong.split(/:|,/g)[1]), lng: parseFloat(park.latLong.split(/:|,/g)[3]) };
@@ -74,32 +74,32 @@ angular.module('national-parks')
               park.foursquare.venue.rating = -1;
             }
           });
-        }, function (error) {
+        }, (error) =>{
           console.error('Error: ' + error);
         });
     }
 
-    parksFactory.fetchParks = function () {
+    parksFactory.fetchParks = () => {
       const data = $http.get('/nps')
-        .then(function (response) {
+        .then((response) => {
           fixParkData(response);
           fetchFoursquareData();
           return parks;
-        }, function (error) {
+        }, (error) => {
           console.log('Error: ' + error);
         });
       return data;
     };
 
-    parksFactory.getParks = function () {
+    parksFactory.getParks = () => {
       return $localStorage.getObject('parks', false);
     };
 
-    parksFactory.getPark = function (id) {
-      return $localStorage.getObject('parks').find(function (park) {
+    parksFactory.getPark = (id) =>{
+      return $localStorage.getObject('parks').find((park) => {
         return park.id === id;
       });
     };
 
     return parksFactory;
-  }]);
+  });

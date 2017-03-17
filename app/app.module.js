@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('national-parks', ['ui.router'])
-  .config(function ($stateProvider, $urlRouterProvider) {
+  .config(($stateProvider, $urlRouterProvider) => {
     $stateProvider
       .state('app', {
         url: '/',
