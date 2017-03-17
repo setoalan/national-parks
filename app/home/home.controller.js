@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('national-parks')
-  .controller('IndexController', ['$scope', '$window', '$http', 'toolBarFactory', 'parksFactory', function ($scope, $window, $http, toolBarFactory, parksFactory) {
+  .controller('IndexController', ['$scope', '$http', 'toolBarFactory', 'parksFactory', function ($scope, $http, toolBarFactory, parksFactory) {
     $scope.loading = true;
     $scope.locationText = 'Get Location';
     $scope.locationSuccess = undefined;

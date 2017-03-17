@@ -33,7 +33,7 @@
 <div class="row" ng-repeat="i in getNumRows() track by $index" ng-init="parentIndex = $index">
   <div class="col-sm-4" ng-repeat="park in parks | filter:{states:stateField} | filter:{description:searchText} | orderBy:sortField | limitTo:3:parentIndex * 3" lazy-loader>
     <div class="park">
-      <img class="b-lazy park-img" data-blazy={{park.photoUrl}} src=data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw== alt="{{park.fullName}}" />
+      <img class="b-lazy park-img" data-blazy={{park.photoUrl}} src=data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw== alt="{{park.fullName}}">
       <h2 class="park-state">{{park.states}}</h2>
       <h3 class="text-center">
         <a href="{{park.url}}" target="=_blank">{{park.fullName}}</a>
