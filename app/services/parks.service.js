@@ -5,7 +5,7 @@ angular.module('national-parks')
     const parksFactory = {};
     let parks = [];
 
-    function fixParkData(response) {
+    const fixParkData = (response) => {
       // filter parks that are national parks
       parks = response.data.data.filter((park) => {
         return park.designation.includes('National Park') || park.parkCode === 'npsa';
@@ -37,7 +37,7 @@ angular.module('national-parks')
       parks.splice(46, 0, redwoodNationalPark);
     }
 
-    function fetchPhotos(park, parkName) {
+    const fetchPhotos = (park, parkName) => {
       const XS_DEVICE_MAX_WIDTH = 768;
       const SM_DEVICE_MAX_WIDTH = 992;
 
@@ -52,7 +52,7 @@ angular.module('national-parks')
             photo.size = '';
           }
           park.photoUrl = `https://farm${photo.farm}.staticflickr.com/${photo.server}/${photo.id}_${photo.secret}${photo.size}.jpg`;
-          //$localStorage.storeObject('parks', parks);
+          $localStorage.storeObject('parks', parks);
           bLazy.revalidate();
           return photo;
         }, (error) => {
@@ -60,7 +60,7 @@ angular.module('national-parks')
         });
     }
 
-    function fetchFoursquareData() {
+    const fetchFoursquareData = () => {
       $http.get('/foursquare')
         .then((response) => {
           parks.forEach((park, index) => {

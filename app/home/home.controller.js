@@ -18,6 +18,12 @@ angular.module('national-parks')
       $scope.stateField = (state === 'All States') ? undefined : state.substring(0, 2);
     };
 
+    $scope.searchField= (park) => {
+      if (!$scope.searchText) return true;
+      return park.fullName.match(RegExp($scope.searchText, 'i'))
+        || park.description.match(RegExp($scope.searchText, 'i'));
+    };
+
     $scope.sortSelected = (sort) => {
       $scope.sortText = sort;
 
