@@ -14,6 +14,9 @@ import babel from 'gulp-babel';
 import cache from 'gulp-cache';
 import imagemin from 'gulp-imagemin';
 
+const Server = require('karma').Server;
+const protractor = require('gulp-protractor').protractor;
+
 gulp.task('jshint', () => {
   return gulp.src('./app/**/*.js')
     .pipe(jshint())
@@ -47,8 +50,21 @@ gulp.task('copyfonts', ['clean'], () => {
     .pipe(gulp.dest('./dist/fonts'));
 });
 
+gulp.task('tests', (done) => {
+  new Server({
+    configFile: __dirname + '/test/unit/karma.conf.js',
+    singleRun: true
+  }, done).start();
+  gulp.src(['./test/e2e/*spec.js'])
+    .pipe(protractor({
+      configFile: __dirname + '/test/e2e/protractor.conf.js',
+      args: ['--baseUrl', 'http://127.0.0.1:8000']
+    }))
+    .on('error', (e) => { throw e });
+});
+
 gulp.task('default', ['clean'], () => {
-  gulp.start('usemin', 'imagemin', 'copyfonts');
+  gulp.start('usemin', 'imagemin', 'copyfonts', 'tests');
 });
 
 gulp.task('watch', () => {
