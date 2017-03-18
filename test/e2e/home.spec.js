@@ -8,14 +8,6 @@ describe('HomeController', () => {
     expect(browser.getTitle()).toEqual('United States National Parks');
   });
 
-  it('should have 29 states in state filter dropdown', () => {
-    expect(element.all(by.repeater('state in states')).count()).toEqual(29);
-  });
-
-  it('should initially have 6 options in sort dropdown', () => {
-    expect(element.all(by.repeater('sort in sorts')).count()).toEqual(6);
-  });
-
   it('should have 59 parks listed', () => {
     expect(element.all(by.repeater('park in parks')).count()).toEqual(59);
   });
