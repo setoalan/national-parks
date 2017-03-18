@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('national-parks')
-  .controller('IndexController', function ($scope, $http, toolBarFactory, parksFactory) {
+  .controller('HomeController', function ($scope, $http, toolBarFactory, parksFactory) {
     $scope.loading = true;
     $scope.locationText = 'Get Location';
     $scope.locationSuccess = undefined;
@@ -19,9 +19,12 @@ angular.module('national-parks')
     };
 
     $scope.searchField= (park) => {
-      if (!$scope.searchText) return true;
-      return park.fullName.match(RegExp($scope.searchText, 'i'))
-        || park.description.match(RegExp($scope.searchText, 'i'));
+      if (!$scope.searchText) {
+        return true;
+      }
+
+      return park.fullName.match(RegExp($scope.searchText, 'i')) ||
+        park.description.match(RegExp($scope.searchText, 'i'));
     };
 
     $scope.sortSelected = (sort) => {

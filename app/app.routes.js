@@ -11,7 +11,7 @@ angular.module('national-parks', ['ui.router'])
           },
           'content': {
             templateUrl: 'home/home.html',
-            controller: 'IndexController'
+            controller: 'HomeController'
           },
           'footer': {
             templateUrl: 'views/footer.html'

@@ -15,15 +15,11 @@ const foursquare = require('node-foursquare')(foursquareSecrets);
 
 const indexRouter = express.Router();
 
-indexRouter.get('/', (req, res, next) => {
-  res.sendFile('../public/index.html');
-});
-
 indexRouter.get('/foursquare', (req, res, next) => {
   const FOURSQUARE_LIST_ID = '58955a1e44689a4313e87e7a';
-  foursquare.Lists.getList(FOURSQUARE_LIST_ID, null, (error, response, body) => {
+  foursquare.Lists.getList(FOURSQUARE_LIST_ID, null, (error, data) => {
     if (error) throw error;
-    res.json(response.list.listItems);
+    res.json(data.list.listItems);
   });
 });
 

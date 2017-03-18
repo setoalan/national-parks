@@ -31,9 +31,8 @@ angular.module('national-parks')
     }
 
     parksFactory.getParks().forEach((park) => {
-      const latLng = { lat: park.latLong.lat, lng: park.latLong.lng };
       const marker = new google.maps.Marker({
-        position: latLng,
+        position: { lat: park.latLong.lat, lng: park.latLong.lng },
         map: map
       });
       const infoWindow = new google.maps.InfoWindow({

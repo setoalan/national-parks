@@ -1,11 +1,12 @@
 {
   "name": "national-parks",
-  "version": "0.11.2",
+  "version": "0.11.3",
   "description": "United States National Parks",
   "main": "index.html",
   "license": "MIT",
   "author": "Alan Seto <alantseto@gmail.com>",
   "scripts": {
+    "test": "protractor ./test/e2e/protractor.conf.js",
     "start": "babel-node ./bin/www"
   },
   "repository": {

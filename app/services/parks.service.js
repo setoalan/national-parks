@@ -35,7 +35,7 @@ angular.module('national-parks')
 
       };
       parks.splice(46, 0, redwoodNationalPark);
-    }
+    };
 
     const fetchPhotos = (park, parkName) => {
       const XS_DEVICE_MAX_WIDTH = 768;
@@ -58,7 +58,7 @@ angular.module('national-parks')
         }, (error) => {
           console.error('Error: ' + error);
         });
-    }
+    };
 
     const fetchFoursquareData = () => {
       $http.get('/foursquare')
@@ -77,7 +77,7 @@ angular.module('national-parks')
         }, (error) =>{
           console.error('Error: ' + error);
         });
-    }
+    };
 
     parksFactory.fetchParks = () => {
       const data = $http.get('/nps')
