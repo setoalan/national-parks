@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('national-parks', ['ui.router'])
-  .config(function ($stateProvider, $urlRouterProvider) {
+  .config(($stateProvider, $urlRouterProvider) => {
     $stateProvider
       .state('app', {
         url: '/',
@@ -10,8 +10,8 @@ angular.module('national-parks', ['ui.router'])
             templateUrl: 'views/header.html'
           },
           'content': {
-            templateUrl: 'home/home.html',
-            controller: 'IndexController'
+            templateUrl: 'views/home.html',
+            controller: 'HomeController'
           },
           'footer': {
             templateUrl: 'views/footer.html'
@@ -22,7 +22,7 @@ angular.module('national-parks', ['ui.router'])
         url: 'map',
         views: {
           'content@': {
-            templateUrl: 'map/map.html',
+            templateUrl: 'views/map.html',
             controller: 'MapController'
           }
         }
@@ -31,7 +31,7 @@ angular.module('national-parks', ['ui.router'])
         url: 'park/:id',
         views: {
           'content@':  {
-            templateUrl: 'park/park.html',
+            templateUrl: 'views/park.html',
             controller: 'ParkController'
           }
         }

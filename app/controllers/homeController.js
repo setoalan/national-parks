@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('national-parks')
-  .controller('IndexController', ['$scope', '$http', 'toolBarFactory', 'parksFactory', function ($scope, $http, toolBarFactory, parksFactory) {
+  .controller('HomeController', function ($scope, $http, toolBarFactory, parksFactory) {
     $scope.loading = true;
     $scope.locationText = 'Get Location';
     $scope.locationSuccess = undefined;
@@ -13,12 +13,21 @@ angular.module('national-parks')
     $scope.sortText = $scope.sorts[0];
     $scope.sortField = '+venue.name';
 
-    $scope.stateSelected = function (state) {
+    $scope.stateSelected = (state) => {
       $scope.stateText = state;
       $scope.stateField = (state === 'All States') ? undefined : state.substring(0, 2);
     };
 
-    $scope.sortSelected = function (sort) {
+    $scope.searchField= (park) => {
+      if (!$scope.searchText) {
+        return true;
+      }
+
+      return park.fullName.match(RegExp($scope.searchText, 'i')) ||
+        park.description.match(RegExp($scope.searchText, 'i'));
+    };
+
+    $scope.sortSelected = (sort) => {
       $scope.sortText = sort;
 
       switch (sort) {
@@ -48,18 +57,16 @@ angular.module('national-parks')
       }
     };
 
-    const fetchLocation = function () {
-      new google.maps.Geocoder().geocode({'latLng': $scope.userLocation}, function (results, status) {
+    const fetchLocation = () => {
+      new google.maps.Geocoder().geocode({'latLng': $scope.userLocation}, (results, status) => {
         if (status === 'OK') {
           $scope.locationText = `${results[2].address_components[1].short_name}, ${results[2].address_components[3].short_name}`;
           $scope.locationSuccess = 'success';
           $scope.sorts.unshift('Distance');
-          if ($scope.parks) {
-            $scope.parks.forEach(park => {
-              park.distanceTo = google.maps.geometry.spherical
-                .computeDistanceBetween(new google.maps.LatLng($scope.userLocation.lat, $scope.userLocation.lng), new google.maps.LatLng(park.latLong.lat, park.latLong.lng)) / 1000;
-            });
-          }
+          $scope.parks.forEach((park) => {
+            park.distanceTo = google.maps.geometry.spherical
+              .computeDistanceBetween(new google.maps.LatLng($scope.userLocation.lat, $scope.userLocation.lng), new google.maps.LatLng(park.latLong.lat, park.latLong.lng)) / 1000;
+          });
           $scope.$apply();
         } else {
           $scope.locationText = 'Error';
@@ -70,17 +77,17 @@ angular.module('national-parks')
       });
     };
 
-    $scope.getLocation = function () {
+    $scope.getLocation = () => {
       $scope.locationText = 'Locating...';
       $scope.locationSuccess = undefined;
       if ($scope.sorts.includes('Distance')) {
         $scope.sorts.shift();
       }
       toolBarFactory.fetchUserLocation()
-        .then(function (userLocation) {
+        .then((userLocation) => {
           $scope.userLocation = userLocation;
           fetchLocation($scope.userlocation);
-        }, function (error) {
+        }, (error) => {
           $scope.locationText = 'Error';
           $scope.locationSuccess = 'error';
           $scope.$apply();
@@ -88,15 +95,9 @@ angular.module('national-parks')
         });
     };
 
-    $scope.getNumRows = function () {
+    $scope.getNumRows = () => {
       return new Array($scope.numRows);
     };
-
-    const userLocation = toolBarFactory.getUserLocation();
-    if (userLocation) {
-      $scope.userLocation = userLocation;
-      fetchLocation($scope.userLocation);
-    }
 
     const parks = parksFactory.getParks();
     if (parks) {
@@ -105,12 +106,12 @@ angular.module('national-parks')
       $scope.loading = false;
     } else {
       parksFactory.fetchParks()
-        .then(function (response) {
+        .then((response) => {
           $scope.parks = response;
           $scope.numRows = Math.ceil(response.length / 3);
           $scope.loading = false;
-        }, function (error) {
+        }, (error) => {
           console.error('Error: ' + error);
         });
     }
-  }]);
+  });

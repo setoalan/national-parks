@@ -1,18 +1,18 @@
 'use strict';
 
 angular.module('national-parks')
-  .controller('MapController', ['$scope', 'toolBarFactory', 'parksFactory', function ($scope, toolBarFactory, parksFactory) {
+  .controller('MapController', function ($scope, toolBarFactory, parksFactory) {
     const map = new google.maps.Map(document.getElementById('map'), {
       zoom: 3,
       center: { lat: 26.7135539881, lng: -117.7395580925 },
       scrollwheel: false
     });
 
-    const addMapListeners = function (marker, infoWindow) {
-      marker.addListener('click', function () {
+    const addMapListeners = (marker, infoWindow) => {
+      marker.addListener('click', () => {
         infoWindow.open(map, marker);
       });
-      google.maps.event.addListener(map, 'click', function() {
+      google.maps.event.addListener(map, 'click', () => {
         infoWindow.close();
       });
     };
@@ -30,10 +30,9 @@ angular.module('national-parks')
       addMapListeners(userMarker, infoWindow);
     }
 
-    parksFactory.getParks().forEach(park => {
-      const latLng = { lat: park.latLong.lat, lng: park.latLong.lng };
+    parksFactory.getParks().forEach((park) => {
       const marker = new google.maps.Marker({
-        position: latLng,
+        position: { lat: park.latLong.lat, lng: park.latLong.lng },
         map: map
       });
       const infoWindow = new google.maps.InfoWindow({
@@ -42,4 +41,4 @@ angular.module('national-parks')
       });
       addMapListeners(marker, infoWindow);
     });
-  }]);
+  });

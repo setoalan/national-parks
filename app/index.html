@@ -4,11 +4,12 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" href="./assets/favicon.ico">
 
   <title>United States National Parks</title>
 
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
   <!-- build:css ./styles/main.css -->
-    <link href="../node_modules/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="./styles/style.css" rel="stylesheet">
   <!-- endbuild -->
 
@@ -32,23 +33,23 @@
 
   </div>
 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.1/angular.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.4.2/angular-ui-router.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/blazy/1.8.2/blazy.min.js"></script>
   <!-- build:js ./scripts/main.js -->
-    <script src="../node_modules/jquery/dist/jquery.js"></script>
-    <script src="../node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
-    <script src="../node_modules/angular/angular.min.js"></script>
-    <script src="../node_modules/angular-ui-router/release/angular-ui-router.min.js"></script>
-    <script src="../node_modules/blazy/blazy.min.js"></script>
-    <script>const bLazy = new Blazy({});</script>
-    <script src="./app.module.js"></script>
-    <script src="./home/home.controller.js"></script>
-    <script src="./park/park.controller.js"></script>
-    <script src="./map/map.controller.js"></script>
-    <script src="./home/home.directive.js"></script>
-    <script src="./services/localstorage.service.js"></script>
-    <script src="./services/parks.service.js"></script>
-    <script src="./services/park.service.js"></script>
-    <script src="./services/toolbar.service.js"></script>
+    <script src="./app.routes.js"></script>
+    <script src="./controllers/homeController.js"></script>
+    <script src="./controllers/parkController.js"></script>
+    <script src="./controllers/mapController.js"></script>
+    <script src="./directives/homeDirective.js"></script>
+    <script src="./services/localstorageService.js"></script>
+    <script src="./services/parksService.js"></script>
+    <script src="./services/parkService.js"></script>
+    <script src="./services/toolbarService.js"></script>
   <!-- endbuild -->
+  <script>const bLazy = new Blazy({});</script>
   <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD1trrr2iGJkn3xWwKZzGoxsQ8pnJLYSrg&libraries=geometry"></script>
 
 </body>

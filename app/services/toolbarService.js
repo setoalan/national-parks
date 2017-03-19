@@ -1,10 +1,10 @@
 'use strict';
 
 angular.module('national-parks')
-  .factory('toolBarFactory', ['$localStorage', '$window', '$q', '$rootScope', function ($localStorage, $window, $q, $rootScope) {
+  .factory('toolBarFactory', ($rootScope, $window, $q) => {
     const toolBar = {};
 
-    toolBar.getSorts = function () {
+    toolBar.getSorts = () => {
       return [
         'Name A-Z',
         'Name Z-A',
@@ -15,7 +15,7 @@ angular.module('national-parks')
       ];
     };
 
-    toolBar.getStates = function () {
+    toolBar.getStates = () => {
       return [
         'All States',
         'AK - Alaska',
@@ -49,18 +49,17 @@ angular.module('national-parks')
       ];
     };
 
-    toolBar.fetchUserLocation = function () {
+    toolBar.fetchUserLocation = () => {
       const location = $q.defer();
       if (!$window.navigator) {
-        console.log('Error: Geolocation is not supported');
+        console.error('Error: Geolocation is not supported');
       } else {
-        $window.navigator.geolocation.getCurrentPosition(function (position) {
-          $localStorage.storeObject('userLocation', new google.maps.LatLng(position.coords.latitude, position.coords.longitude));
-          $rootScope.$apply(function () {
+        $window.navigator.geolocation.getCurrentPosition((position) => {
+          $rootScope.$apply(() => {
             location.resolve({'lat': position.coords.latitude, 'lng': position.coords.longitude});
           });
-        }, function (error) {
-          $rootScope.$apply(function() {
+        }, (error) => {
+          $rootScope.$apply(() => {
             location.reject(error);
           });
         });
@@ -69,9 +68,5 @@ angular.module('national-parks')
       return location.promise;
     };
 
-    toolBar.getUserLocation = function () {
-      return $localStorage.getObject('userLocation', false);
-    };
-
     return toolBar;
-  }]);
+  });

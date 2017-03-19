@@ -5,7 +5,7 @@ import flickr from 'flickr-sdk';
 
 const parkRouter = express.Router();
 
-parkRouter.get('/flickr', function (req, res, next) {
+parkRouter.get('/flickr', (req, res, next) => {
     const flickr = new Flickr({
       'apiKey': process.env.FLICKR_API_KEY,
       'apiSecret': process.env.FLICKR_SECRET
@@ -22,7 +22,7 @@ parkRouter.get('/flickr', function (req, res, next) {
         per_page: Number(req.query.numPhotos),
         sort: 'interestingness-desc'
       })
-      .then(function (response) {
+      .then((response) => {
         res.json(response);
       });
 });

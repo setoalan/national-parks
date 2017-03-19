@@ -14,19 +14,22 @@ import babel from 'gulp-babel';
 import cache from 'gulp-cache';
 import imagemin from 'gulp-imagemin';
 
-gulp.task('jshint', function () {
+const Server = require('karma').Server;
+const protractor = require('gulp-protractor').protractor;
+
+gulp.task('clean', () => {
+  return del(['dist']);
+});
+
+gulp.task('jshint', () => {
   return gulp.src('./app/**/*.js')
     .pipe(jshint())
     .pipe(jshint.reporter(stylish));
 });
 
-gulp.task('clean', function () {
-  return del(['dist']);
-});
-
-gulp.task('usemin', ['jshint'], function () {
+gulp.task('usemin', ['jshint'], () => {
   return gulp.src('./app/**/*.html')
-    .pipe(flatmap(function (stream, file) {
+    .pipe(flatmap((stream, file) => {
       return stream
         .pipe(usemin({
           css: [cleancss(), rev()],
@@ -36,21 +39,34 @@ gulp.task('usemin', ['jshint'], function () {
     }));
 });
 
-gulp.task('imagemin', function () {
+gulp.task('imagemin', () => {
   return gulp.src('app/assets/**/*')
     .pipe(cache(imagemin({ optimizationLevel: 3, progressive: true, interlaced: true })))
     .pipe(gulp.dest('./dist/assets'));
 });
 
-gulp.task('copyfonts', ['clean'], function () {
+gulp.task('copyfonts', ['clean'], () => {
   gulp.src('./node_modules/bootstrap/dist/fonts/**/*.{ttf,woff,eof,svg}*')
     .pipe(gulp.dest('./dist/fonts'));
 });
 
-gulp.task('default', ['clean'], function () {
+gulp.task('test', (done) => {
+  new Server({
+    configFile: __dirname + '/test/unit/karma.conf.js',
+    singleRun: true
+  }, done).start();
+  gulp.src(['./test/e2e/*spec.js'])
+    .pipe(protractor({
+      configFile: __dirname + '/test/e2e/protractor.conf.js',
+      args: ['--baseUrl', 'http://127.0.0.1:8000']
+    }))
+    .on('error', (e) => { throw e });
+});
+
+gulp.task('build', ['clean'], () => {
   gulp.start('usemin', 'imagemin', 'copyfonts');
 });
 
-gulp.task('watch', function () {
-  gulp.watch('./app/**/*', ['default']);
+gulp.task('default', () => {
+  gulp.start('build');
 });
