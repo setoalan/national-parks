@@ -17,14 +17,14 @@ import imagemin from 'gulp-imagemin';
 const Server = require('karma').Server;
 const protractor = require('gulp-protractor').protractor;
 
+gulp.task('clean', () => {
+  return del(['dist']);
+});
+
 gulp.task('jshint', () => {
   return gulp.src('./app/**/*.js')
     .pipe(jshint())
     .pipe(jshint.reporter(stylish));
-});
-
-gulp.task('clean', () => {
-  return del(['dist']);
 });
 
 gulp.task('usemin', ['jshint'], () => {
@@ -50,7 +50,7 @@ gulp.task('copyfonts', ['clean'], () => {
     .pipe(gulp.dest('./dist/fonts'));
 });
 
-gulp.task('tests', (done) => {
+gulp.task('test', (done) => {
   new Server({
     configFile: __dirname + '/test/unit/karma.conf.js',
     singleRun: true
@@ -63,10 +63,10 @@ gulp.task('tests', (done) => {
     .on('error', (e) => { throw e });
 });
 
-gulp.task('default', ['clean'], () => {
-  gulp.start('usemin', 'imagemin', 'copyfonts', 'tests');
+gulp.task('build', ['clean'], () => {
+  gulp.start('usemin', 'imagemin', 'copyfonts');
 });
 
-gulp.task('watch', () => {
-  gulp.watch('./app/**/*', ['default']);
+gulp.task('default', () => {
+  gulp.start('build');
 });
