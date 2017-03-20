@@ -63,7 +63,6 @@ footer > p {
 
 .park-hero {
   width: 100%;
-  height: 360px !important;
   object-fit: cover;
 }
 
@@ -101,6 +100,10 @@ footer > p {
     margin-top: 0;
   }
 
+  .park-hero {
+    height: 389.33px !important;
+  }
+
 }
 
 @media (min-width: 768px) {
@@ -122,6 +125,10 @@ footer > p {
     font-size: 0.75em;
   }
 
+  .park-hero {
+    height: 477.33px !important;
+  }
+
 }
 
 @media (min-width: 992px) {
@@ -138,12 +145,20 @@ footer > p {
     display: flex;
   }
 
+  .park-hero {
+    height: 408.66px !important;
+  }
+
 }
 
 @media (min-width: 1200px) {
 
   .park-img {
     height: 360px;
+  }
+
+  .park-hero {
+    height: 498px !important;
   }
 
 }

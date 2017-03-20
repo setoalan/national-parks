@@ -1,12 +1,10 @@
 <div class="row park-row" style="border:1px solid red;">
   <div class="park-col col-sm-12 col-md-8" style="border:1px solid green;">
-    <div id="parkCarousel" class="carousel slide" data-ride="carousel">
-      <div class="carousel-inner" role="listbox">
-        <div class="item park-hero-div" ng-class="{'active': $first}" ng-repeat="photo in park.flickrPhotos">
-          <img class="park-hero" ng-src="{{photo.src}}" alt="{{photo.title}}">
-        </div>
+    <slick class="slider" current-index="0" settings="slickConfig" ng-if="isPhotosFetched">
+      <div class="park-hero-div" ng-repeat="i in [0,1,2,3,4]">
+        <img class="park-hero" ng-src="{{park.flickrPhotos[i].src}}" alt="{{park.flickrPhotos[i].alt}}">
       </div>
-    </div>
+    </slick>
   </div>
   <div class="park-col col-sm-12 col-md-4" style="border:1px solid green;">
     <h2 class="text-center">{{park.fullName}}</h2>
