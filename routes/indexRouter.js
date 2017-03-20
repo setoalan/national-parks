@@ -46,8 +46,9 @@ indexRouter.get('/flickr', (req, res, next) => {
 });
 
 indexRouter.get('/nps', (req, res, next) => {
+  const fields = ['addresses', 'contacts', 'entranceFees', 'entrancePasses', 'images', 'operatingHours'];
   const options = {
-    url: 'https://developer.nps.gov/api/v0/parks?q=national%20park&fields=images&limit=62',
+    url: `https://developer.nps.gov/api/v0/parks?q=national%20park&fields=${fields.join()}&limit=62`,
     headers: {
       'Authorization': process.env.NPS_API_KEY,
       'User-Agent': req.headers['user-agent']

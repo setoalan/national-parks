@@ -36,7 +36,7 @@
       <img class="b-lazy park-img" data-blazy={{park.photoUrl}} src=data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw== alt="{{park.fullName}}">
       <h2 class="park-state">{{park.states}}</h2>
       <h3 class="text-center">
-        <a href="{{park.url}}" target="=_blank">{{park.fullName}}</a>
+        <a ui-sref="app.park({id: park.parkCode})">{{park.fullName}}</a>
       </h3>
       <div class="foursquare-and-distance">
         <div><img ng-src="./assets/foursquare.png" alt="foursquare"></div>
