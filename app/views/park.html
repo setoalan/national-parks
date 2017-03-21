@@ -22,9 +22,11 @@
         <h3 class="panel-title">Foursquare</h3>
       </div>
       <div class="panel-body">
-        <h3>Rating: {{park.foursquare.venue.rating}}</h3>
-        <h3># of Ratings: {{park.foursquare.venue.ratingSignals}}</h3>
-        <h3>Checkins: {{park.foursquare.venue.stats.checkinsCount}}</h3>
+        <img class="foursquare-swarm-img" src="../assets/foursquare-swarm.png" alt="foursquare-swarm">
+        <h3 class="text-center">RATING<br>{{park.foursquare.venue.rating}}</h3>
+        <h3 class="text-center"># OF RATINGS<br>{{park.foursquare.venue.ratingSignals | number}}</h3>
+        <h3 class="text-center">CHECKINS<br>{{park.foursquare.venue.stats.checkinsCount | number}}</h3>
+        <img src="../assets/swarm.png" alt="swarm">
       </div>
     </div>
   </div>
@@ -33,7 +35,8 @@
       <div class="panel-heading">
         <h3 class="panel-title">Location</h3>
       </div>
-      <div id="parkMap"></div>
+      <div class="park-map-overlay"></div>
+      <div class="park-map"></div>
       <div class="panel-footer">
         {{park.directionsInfo}}
       </div>

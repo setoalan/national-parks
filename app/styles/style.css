@@ -3,6 +3,7 @@ a {
 }
 
 img {
+  display: block;
   margin: 0 auto;
 }
 
@@ -61,6 +62,10 @@ footer > p {
   flex: 1;
 }
 
+.foursquare-swarm-img {
+  width: 100%;
+}
+
 .park-hero {
   width: 100%;
   object-fit: cover;
@@ -76,7 +81,16 @@ footer > p {
   justify-content: center;
 }
 
-#parkMap {
+.park-map-overlay {
+  background: transparent;
+  position: relative;
+  width: 100%;
+  height: 360px;
+  top: 360px;
+  margin-top: -360px;
+}
+
+.park-map {
   width: 100%;
   height: 360px;
 }
