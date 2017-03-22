@@ -2,6 +2,7 @@
 
 import express from 'express';
 import flickrSDK from 'flickr-sdk';
+import request from 'request';
 
 const parkRouter = express.Router();
 
@@ -25,6 +26,17 @@ parkRouter.get('/flickr', (req, res, next) => {
     .then((response) => {
       res.json(response);
     });
+});
+
+parkRouter.get('/weather', (req, res, next) => {
+  const options = {
+    url: `http://api.openweathermap.org/data/2.5/forecast?lat=${req.query.lat}&lon=${req.query.lon}&appid=${process.env.OPEN_WEATHER_MAP_API_KEY}`
+  };
+
+  request.get(options, (error, response, body) => {
+    if (error) throw error;
+    res.json(JSON.parse(response.body));
+  });
 });
 
 module.exports = parkRouter;

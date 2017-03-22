@@ -2,6 +2,10 @@ a {
   text-decoration: none !important;
 }
 
+h1, h2, h3, h4, h5, h6 {
+  text-align: center;
+}
+
 img {
   display: block;
   margin: 0 auto;
@@ -95,6 +99,36 @@ footer > p {
   height: 360px;
 }
 
+.weather-div {
+  display: flex;
+  margin-bottom: 0;
+}
+
+.weather-day {
+  flex: 1;
+}
+
+.weather-tabs {
+  display: none;
+}
+
+#weatherTabs {
+  display: flex;
+}
+
+#weatherTabs > li {
+  flex: 1;
+  text-align: center;
+}
+
+.temp-high {
+  color: #ff0000;
+}
+
+.temp-low {
+  color: #0000ff;
+}
+
 @media (max-width: 768px) {
 
   .break {
@@ -116,6 +150,14 @@ footer > p {
 
   .park-hero {
     height: 389.33px !important;
+  }
+
+  .weather-div {
+    display: none;
+  }
+
+  .weather-tabs {
+    display: block;
   }
 
 }

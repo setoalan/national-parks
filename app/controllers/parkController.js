@@ -6,10 +6,11 @@ angular.module('national-parks')
     $rootScope.pageTitle = `${$scope.park.fullName} | U.S. National Parks`;
     $scope.isPhotosFetched = false;
     $scope.park.flickrPhotos = [];
+    $scope.park.weather = [];
 
     console.log($scope.park);
 
-    parkFactory.fetchPhotos($scope.park, $scope.park.fullName.split(' ').join('+'))
+    parkFactory.fetchPhotos($scope.park)
       .then(() => $scope.isPhotosFetched = true);
 
     $scope.slickConfig = {
@@ -28,4 +29,12 @@ angular.module('national-parks')
     });
 
     $('.park-map').append(`<iframe width="100%" height="100%" frameborder="0" style="border:0" src="https://www.google.com/maps/embed/v1/place?key=AIzaSyD1trrr2iGJkn3xWwKZzGoxsQ8pnJLYSrg&q=${$scope.park.fullName}&zoom=8" allowfullscreen></iframe>`);
+
+    parkFactory.fetchWeather($scope.park);
+    $('weatherTabs a').click((e) => {
+      e.preventDefault();
+      $(this).tab('show');
+    });
+
+    console.log($scope.park.weather);
   });

@@ -7,7 +7,7 @@
     </slick>
   </div>
   <div class="park-col col-sm-12 col-md-4" style="border:1px solid green;">
-    <h2 class="text-center">{{park.fullName}}</h2>
+    <h2>{{park.fullName}}</h2>
     <div class="panel panel-default">
       <div class="panel-body">
         <p>{{park.description}}</p>
@@ -23,9 +23,8 @@
       </div>
       <div class="panel-body">
         <img class="foursquare-swarm-img" src="../assets/foursquare-swarm.png" alt="foursquare-swarm">
-        <h3 class="text-center">RATING<br>{{park.foursquare.venue.rating}}</h3>
-        <h3 class="text-center"># OF RATINGS<br>{{park.foursquare.venue.ratingSignals | number}}</h3>
-        <h3 class="text-center">CHECKINS<br>{{park.foursquare.venue.stats.checkinsCount | number}}</h3>
+        <h3>RATING<br>{{park.foursquare.venue.rating === -1 ? 'N/A' : park.foursquare.venue.rating}}</h3>
+        <h3>CHECKINS<br>{{park.foursquare.venue.stats.checkinsCount | number}}</h3>
         <img src="../assets/swarm.png" alt="swarm">
       </div>
     </div>
@@ -50,7 +49,27 @@
         <h3 class="panel-title">Weather</h3>
       </div>
       <div class="panel-body">
-
+        <div class="well weather-div">
+          <div class="weather-day" ng-repeat="day in park.weather">
+            <h5>{{day.dt * 1000 | date:'EEE MM/dd'}}</h5>
+            <p><span class="temp-high">{{day.main.temp_max | temperatureFilter}} ˚F</span> | <span class="temp-low">{{day.main.temp_min | temperatureFilter}} ˚F</p>
+            <img ng-src="http://openweathermap.org/img/w/{{day.weather[0].icon}}.png" alt="{{day.weather[0].description}}">
+            <p>{{day.weather[0].description}}</p>
+          </div>
+        </div>
+        <div class="weather-tabs">
+          <ul id="weatherTabs" class="nav nav-tabs">
+            <li ng-repeat="day in park.weather" ng-class="{active: $index == 0}"><a data-toggle="tab" href="/park/{{park.parkCode}}/#{{day.dt}}" >{{day.dt * 1000 | date:'EEE'}}</a></li>
+          </ul>
+            <div class="tab-content">
+            <div ng-repeat="day in park.weather" id="{{day.dt}}" ng-class="{'in active': $index == 0}" class="tab-pane fade">
+              <h4>{{day.dt * 1000 | date:'MMMM d, yyyy'}}</h4>
+              <h5><span class="temp-high">{{day.main.temp_max | temperatureFilter}} ˚F</span> | <span class="temp-low">{{day.main.temp_min | temperatureFilter}} ˚F</span></h5>
+              <img ng-src="http://openweathermap.org/img/w/{{day.weather[0].icon}}.png" alt="{{day.weather[0].description}}">
+              <p>{{day.weather[0].description}}</p>
+            </div>
+          </div>
+        </div>
       </div>
       <div class="panel-footer">
         {{park.weatherInfo}}
