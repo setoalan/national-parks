@@ -1,35 +1,48 @@
-<div class="row park-row" style="border:1px solid red;">
-  <div class="park-col col-sm-12 col-md-8" style="border:1px solid green;">
+<div class="row park-row">
+  <div class="park-col col-sm-12 col-md-8">
     <slick class="slider" current-index="0" settings="slickConfig" ng-if="isPhotosFetched">
-      <div class="park-hero-div" ng-repeat="i in [0,1,2,3,4]">
+      <div class="park-hero-div" ng-repeat="i in [0,1,2,3,4,5,6,7,8,9]">
         <img class="park-hero" ng-src="{{park.flickrPhotos[i].src}}" alt="{{park.flickrPhotos[i].alt}}">
       </div>
     </slick>
   </div>
-  <div class="park-col col-sm-12 col-md-4" style="border:1px solid green;">
+  <div class="park-col col-sm-12 col-md-4">
     <h2>{{park.fullName}}</h2>
-    <div class="panel panel-default">
+    <div class="panel panel-default" style="border:none;box-shadow:none;">
       <div class="panel-body">
-        <p>{{park.description}}</p>
+        <p class="well">{{park.description}}</p>
       </div>
     </div>
   </div>
 </div>
-<div class="row park-row" style="border:1px solid red;">
-  <div class="park-col col-sm-12 col-md-4" style="border:1px solid green;">
+
+<div class="row park-row">
+  <div class="park-col col-sm-12 col-md-4">
     <div class="panel panel-default">
       <div class="panel-heading">
         <h3 class="panel-title">Foursquare</h3>
       </div>
       <div class="panel-body">
-        <img class="foursquare-swarm-img" src="../assets/foursquare-swarm.png" alt="foursquare-swarm">
-        <h3>RATING<br>{{park.foursquare.venue.rating === -1 ? 'N/A' : park.foursquare.venue.rating}}</h3>
-        <h3>CHECKINS<br>{{park.foursquare.venue.stats.checkinsCount | number}}</h3>
-        <img src="../assets/swarm.png" alt="swarm">
+        <div class="foursquare-swarm-div">
+          <img class="foursquare-swarm-img" src="../assets/foursquare-swarm.png" alt="foursquare-swarm">
+          <h3>RATING<br>{{park.foursquare.venue.rating === -1 ? 'N/A' : park.foursquare.venue.rating}}</h3>
+          <h3>CHECKINS<br>{{park.foursquare.venue.stats.checkinsCount | number}}</h3>
+          <img src="../assets/swarm.png" alt="swarm">
+        </div>
+        <div class="foursquare-swarm-sm">
+          <div>
+            <img class="foursquare-swarm-img-sm" src="../assets/foursquare-swarm.png" alt="foursquare-swarm">
+            <img src="../assets/swarm.png" alt="swarm">
+          </div>
+          <div>
+            <h3>RATING<br>{{park.foursquare.venue.rating === -1 ? 'N/A' : park.foursquare.venue.rating}}</h3>
+            <h3>CHECKINS<br>{{park.foursquare.venue.stats.checkinsCount | number}}</h3>
+          </div>
+        </div>
       </div>
     </div>
   </div>
-  <div class="park-col col-sm-12 col-md-8" style="border:1px solid green;">
+  <div class="park-col col-sm-12 col-md-8">
     <div class="panel panel-default">
       <div class="panel-heading">
         <h3 class="panel-title">Location</h3>
@@ -37,13 +50,17 @@
       <div class="park-map-overlay"></div>
       <div class="park-map"></div>
       <div class="panel-footer">
-        {{park.directionsInfo}}
+        <p>
+          {{park.directionsInfo}}
+          <a href="{{park.directionsUrl}}" target="_blank">Driving Directions</a>
+        </p>
       </div>
     </div>
   </div>
 </div>
-<div class="row park-row" style="border:1px solid red;">
-  <div class="park-colcol-sm-12 col-md-8" style="border:1px solid green;">
+
+<div class="row park-row">
+  <div class="park-colcol-sm-12 col-md-8">
     <div class="panel panel-default">
       <div class="panel-heading">
         <h3 class="panel-title">Weather</h3>
@@ -72,12 +89,11 @@
         </div>
       </div>
       <div class="panel-footer">
-        {{park.weatherInfo}}
+        <p>{{park.weatherInfo}}</p>
       </div>
     </div>
   </div>
-  <div class="park-col col-sm-12 col-md-4" style="border:1px solid green;">
-    <p><a href="{{park.directionsUrl}}">Directions URL</a></p>
-    <p><a href="{{park.url}}">Park URL</a></p>
+  <div class="park-col col-sm-12 col-md-4">
+    <p><a href="{{park.url}}">Park Website</a></p>
   </div>
 </div>

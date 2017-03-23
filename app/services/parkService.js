@@ -1,16 +1,21 @@
 'use strict';
 
 angular.module('national-parks')
-  .factory('parkFactory', ($http) => {
+  .factory('parkFactory', ($window, $http) => {
     let parkFactory = {};
 
     parkFactory.fetchPhotos = (park) => {
       const data = $http.get(`/park/flickr?parkName=${park.fullName.split(' ').join('+')}`)
         .then((response) => {
+          const SM_DEVICE_MAX_WIDTH = 992;
           let photo = response.data.body.photos.photo;
+          let photoSize = '';
+          if ($window.innerWidth > SM_DEVICE_MAX_WIDTH) {
+            photoSize = '_c';
+          }
           photo.forEach((photo) => {
             park.flickrPhotos.push({
-              'src': `https://farm${photo.farm}.staticflickr.com/${photo.server}/${photo.id}_${photo.secret}.jpg`,
+              'src': `https://farm${photo.farm}.staticflickr.com/${photo.server}/${photo.id}_${photo.secret}${photoSize}.jpg`,
               'alt': photo.title
             });
           });

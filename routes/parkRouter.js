@@ -20,7 +20,7 @@ parkRouter.get('/flickr', (req, res, next) => {
       safe_search: 1,
       media: 'photos',
       page: 1,
-      per_page: 5,
+      per_page: 10,
       sort: 'interestingness-desc'
     })
     .then((response) => {
