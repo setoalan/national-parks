@@ -67,6 +67,10 @@ footer > p {
 }
 
 .panel {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
   margin-bottom: 0;
 }
 
@@ -74,6 +78,7 @@ footer > p {
   display: flex;
   flex-direction: column;
   justify-content: center;
+  margin-bottom: 20px;
 }
 
 .park-hero {

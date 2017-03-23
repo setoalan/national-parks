@@ -1,23 +1,32 @@
 <div class="row park-row">
-  <div class="park-col col-sm-12 col-md-8">
-    <slick class="slider" current-index="0" settings="slickConfig" ng-if="isPhotosFetched">
-      <div class="park-hero-div" ng-repeat="i in [0,1,2,3,4,5,6,7,8,9]">
-        <img class="park-hero" ng-src="{{park.flickrPhotos[i].src}}" alt="{{park.flickrPhotos[i].alt}}">
-      </div>
-    </slick>
-  </div>
-  <div class="park-col col-sm-12 col-md-4">
-    <h2>{{park.fullName}}</h2>
-    <div class="panel panel-default" style="border:none;box-shadow:none;">
+  <div class="col-sm-12 col-md-8 park-col">
+    <div class="panel panel-default">
+      <div class="panel-heading"></div>
       <div class="panel-body">
-        <p class="well">{{park.description}}</p>
+        <slick class="slider" current-index="0" settings="slickConfig" ng-if="isPhotosFetched">
+          <div class="park-hero-div" ng-repeat="i in [0,1,2,3,4,5,6,7,8,9]">
+            <img class="park-hero" ng-src="{{park.flickrPhotos[i].src}}" alt="{{park.flickrPhotos[i].alt}}">
+          </div>
+        </slick>
       </div>
+      <div class="panel-footer"></div>
+    </div>
+  </div>
+  <div class="col-sm-12 col-md-4 park-col">
+    <div class="panel panel-default">
+      <div class="panel-heading"></div>
+      <div class="panel-body">
+        <h2>{{park.fullName}}</h2>
+        <p class="well">{{park.description}}</p>
+        <h2>{{park.states}}</h2>
+      </div>
+      <div class="panel-footer"></div>
     </div>
   </div>
 </div>
 
 <div class="row park-row">
-  <div class="park-col col-sm-12 col-md-4">
+  <div class="col-sm-12 col-md-4 park-col">
     <div class="panel panel-default">
       <div class="panel-heading">
         <h3 class="panel-title">Foursquare</h3>
@@ -40,9 +49,10 @@
           </div>
         </div>
       </div>
+      <div class="panel-footer"></div>
     </div>
   </div>
-  <div class="park-col col-sm-12 col-md-8">
+  <div class="col-sm-12 col-md-8 park-col">
     <div class="panel panel-default">
       <div class="panel-heading">
         <h3 class="panel-title">Location</h3>
@@ -60,7 +70,7 @@
 </div>
 
 <div class="row park-row">
-  <div class="park-colcol-sm-12 col-md-8">
+  <div class="col-sm-12 col-md-8 park-col">
     <div class="panel panel-default">
       <div class="panel-heading">
         <h3 class="panel-title">Weather</h3>
@@ -93,7 +103,91 @@
       </div>
     </div>
   </div>
-  <div class="park-col col-sm-12 col-md-4">
-    <p><a href="{{park.url}}">Park Website</a></p>
+  <div class="col-sm-12 col-md-4 park-col">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title">Contact</h3>
+      </div>
+      <div class="panel-body">
+        <p>
+          <b>Address</b><br>
+          {{park.addresses[0].line1}}<br>
+          {{park.addresses[0].city}} {{park.addresses[0].stateCode}}, {{park.addresses[0].postalCode}}
+        </p>
+        <p>
+          <b>Mailing</b><br>
+          {{park.addresses[1].line1}}<br>
+          {{park.addresses[1].city}} {{park.addresses[1].stateCode}}, {{park.addresses[1].postalCode}}
+        </p>
+        <p><a href="{{park.url}}" target="_blank">Park Website</a></p>
+      </div>
+      <div class="panel-footer"></div>
+    </div>
+  </div>
+</div>
+
+<div class="row park-row">
+  <div class="col-sm-12 col-md-4 park-col">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title">Entrance Fees</h3>
+      </div>
+      <div class="panel-body">
+        <div class="panel-group" id="accordion" role="tablist">
+          <div ng-repeat="fee in park.entranceFees" class="panel panel-default">
+            <div class="panel-heading" role="tab" id="heading{{$index}}">
+              <h3 class="panel-title">
+                <a role="button" data-toggle="collapse" data-parent="#accordion" href="/park/{{park.parkCode}}#{{$index}}" aria-expanded="false" aria-controls="{{$index}}">
+                  {{fee.title}}
+                </a>
+              </h3>
+            </div>
+            <div role="tabpanel" class="panel-collapse collapse" id="{{$index}}" aria-labelledby="heading{{$index}}">
+              <div class="panel-body">
+                <p>
+                  {{fee.cost | currency}}<br>
+                  {{fee.description}}
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="panel-footer"></div>
+    </div>
+  </div>
+  <div class="col-sm-12 col-md-4 park-col">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title">Hours</h3>
+      </div>
+      <div class="panel-body">
+        <h4>Sunday: {{park.operatingHours[0].standardHours.sunday}}</h4><p></p>
+        <h4>Monday: {{park.operatingHours[0].standardHours.monday}}</h4>
+        <h4>Tuesday: {{park.operatingHours[0].standardHours.tuesday}}</h4>
+        <h4>Wednesday: {{park.operatingHours[0].standardHours.wednesday}}</h4>
+        <h4>Thursday: {{park.operatingHours[0].standardHours.thursday}}</h4>
+        <h4>Friday: {{park.operatingHours[0].standardHours.friday}}</h4>
+        <h4>Saturday: {{park.operatingHours[0].standardHours.saturday}}</h4>
+      </div>
+      <div class="panel-footer">
+        <p>{{park.operatingHours[0].description}}</p>
+      </div>
+    </div>
+  </div>
+  <div class="col-sm-12 col-md-4 park-col">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title">Entrance Passes</h3>
+      </div>
+      <div class="panel-body">
+        <p>
+          <b>{{park.entrancePasses[0].title}}</b><br>
+          {{park.entrancePasses[0].cost | currency}}<br>
+          {{park.entrancePasses[0].description}}
+        </p>
+      </div>
+      <div class="panel-footer"></div>
+    </div>
   </div>
 </div>

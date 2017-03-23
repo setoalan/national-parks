@@ -35,6 +35,4 @@ angular.module('national-parks')
       e.preventDefault();
       $(this).tab('show');
     });
-
-    console.log($scope.park.weather);
   });
