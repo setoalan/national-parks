@@ -1,5 +1,16 @@
 <div class="row park-row">
-  <div class="col-sm-12 col-md-8 park-col">
+  <div class="col-sm-12 col-md-4 col-md-push-8 park-col">
+    <div class="panel panel-default">
+      <div class="panel-heading"></div>
+      <div class="panel-body">
+        <h2>{{park.fullName}}</h2>
+        <p class="well">{{park.description}}</p>
+        <h2>{{park.states}}</h2>
+      </div>
+      <div class="panel-footer"></div>
+    </div>
+  </div>
+  <div class="col-sm-12 col-md-8 col-md-pull-4 park-col">
     <div class="panel panel-default">
       <div class="panel-heading"></div>
       <div class="panel-body">
@@ -8,17 +19,6 @@
             <img class="park-hero" ng-src="{{park.flickrPhotos[i].src}}" alt="{{park.flickrPhotos[i].alt}}">
           </div>
         </slick>
-      </div>
-      <div class="panel-footer"></div>
-    </div>
-  </div>
-  <div class="col-sm-12 col-md-4 park-col">
-    <div class="panel panel-default">
-      <div class="panel-heading"></div>
-      <div class="panel-body">
-        <h2>{{park.fullName}}</h2>
-        <p class="well">{{park.description}}</p>
-        <h2>{{park.states}}</h2>
       </div>
       <div class="panel-footer"></div>
     </div>
@@ -93,6 +93,7 @@
               <h4>{{day.dt * 1000 | date:'MMMM d, yyyy'}}</h4>
               <h5><span class="temp-high">{{day.main.temp_max | temperatureFilter}} ˚F</span> | <span class="temp-low">{{day.main.temp_min | temperatureFilter}} ˚F</span></h5>
               <img ng-src="http://openweathermap.org/img/w/{{day.weather[0].icon}}.png" alt="{{day.weather[0].description}}">
+              <div ng-bind-html="sanitizeSnippet(park.entrancePasses[0].description)"></div>
               <p>{{day.weather[0].description}}</p>
             </div>
           </div>
@@ -110,16 +111,16 @@
       </div>
       <div class="panel-body">
         <p>
-          <b>Address</b><br>
+          <big><b>Address</b></big><br>
           {{park.addresses[0].line1}}<br>
           {{park.addresses[0].city}} {{park.addresses[0].stateCode}}, {{park.addresses[0].postalCode}}
         </p>
         <p>
-          <b>Mailing</b><br>
+          <big><b>Mailing</b></big><br>
           {{park.addresses[1].line1}}<br>
           {{park.addresses[1].city}} {{park.addresses[1].stateCode}}, {{park.addresses[1].postalCode}}
         </p>
-        <p><a href="{{park.url}}" target="_blank">Park Website</a></p>
+        <p><a href="{{park.url}}" target="_blank">PARK WEBSITE</a></p>
       </div>
       <div class="panel-footer"></div>
     </div>
@@ -135,18 +136,18 @@
       <div class="panel-body">
         <div class="panel-group" id="accordion" role="tablist">
           <div ng-repeat="fee in park.entranceFees" class="panel panel-default">
-            <div class="panel-heading" role="tab" id="heading{{$index}}">
+            <div class="panel-heading" role="tab" id="headingFee{{$index}}">
               <h3 class="panel-title">
-                <a role="button" data-toggle="collapse" data-parent="#accordion" href="/park/{{park.parkCode}}#{{$index}}" aria-expanded="false" aria-controls="{{$index}}">
+                <a role="button" data-toggle="collapse" data-parent="#accordion" href="/park/{{park.parkCode}}#fee{{$index}}" aria-expanded="false" aria-controls="{{$index}}">
                   {{fee.title}}
                 </a>
               </h3>
             </div>
-            <div role="tabpanel" class="panel-collapse collapse" id="{{$index}}" aria-labelledby="heading{{$index}}">
+            <div role="tabpanel" class="panel-collapse collapse" ng-class="{in:$first}" id="fee{{$index}}" aria-labelledby="headingFee{{$index}}">
               <div class="panel-body">
                 <p>
                   {{fee.cost | currency}}<br>
-                  {{fee.description}}
+                  <div ng-bind-html="sanitizeSnippet(fee.description)"></div>
                 </p>
               </div>
             </div>
@@ -162,13 +163,13 @@
         <h3 class="panel-title">Hours</h3>
       </div>
       <div class="panel-body">
-        <h4>Sunday: {{park.operatingHours[0].standardHours.sunday}}</h4><p></p>
-        <h4>Monday: {{park.operatingHours[0].standardHours.monday}}</h4>
-        <h4>Tuesday: {{park.operatingHours[0].standardHours.tuesday}}</h4>
-        <h4>Wednesday: {{park.operatingHours[0].standardHours.wednesday}}</h4>
-        <h4>Thursday: {{park.operatingHours[0].standardHours.thursday}}</h4>
-        <h4>Friday: {{park.operatingHours[0].standardHours.friday}}</h4>
-        <h4>Saturday: {{park.operatingHours[0].standardHours.saturday}}</h4>
+        <h4>Sunday: <small>{{park.operatingHours[0].standardHours.sunday}}</small></h4><p></p>
+        <h4>Monday: <small>{{park.operatingHours[0].standardHours.monday}}</small></h4>
+        <h4>Tuesday: <small>{{park.operatingHours[0].standardHours.tuesday}}</small></h4>
+        <h4>Wednesday: <small>{{park.operatingHours[0].standardHours.wednesday}}</small></h4>
+        <h4>Thursday: <small>{{park.operatingHours[0].standardHours.thursday}}</small></h4>
+        <h4>Friday: <small>{{park.operatingHours[0].standardHours.friday}}</small></h4>
+        <h4>Saturday: <small>{{park.operatingHours[0].standardHours.saturday}}</small></h4>
       </div>
       <div class="panel-footer">
         <p>{{park.operatingHours[0].description}}</p>
@@ -181,11 +182,26 @@
         <h3 class="panel-title">Entrance Passes</h3>
       </div>
       <div class="panel-body">
-        <p>
-          <b>{{park.entrancePasses[0].title}}</b><br>
-          {{park.entrancePasses[0].cost | currency}}<br>
-          {{park.entrancePasses[0].description}}
-        </p>
+        <p ng-if="park.entrancePasses.length === 0">There are no passes listed for {{park.fullName}}.</p>
+        <div class="panel-group" id="accordion" role="tablist">
+          <div ng-repeat="pass in park.entrancePasses" class="panel panel-default">
+            <div class="panel-heading" role="tab" id="headingPass{{$index}}">
+              <h3 class="panel-title">
+                <a role="button" data-toggle="collapse" data-parent="#accordion" href="/park/{{park.parkCode}}#pass{{$index}}" aria-expanded="false" aria-controls="{{$index}}">
+                  {{pass.title}}
+                </a>
+              </h3>
+            </div>
+            <div role="tabpanel" class="panel-collapse collapse" ng-class="{in:$first}" id="pass{{$index}}" aria-labelledby="headingPass{{$index}}">
+              <div class="panel-body">
+                <p>
+                  {{pass.cost | currency}}<br>
+                  <div ng-bind-html="sanitizeSnippet(pass.description)"></div>
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
       <div class="panel-footer"></div>
     </div>

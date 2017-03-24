@@ -1,29 +1,40 @@
-<div class="row">
-  <div class="col-xs-12 toolbar-home">
-    <a ui-sref="app.map" class="btn btn-default btn-map" role="button">Map with Parks</a>
-    <button class="btn btn-default btn-location" type="button" ng-click="getLocation()" ng-class="{'btn-success': locationSuccess === 'success', 'btn-danger': locationSuccess === 'error'}">
-      {{locationText}}
-    </button>
-    <div class="input-group search">
-      <input type="text" class="form-control" placeholder="Search" ng-model="searchText">
-    </div>
-    <div class="dropdown">
-      <button class="btn btn-default dropdown-toggle" type="button" id="stateMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-        {{stateText}}
-        <span class="caret"></span>
+<div class="navbar-header">
+  <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+  data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+      <span class="sr-only">Toggle navigation</span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+  </button>
+</div>
+<div id="navbar" class="navbar-collapse collapse">
+  <div class="row">
+    <div class="col-xs-12 toolbar-home">
+      <a ui-sref="app.map" class="btn btn-default btn-map" role="button">Map with Parks</a>
+      <button class="btn btn-default btn-location" type="button" ng-click="getLocation()" ng-class="{'btn-success': locationSuccess === 'success', 'btn-danger': locationSuccess === 'error'}">
+        {{locationText}}
       </button>
-      <ul class="dropdown-menu" aria-labelledby="stateMenu">
-        <li ng-repeat="state in states"><a ng-click="stateSelected(state)">{{state}}</a></li>
-      </ul>
-    </div>
-    <div class="dropdown">
-      <button class="btn btn-default dropdown-toggle" type="button" id="sortMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" ng-class="{'btn-success': locationSuccess === 'success'}">
-        {{sortText}}
-        <span class="caret"></span>
-      </button>
-      <ul class="dropdown-menu" aria-labelledby="sortMenu">
-        <li ng-repeat="sort in sorts"><a ng-click="sortSelected(sort)">{{sort}}</a></li>
-      </ul>
+      <div class="input-group search">
+        <input type="text" class="form-control" placeholder="Search" ng-model="searchText">
+      </div>
+      <div class="dropdown">
+        <button class="btn btn-default dropdown-toggle" type="button" id="stateMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+          {{stateText}}
+          <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu" aria-labelledby="stateMenu">
+          <li ng-repeat="state in states"><a ng-click="stateSelected(state)">{{state}}</a></li>
+        </ul>
+      </div>
+      <div class="dropdown">
+        <button class="btn btn-default dropdown-toggle" type="button" id="sortMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" ng-class="{'btn-success': locationSuccess === 'success'}">
+          {{sortText}}
+          <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu" aria-labelledby="sortMenu">
+          <li ng-repeat="sort in sorts"><a ng-click="sortSelected(sort)">{{sort}}</a></li>
+        </ul>
+      </div>
     </div>
   </div>
 </div>
