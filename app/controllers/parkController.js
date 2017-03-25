@@ -8,8 +8,6 @@ angular.module('national-parks')
     $scope.park.flickrPhotos = [];
     $scope.park.weather = [];
 
-    console.log($scope.park);
-
     $scope.sanitizeSnippet = (snippit) => {
       return $sce.trustAsHtml(snippit);
     };

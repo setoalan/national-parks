@@ -107,22 +107,20 @@
   <div class="col-sm-12 col-md-4 park-col">
     <div class="panel panel-default">
       <div class="panel-heading">
-        <h3 class="panel-title">Contact</h3>
+        <h3 class="panel-title">Hours</h3>
       </div>
       <div class="panel-body">
-        <p>
-          <big><b>Address</b></big><br>
-          {{park.addresses[0].line1}}<br>
-          {{park.addresses[0].city}} {{park.addresses[0].stateCode}}, {{park.addresses[0].postalCode}}
-        </p>
-        <p>
-          <big><b>Mailing</b></big><br>
-          {{park.addresses[1].line1}}<br>
-          {{park.addresses[1].city}} {{park.addresses[1].stateCode}}, {{park.addresses[1].postalCode}}
-        </p>
-        <p><a href="{{park.url}}" target="_blank">PARK WEBSITE</a></p>
+        <h4>Sunday: <small>{{park.operatingHours[0].standardHours.sunday}}</small></h4><p></p>
+        <h4>Monday: <small>{{park.operatingHours[0].standardHours.monday}}</small></h4>
+        <h4>Tuesday: <small>{{park.operatingHours[0].standardHours.tuesday}}</small></h4>
+        <h4>Wednesday: <small>{{park.operatingHours[0].standardHours.wednesday}}</small></h4>
+        <h4>Thursday: <small>{{park.operatingHours[0].standardHours.thursday}}</small></h4>
+        <h4>Friday: <small>{{park.operatingHours[0].standardHours.friday}}</small></h4>
+        <h4>Saturday: <small>{{park.operatingHours[0].standardHours.saturday}}</small></h4>
       </div>
-      <div class="panel-footer"></div>
+      <div class="panel-footer">
+        <p>{{park.operatingHours[0].description}}</p>
+      </div>
     </div>
   </div>
 </div>
@@ -134,11 +132,11 @@
         <h3 class="panel-title">Entrance Fees</h3>
       </div>
       <div class="panel-body">
-        <div class="panel-group" id="accordion" role="tablist">
+        <div class="panel-group" id="feeAccordion" role="tablist">
           <div ng-repeat="fee in park.entranceFees" class="panel panel-default">
             <div class="panel-heading" role="tab" id="headingFee{{$index}}">
               <h3 class="panel-title">
-                <a role="button" data-toggle="collapse" data-parent="#accordion" href="/park/{{park.parkCode}}#fee{{$index}}" aria-expanded="false" aria-controls="{{$index}}">
+                <a role="button" data-toggle="collapse" data-parent="#feeAccordion" href="/park/{{park.parkCode}}#fee{{$index}}" aria-expanded="false" aria-controls="{{$index}}">
                   {{fee.title}}
                 </a>
               </h3>
@@ -157,37 +155,18 @@
       <div class="panel-footer"></div>
     </div>
   </div>
-  <div class="col-sm-12 col-md-4 park-col">
-    <div class="panel panel-default">
-      <div class="panel-heading">
-        <h3 class="panel-title">Hours</h3>
-      </div>
-      <div class="panel-body">
-        <h4>Sunday: <small>{{park.operatingHours[0].standardHours.sunday}}</small></h4><p></p>
-        <h4>Monday: <small>{{park.operatingHours[0].standardHours.monday}}</small></h4>
-        <h4>Tuesday: <small>{{park.operatingHours[0].standardHours.tuesday}}</small></h4>
-        <h4>Wednesday: <small>{{park.operatingHours[0].standardHours.wednesday}}</small></h4>
-        <h4>Thursday: <small>{{park.operatingHours[0].standardHours.thursday}}</small></h4>
-        <h4>Friday: <small>{{park.operatingHours[0].standardHours.friday}}</small></h4>
-        <h4>Saturday: <small>{{park.operatingHours[0].standardHours.saturday}}</small></h4>
-      </div>
-      <div class="panel-footer">
-        <p>{{park.operatingHours[0].description}}</p>
-      </div>
-    </div>
-  </div>
-  <div class="col-sm-12 col-md-4 park-col">
+  <div class="col-sm-12 col-md-4 col-md-push-4 park-col">
     <div class="panel panel-default">
       <div class="panel-heading">
         <h3 class="panel-title">Entrance Passes</h3>
       </div>
       <div class="panel-body">
         <p ng-if="park.entrancePasses.length === 0">There are no passes listed for {{park.fullName}}.</p>
-        <div class="panel-group" id="accordion" role="tablist">
+        <div class="panel-group" id="passAccordion" role="tablist">
           <div ng-repeat="pass in park.entrancePasses" class="panel panel-default">
             <div class="panel-heading" role="tab" id="headingPass{{$index}}">
               <h3 class="panel-title">
-                <a role="button" data-toggle="collapse" data-parent="#accordion" href="/park/{{park.parkCode}}#pass{{$index}}" aria-expanded="false" aria-controls="{{$index}}">
+                <a role="button" data-toggle="collapse" data-parent="#passAccordion" href="/park/{{park.parkCode}}#pass{{$index}}" aria-expanded="false" aria-controls="{{$index}}">
                   {{pass.title}}
                 </a>
               </h3>
@@ -202,6 +181,31 @@
             </div>
           </div>
         </div>
+      </div>
+      <div class="panel-footer"></div>
+    </div>
+  </div>
+  <div class="col-sm-12 col-md-4 col-md-pull-4 park-col">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title">Contact</h3>
+      </div>
+      <div class="panel-body">
+        <p ng-repeat="address in park.addresses">
+          <big><b>{{address.type}}</b></big><br>
+          {{address.line1}}<br>
+          {{address.city}} {{address.stateCode}}, {{address.postalCode}}
+        </p>
+        <p ng-if="park.foursquare.venue.contact.facebook">
+          <a href="https://facebook.com/{{park.foursquare.venue.contact.facebook}}" target="_blank"><i class="fa fa-facebook-official" aria-hidden="true"></i> Facebook</a>
+        </p>
+        <p ng-if="park.foursquare.venue.contact.twitter">
+          <a href="https://twitter.com/{{park.foursquare.venue.contact.twitter}}" target="_blank"><i class="fa fa-twitter" aria-hidden="true"></i> Twitter</a>
+        </p>
+        <p ng-if="park.foursquare.venue.contact.formattedPhone">
+          <a href="tel:{{park.foursquare.venue.contact.formattedPhone}}"><i class="fa fa-phone" aria-hidden="true"></i> Telephone</a>
+        </p>
+        <p><a href="{{park.url}}" target="_blank"><i class="fa fa-window-maximize" aria-hidden="true"></i> Park Website</a></p>
       </div>
       <div class="panel-footer"></div>
     </div>
