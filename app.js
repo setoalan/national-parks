@@ -11,8 +11,8 @@ import dotenv from 'dotenv';
 // load environment variables
 dotenv.load();
 
-const indexRouter = require('./routes/index');
-const parkRouter = require('./routes/park');
+const indexRouter = require('./routes/indexRouter');
+const parkRouter = require('./routes/parkRouter');
 
 const app = express();
 
@@ -26,11 +26,11 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'dist')));
+app.use(express.static(path.join(__dirname, 'app')));
 app.use('/node_modules', express.static(__dirname + '/node_modules'));
 
 app.use('/', indexRouter);
-app.use('/park', parkRouter);
+app.use('/park/', parkRouter);
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {

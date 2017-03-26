@@ -1,43 +1,52 @@
-<div class="row">
-  <div class="col-xs-12 toolbar-home">
-    <a ui-sref="app.map" class="btn btn-default btn-map" role="button">Map with Parks</a>
-    <button class="btn btn-default btn-location" type="button" ng-click="getLocation()" ng-class="{'btn-success': locationSuccess === 'success', 'btn-danger': locationSuccess === 'error'}">
-      {{locationText}}
-    </button>
-    <div class="input-group search">
-      <input type="text" class="form-control" placeholder="Search" ng-model="searchText">
-    </div>
-    <div class="dropdown">
-      <button class="btn btn-default dropdown-toggle" type="button" id="stateMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-        {{stateText}}
-        <span class="caret"></span>
+<div class="navbar-header">
+  <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+  data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+      <span class="sr-only">Toggle navigation</span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+  </button>
+</div>
+<div id="navbar" class="navbar-collapse collapse">
+  <div class="row">
+    <div class="col-xs-12 toolbar-home">
+      <a ui-sref="app.map" class="btn btn-default btn-map" role="button">Map with Parks</a>
+      <button class="btn btn-default btn-location" type="button" ng-click="getLocation()" ng-class="{'btn-success': locationSuccess === 'success', 'btn-danger': locationSuccess === 'error'}">
+        {{locationText}}
       </button>
-      <ul class="dropdown-menu" aria-labelledby="stateMenu">
-        <li ng-repeat="state in states"><a ng-click="stateSelected(state)">{{state}}</a></li>
-      </ul>
-    </div>
-    <div class="dropdown">
-      <button class="btn btn-default dropdown-toggle" type="button" id="sortMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" ng-class="{'btn-success': locationSuccess === 'success'}">
-        {{sortText}}
-        <span class="caret"></span>
-      </button>
-      <ul class="dropdown-menu" aria-labelledby="sortMenu">
-        <li ng-repeat="sort in sorts"><a ng-click="sortSelected(sort)">{{sort}}</a></li>
-      </ul>
+      <div class="input-group search">
+        <input type="text" class="form-control" placeholder="Search" ng-model="searchText">
+      </div>
+      <div class="dropdown">
+        <button class="btn btn-default dropdown-toggle" type="button" id="stateMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+          {{stateText}}
+          <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu" aria-labelledby="stateMenu">
+          <li ng-repeat="state in states"><a ng-click="stateSelected(state)">{{state}}</a></li>
+        </ul>
+      </div>
+      <div class="dropdown">
+        <button class="btn btn-default dropdown-toggle" type="button" id="sortMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" ng-class="{'btn-success': locationSuccess === 'success'}">
+          {{sortText}}
+          <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu" aria-labelledby="sortMenu">
+          <li ng-repeat="sort in sorts"><a ng-click="sortSelected(sort)">{{sort}}</a></li>
+        </ul>
+      </div>
     </div>
   </div>
 </div>
 
-<h3 class="text-center" ng-if="loading">Loading...</h3>
+<h3 ng-if="loading">Loading...</h3>
 
 <div class="row" ng-repeat="i in getNumRows() track by $index" ng-init="parentIndex = $index">
   <div class="col-sm-4" ng-repeat="park in parks | filter:{states:stateField} | filter:searchField | orderBy:sortField | limitTo:3:parentIndex * 3" lazy-loader>
     <div class="park">
       <img class="b-lazy park-img" data-blazy={{park.photoUrl}} src=data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw== alt="{{park.fullName}}">
       <h2 class="park-state">{{park.states}}</h2>
-      <h3 class="text-center">
-        <a href="{{park.url}}" target="=_blank">{{park.fullName}}</a>
-      </h3>
+      <h3><a ui-sref="app.park({id: park.parkCode})">{{park.fullName}}</a></h3>
       <div class="foursquare-and-distance">
         <div><img ng-src="./assets/foursquare.png" alt="foursquare"></div>
         <p>CHECKINS<br>{{park.foursquare.venue.stats.checkinsCount | number}}</p>

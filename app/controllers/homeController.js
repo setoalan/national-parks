@@ -1,7 +1,8 @@
 'use strict';
 
 angular.module('national-parks')
-  .controller('HomeController', function ($scope, $http, toolBarFactory, parksFactory) {
+  .controller('HomeController', function ($rootScope, $scope, $http, toolBarFactory, parksFactory) {
+    $rootScope.pageTitle = 'U.S. National Parks';
     $scope.loading = true;
     $scope.locationText = 'Get Location';
     $scope.locationSuccess = undefined;

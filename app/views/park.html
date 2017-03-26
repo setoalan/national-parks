@@ -1,12 +1,213 @@
-<div class="row">
-  <div class="col-xs-12">
-    <a ui-sref="app" class="btn btn-info btn-map" role="button" style="margin-bottom:20px;">Back</a>
+<div class="row park-row">
+  <div class="col-sm-12 col-md-4 col-md-push-8 park-col">
+    <div class="panel panel-default">
+      <div class="panel-heading"></div>
+      <div class="panel-body">
+        <h2>{{park.fullName}}</h2>
+        <p class="well">{{park.description}}</p>
+        <h2>{{park.states}}</h2>
+      </div>
+      <div class="panel-footer"></div>
+    </div>
+  </div>
+  <div class="col-sm-12 col-md-8 col-md-pull-4 park-col">
+    <div class="panel panel-default">
+      <div class="panel-heading"></div>
+      <div class="panel-body">
+        <slick class="slider" current-index="0" settings="slickConfig" ng-if="isPhotosFetched">
+          <div class="park-hero-div" ng-repeat="i in [0,1,2,3,4,5,6,7,8,9]">
+            <img class="park-hero" ng-src="{{park.flickrPhotos[i].src}}" alt="{{park.flickrPhotos[i].alt}}">
+          </div>
+        </slick>
+      </div>
+      <div class="panel-footer"></div>
+    </div>
   </div>
 </div>
-<div id="parkCarousel" class="carousel slide" data-ride="carousel">
-  <div class="carousel-inner" role="listbox">
-    <div class="item" ng-class="{'active': $first}" ng-repeat="photo in park.photos">
-      <img class="{{$index}}-slide" ng-src="{{photo.src}}" alt="{{photo.title}}" style="height:750px;width:100%;">
+
+<div class="row park-row">
+  <div class="col-sm-12 col-md-4 park-col">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title">Foursquare</h3>
+      </div>
+      <div class="panel-body">
+        <div class="foursquare-swarm-div">
+          <img class="foursquare-swarm-img" src="../assets/foursquare-swarm.png" alt="foursquare-swarm">
+          <h3>RATING<br>{{park.foursquare.venue.rating === -1 ? 'N/A' : park.foursquare.venue.rating}}</h3>
+          <h3>CHECKINS<br>{{park.foursquare.venue.stats.checkinsCount | number}}</h3>
+          <img src="../assets/swarm.png" alt="swarm">
+        </div>
+        <div class="foursquare-swarm-sm">
+          <div>
+            <img class="foursquare-swarm-img-sm" src="../assets/foursquare-swarm.png" alt="foursquare-swarm">
+            <img src="../assets/swarm.png" alt="swarm">
+          </div>
+          <div>
+            <h3>RATING<br>{{park.foursquare.venue.rating === -1 ? 'N/A' : park.foursquare.venue.rating}}</h3>
+            <h3>CHECKINS<br>{{park.foursquare.venue.stats.checkinsCount | number}}</h3>
+          </div>
+        </div>
+      </div>
+      <div class="panel-footer"></div>
+    </div>
+  </div>
+  <div class="col-sm-12 col-md-8 park-col">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title">Location</h3>
+      </div>
+      <div class="park-map-overlay"></div>
+      <div class="park-map"></div>
+      <div class="panel-footer">
+        <p>
+          {{park.directionsInfo}}
+          <a href="{{park.directionsUrl}}" target="_blank">Driving Directions</a>
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row park-row">
+  <div class="col-sm-12 col-md-8 park-col">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title">Weather</h3>
+      </div>
+      <div class="panel-body">
+        <div class="well weather-div">
+          <div class="weather-day" ng-repeat="day in park.weather">
+            <h5>{{day.dt * 1000 | date:'EEE MM/dd'}}</h5>
+            <p><span class="temp-high">{{day.main.temp_max | temperatureFilter}} ˚F</span> | <span class="temp-low">{{day.main.temp_min | temperatureFilter}} ˚F</p>
+            <img ng-src="http://openweathermap.org/img/w/{{day.weather[0].icon}}.png" alt="{{day.weather[0].description}}">
+            <p>{{day.weather[0].description}}</p>
+          </div>
+        </div>
+        <div class="weather-tabs">
+          <ul id="weatherTabs" class="nav nav-tabs">
+            <li ng-repeat="day in park.weather" ng-class="{active: $index == 0}"><a data-toggle="tab" href="/park/{{park.parkCode}}/#{{day.dt}}" >{{day.dt * 1000 | date:'EEE'}}</a></li>
+          </ul>
+            <div class="tab-content">
+            <div ng-repeat="day in park.weather" id="{{day.dt}}" ng-class="{'in active': $index == 0}" class="tab-pane fade">
+              <h4>{{day.dt * 1000 | date:'MMMM d, yyyy'}}</h4>
+              <h5><span class="temp-high">{{day.main.temp_max | temperatureFilter}} ˚F</span> | <span class="temp-low">{{day.main.temp_min | temperatureFilter}} ˚F</span></h5>
+              <img ng-src="http://openweathermap.org/img/w/{{day.weather[0].icon}}.png" alt="{{day.weather[0].description}}">
+              <div ng-bind-html="sanitizeSnippet(park.entrancePasses[0].description)"></div>
+              <p>{{day.weather[0].description}}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="panel-footer">
+        <p>{{park.weatherInfo}}</p>
+      </div>
+    </div>
+  </div>
+  <div class="col-sm-12 col-md-4 park-col">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title">Hours</h3>
+      </div>
+      <div class="panel-body">
+        <h4>Sunday: <small>{{park.operatingHours[0].standardHours.sunday}}</small></h4><p></p>
+        <h4>Monday: <small>{{park.operatingHours[0].standardHours.monday}}</small></h4>
+        <h4>Tuesday: <small>{{park.operatingHours[0].standardHours.tuesday}}</small></h4>
+        <h4>Wednesday: <small>{{park.operatingHours[0].standardHours.wednesday}}</small></h4>
+        <h4>Thursday: <small>{{park.operatingHours[0].standardHours.thursday}}</small></h4>
+        <h4>Friday: <small>{{park.operatingHours[0].standardHours.friday}}</small></h4>
+        <h4>Saturday: <small>{{park.operatingHours[0].standardHours.saturday}}</small></h4>
+      </div>
+      <div class="panel-footer">
+        <p>{{park.operatingHours[0].description}}</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row park-row">
+  <div class="col-sm-12 col-md-4 park-col">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title">Entrance Fees</h3>
+      </div>
+      <div class="panel-body">
+        <div class="panel-group" id="feeAccordion" role="tablist">
+          <div ng-repeat="fee in park.entranceFees" class="panel panel-default">
+            <div class="panel-heading" role="tab" id="headingFee{{$index}}">
+              <h3 class="panel-title">
+                <a role="button" data-toggle="collapse" data-parent="#feeAccordion" href="/park/{{park.parkCode}}#fee{{$index}}" aria-expanded="false" aria-controls="{{$index}}">
+                  {{fee.title}}
+                </a>
+              </h3>
+            </div>
+            <div role="tabpanel" class="panel-collapse collapse" ng-class="{in:$first}" id="fee{{$index}}" aria-labelledby="headingFee{{$index}}">
+              <div class="panel-body">
+                <p>
+                  {{fee.cost | currency}}<br>
+                  <div ng-bind-html="sanitizeSnippet(fee.description)"></div>
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="panel-footer"></div>
+    </div>
+  </div>
+  <div class="col-sm-12 col-md-4 col-md-push-4 park-col">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title">Entrance Passes</h3>
+      </div>
+      <div class="panel-body">
+        <p ng-if="park.entrancePasses.length === 0">There are no passes listed for {{park.fullName}}.</p>
+        <div class="panel-group" id="passAccordion" role="tablist">
+          <div ng-repeat="pass in park.entrancePasses" class="panel panel-default">
+            <div class="panel-heading" role="tab" id="headingPass{{$index}}">
+              <h3 class="panel-title">
+                <a role="button" data-toggle="collapse" data-parent="#passAccordion" href="/park/{{park.parkCode}}#pass{{$index}}" aria-expanded="false" aria-controls="{{$index}}">
+                  {{pass.title}}
+                </a>
+              </h3>
+            </div>
+            <div role="tabpanel" class="panel-collapse collapse" ng-class="{in:$first}" id="pass{{$index}}" aria-labelledby="headingPass{{$index}}">
+              <div class="panel-body">
+                <p>
+                  {{pass.cost | currency}}<br>
+                  <div ng-bind-html="sanitizeSnippet(pass.description)"></div>
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="panel-footer"></div>
+    </div>
+  </div>
+  <div class="col-sm-12 col-md-4 col-md-pull-4 park-col">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title">Contact</h3>
+      </div>
+      <div class="panel-body">
+        <p ng-repeat="address in park.addresses">
+          <big><b>{{address.type}}</b></big><br>
+          {{address.line1}}<br>
+          {{address.city}} {{address.stateCode}}, {{address.postalCode}}
+        </p>
+        <p ng-if="park.foursquare.venue.contact.facebook">
+          <a href="https://facebook.com/{{park.foursquare.venue.contact.facebook}}" target="_blank"><i class="fa fa-facebook-official" aria-hidden="true"></i> Facebook</a>
+        </p>
+        <p ng-if="park.foursquare.venue.contact.twitter">
+          <a href="https://twitter.com/{{park.foursquare.venue.contact.twitter}}" target="_blank"><i class="fa fa-twitter" aria-hidden="true"></i> Twitter</a>
+        </p>
+        <p ng-if="park.foursquare.venue.contact.formattedPhone">
+          <a href="tel:{{park.foursquare.venue.contact.formattedPhone}}"><i class="fa fa-phone" aria-hidden="true"></i> Telephone</a>
+        </p>
+        <p><a href="{{park.url}}" target="_blank"><i class="fa fa-window-maximize" aria-hidden="true"></i> Park Website</a></p>
+      </div>
+      <div class="panel-footer"></div>
     </div>
   </div>
 </div>
