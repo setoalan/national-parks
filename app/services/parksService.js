@@ -28,7 +28,7 @@ angular.module('national-parks')
       parks[34].directionsInfo = parks[48].directionsInfo;
       parks[34].directionsUrl = parks[48].directionsUrl;
       parks[34].operatingHours = parks[48].operatingHours;
-      parks[34].url = parks[48].url
+      parks[34].url = parks[48].url;
       parks[34].weatherInfo = parks[48].weatherInfo;
 
       // add missing Redwood National Park

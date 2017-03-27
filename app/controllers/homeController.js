@@ -100,6 +100,12 @@ angular.module('national-parks')
       return new Array($scope.numRows);
     };
 
+    const userLocation = toolBarFactory.getUserLocation();
+    if (userLocation) {
+      $scope.userLocation = userLocation;
+      fetchLocation($scope.userLocation);
+    }
+
     const parks = parksFactory.getParks();
     if (parks) {
       $scope.parks = parks;

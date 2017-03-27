@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('national-parks')
-  .factory('toolBarFactory', ($rootScope, $window, $q) => {
+  .factory('toolBarFactory', ($rootScope, $window, $q, $localStorage) => {
     const toolBar = {};
 
     toolBar.getSorts = () => {
@@ -55,6 +55,7 @@ angular.module('national-parks')
         console.error('Error: Geolocation is not supported');
       } else {
         $window.navigator.geolocation.getCurrentPosition((position) => {
+          $localStorage.storeObject('userLocation', new google.maps.LatLng(position.coords.latitude, position.coords.longitude));
           $rootScope.$apply(() => {
             location.resolve({'lat': position.coords.latitude, 'lng': position.coords.longitude});
           });
@@ -66,6 +67,11 @@ angular.module('national-parks')
       }
 
       return location.promise;
+    };
+
+
+    toolBar.getUserLocation = () => {
+      return $localStorage.getObject('userLocation', false);
     };
 
     return toolBar;
