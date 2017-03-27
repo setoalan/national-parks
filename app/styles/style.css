@@ -5,6 +5,7 @@ body {
 
 a {
   text-decoration: none !important;
+  cursor: pointer;
 }
 
 img {
@@ -141,6 +142,10 @@ footer > p {
 
 .temp-low {
   color: #0000ff;
+}
+
+#map {
+  width: 100%;
 }
 
 @media (max-width: 768px) {
