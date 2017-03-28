@@ -32,6 +32,11 @@ app.use('/node_modules', express.static(__dirname + '/node_modules'));
 app.use('/', indexRouter);
 app.use('/park/', parkRouter);
 
+// pretty url refresh fix
+app.use('*', (req, res, next) => {
+  res.sendFile(path.resolve(__dirname, './app/index.html'));
+})
+
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
   const err = new Error('Not Found');

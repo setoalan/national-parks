@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('national-parks', ['ui.router', 'slickCarousel', 'ngSanitize'])
-  .config(($stateProvider, $urlRouterProvider) => {
+  .config(($stateProvider, $urlRouterProvider, $locationProvider) => {
     $stateProvider
       .state('app', {
         url: '/',
@@ -38,4 +38,5 @@ angular.module('national-parks', ['ui.router', 'slickCarousel', 'ngSanitize'])
       });
 
     $urlRouterProvider.otherwise('/');
+    $locationProvider.html5Mode(true);
 });

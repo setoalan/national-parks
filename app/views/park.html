@@ -136,7 +136,7 @@
           <div ng-repeat="fee in park.entranceFees" class="panel panel-default">
             <div class="panel-heading" role="tab" id="headingFee{{$index}}">
               <h3 class="panel-title">
-                <a role="button" data-toggle="collapse" data-parent="#feeAccordion" href="/park/{{park.parkCode}}#fee{{$index}}" aria-expanded="false" aria-controls="{{$index}}">
+                <a role="button" data-toggle="collapse" data-parent="#feeAccordion" data-target="#fee{{$index}}" aria-expanded="false" aria-controls="{{$index}}">
                   {{fee.title}}
                 </a>
               </h3>
@@ -166,7 +166,7 @@
           <div ng-repeat="pass in park.entrancePasses" class="panel panel-default">
             <div class="panel-heading" role="tab" id="headingPass{{$index}}">
               <h3 class="panel-title">
-                <a role="button" data-toggle="collapse" data-parent="#passAccordion" href="/park/{{park.parkCode}}#pass{{$index}}" aria-expanded="false" aria-controls="{{$index}}">
+                <a role="button" data-toggle="collapse" data-parent="#passAccordion" data-target="#pass{{$index}}" aria-expanded="false" aria-controls="{{$index}}">
                   {{pass.title}}
                 </a>
               </h3>

@@ -51,7 +51,7 @@
         <div><img ng-src="./assets/foursquare.png" alt="foursquare"></div>
         <p>CHECKINS<br>{{park.foursquare.venue.stats.checkinsCount | number}}</p>
         <p>RATING<br>{{park.foursquare.venue.rating === -1 ? 'N/A' : park.foursquare.venue.rating}}</p>
-        <p ng-if="park.distanceTo">DISTANCE<br>{{park.distanceTo | number:0}} km</p>
+        <p ng-if="park.distanceTo">DISTANCE<br>{{park.distanceTo | distanceFilter}} mi</p>
       </div>
       <p>{{park.description}}</p>
     </div>
