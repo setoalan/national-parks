@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('national-parks')
-  .controller('HomeController', function ($rootScope, $scope, $http, toolBarFactory, parksFactory) {
+  .controller('HomeController', function ($rootScope, $scope, $http, $localStorage, toolBarFactory, parksFactory) {
     $rootScope.pageTitle = 'U.S. National Parks';
     $scope.loading = true;
     $scope.locationText = 'Get Location';
@@ -11,8 +11,8 @@ angular.module('national-parks')
     $scope.stateText = $scope.states[0];
     $scope.stateField = undefined;
     $scope.sorts = toolBarFactory.getSorts();
-    $scope.sortText = $scope.sorts[0];
-    $scope.sortField = '+venue.name';
+    $scope.sortText = $localStorage.get('sortText', 'Name A-Z').replace(/[\"\']/g, '');
+    $scope.sortField = $localStorage.get('sortField', '+venue.name').replace(/[\"\']/g, '');
 
     $scope.stateSelected = (state) => {
       $scope.stateText = state;
@@ -32,7 +32,7 @@ angular.module('national-parks')
       $scope.sortText = sort;
 
       switch (sort) {
-      case'Name A-Z':
+      case 'Name A-Z':
         $scope.sortField = '+fullName';
         break;
       case 'Name Z-A':
@@ -56,6 +56,9 @@ angular.module('national-parks')
       default:
         $scope.sortField = '+fillName';
       }
+
+      $localStorage.storeObject('sortText', $scope.sortText);
+      $localStorage.storeObject('sortField', $scope.sortField);
     };
 
     const fetchLocation = () => {

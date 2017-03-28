@@ -109,6 +109,10 @@ footer > p {
   background: transparent;
 }
 
+.pointerEventsNone {
+  pointer-events: none;
+}
+
 .park-map {
   width: 100%;
   height: 360px;
