@@ -38,15 +38,24 @@ angular.module('national-parks')
             city: 'Crescent City',
             line1: '1111 Second Street',
             postalCode: 95531,
-            stateCode: 'CA'
+            stateCode: 'CA',
+            type: 'Physical'
           },
           {
             city: 'Crescent City',
             line1: '1111 Second Street',
             postalCode: 95531,
-            stateCode: 'CA'
+            stateCode: 'CA',
+            type: 'Mailing'
           }
         ],
+        contacts: {
+          phoneNumbers: [
+            {
+              phoneNumber: '7074657335'
+            }
+          ]
+        },
         description: 'Most people know Redwood as home to the tallest trees Earth. The parks also protect prairies, oak woodlands, riverways, and nearly 40 miles of rugged coastline. For thousands years people have lived this verdant landscape. Together, National Park Service and California State Parks manage these lands the inspiration, enjoyment, and education of all.',
         directionsInfo: 'Redwood National and State Parks is located in northernmost coastal California - almost on the Oregon border. The parks are about 60-miles long, with four visitor centers from north to south. We are a six to seven-hour drive (325 miles) north of San Francisco, a six-hour drive (330 miles) south of Portland, OR and a four-hour drive (170 miles) west of Redding, CA.',
         directionsUrl: 'https://www.nps.gov/redw/planyourvisit/directions.htm',

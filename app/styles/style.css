@@ -76,6 +76,14 @@ footer > p {
   justify-content: space-between;
 }
 
+.panel-default > .panel-heading {
+  background-color: #ffffff !important;
+}
+
+.panel-default > .panel-footer {
+  background-color: #ffffff !important;
+}
+
 .park-col {
   display: flex;
   flex-direction: column;
@@ -245,6 +253,10 @@ footer > p {
     display: none;
   }
 
+  .weather-day > p {
+    font-size: 0.8em;
+  }
+
 }
 
 @media (min-width: 1200px) {
@@ -255,6 +267,10 @@ footer > p {
 
   .park-hero {
     height: 478.66px !important;
+  }
+
+  .weather-day > p {
+    font-size: 1em;
   }
 
 }
