@@ -4,8 +4,8 @@ describe('HomeController', () => {
     browser.get('http://localhost:3000/');
   });
 
-  it('should have "United States National Parks" title', () => {
-    expect(browser.getTitle()).toEqual('United States National Parks');
+  it('should have "U.S. National Parks" title', () => {
+    expect(browser.getTitle()).toEqual('U.S. National Parks');
   });
 
   it('should have 59 parks listed', () => {
