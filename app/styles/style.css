@@ -14,11 +14,7 @@ img {
 }
 
 footer {
-  margin-bottom: 70px;
-}
-
-footer > p {
-  float: right !important;
+  margin-bottom: 30px;
 }
 
 .navbar-header .navbar-toggle .icon-bar {

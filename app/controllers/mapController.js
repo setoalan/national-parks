@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('national-parks')
-  .controller('MapController', function ($scope, $window, $state, $compile, toolBarFactory, parksFactory) {
-    $('#map').css('height', $window.innerHeight - $('#header').height() - 91);
+  .controller('MapController', function ($scope, $window, $state, $compile, $timeout, toolBarFactory, parksFactory) {
+    $scope.mapHeight = $window.innerHeight - document.getElementById('header').offsetHeight - 91;
 
     const center = new google.maps.LatLng(39.50, -98.35);
 
@@ -14,7 +14,8 @@ angular.module('national-parks')
 
     const resize = () => {
       map.setCenter(center);
-      $('#map').css('height', $window.innerHeight - $('#header').height() - 91);
+      $scope.mapHeight = $window.innerHeight - document.getElementById('header').offsetHeight - 91;
+      $scope.$apply();
     };
 
     const userLocation = toolBarFactory.getUserLocation();
@@ -43,9 +44,9 @@ angular.module('national-parks')
 
       var infoContent =
         `<div>
-          <h4><a ng-click="goToPark('${park.parkCode}')">${park.fullName}</a></h4>
-          <p>${park.states}</p>
-        </div>`;
+           <h4><a ng-click="goToPark('${park.parkCode}')">${park.fullName}</a></h4>
+           <p>${park.states}</p>
+         </div>`;
       var compiledContent = $compile(infoContent)($scope);
 
       google.maps.event.addListener(marker, 'click', ((marker, content, scope) => {
@@ -65,4 +66,10 @@ angular.module('national-parks')
     };
 
     google.maps.event.addDomListener(window, 'resize', resize);
+
+    // fix for second render of map
+    $timeout(() => {
+      google.maps.event.trigger(map, 'resize');
+      map.setCenter(center);
+    });
   });
