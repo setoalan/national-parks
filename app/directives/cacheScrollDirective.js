@@ -1,10 +1,10 @@
 'use strict';
 
 angular.module('national-parks')
-  .directive('cacheScroll', ($rootScope, $window, $timeout, $location, $anchorScroll, $state) => {
+  .directive('cacheScroll', ($rootScope, $window, $timeout, $location, $anchorScroll) => {
   let scrollPosCache = {};
 
-  return (scope, element, attrs) => {
+  return (scope) => {
     scope.$on('$stateChangeStart', (toState, fromState) => {
       if (fromState.name !== 'app') {
         scrollPosCache[$location.path()] = [$window.pageXOffset, $window.pageYOffset];
