@@ -21,7 +21,7 @@ Start local Express server with:
 $ npm start
 ```
 
-Go to `localhost:3000` in your browser to view the app. Make sure in the [`app.js` file on line 29](https://github.com/setoalan/national-parks/blob/master/app.js#L29), that the project is being served from the `app` folder instead of the `dist` build folder.
+Go to `localhost:3000` in your browser to view the app. Make sure in the [`app.js` file on line 29 and 37](https://github.com/setoalan/national-parks/blob/master/app.js#L29), that the project is being served from the `app` folder instead of the `dist` build folder.
 
 ## Tests
 
