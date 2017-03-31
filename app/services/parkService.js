@@ -43,9 +43,4 @@ angular.module('national-parks')
     };
 
     return parkFactory;
-  })
-  .filter('temperatureFilter', () => {
-    return (input) => {
-      return (1.8 * (input - 273) + 32).toFixed(1);
-    };
   });

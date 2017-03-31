@@ -17,7 +17,7 @@ const parkRouter = require('./routes/parkRouter');
 const app = express();
 
 // view engine setup
-app.set('views', path.join(__dirname, 'views'));
+app.set('views', path.join(__dirname, './dist/views'));
 app.set('view engine', 'html');
 
 // uncomment after placing your favicon in /public
@@ -26,11 +26,16 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'app')));
+app.use(express.static(path.join(__dirname, 'dist')));
 app.use('/node_modules', express.static(__dirname + '/node_modules'));
 
 app.use('/', indexRouter);
 app.use('/park/', parkRouter);
+
+// pretty url refresh fix
+app.use('*', (req, res, next) => {
+  res.sendFile(path.resolve(__dirname, './dist/index.html'));
+})
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {

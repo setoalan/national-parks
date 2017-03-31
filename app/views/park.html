@@ -57,7 +57,7 @@
       <div class="panel-heading">
         <h3 class="panel-title">Location</h3>
       </div>
-      <div class="park-map-overlay"></div>
+      <div class="park-map-overlay" ng-click="mapClick()" ng-class="{'pointerEventsNone': mapIsClicked}"></div>
       <div class="park-map"></div>
       <div class="panel-footer">
         <p>
@@ -86,9 +86,9 @@
         </div>
         <div class="weather-tabs">
           <ul id="weatherTabs" class="nav nav-tabs">
-            <li ng-repeat="day in park.weather" ng-class="{active: $index == 0}"><a data-toggle="tab" href="/park/{{park.parkCode}}/#{{day.dt}}" >{{day.dt * 1000 | date:'EEE'}}</a></li>
+            <li ng-repeat="day in park.weather" ng-class="{active: $index == 0}"><a data-toggle="tab" data-target="#{{day.dt}}">{{day.dt * 1000 | date:'EEE'}}</a></li>
           </ul>
-            <div class="tab-content">
+          <div class="tab-content">
             <div ng-repeat="day in park.weather" id="{{day.dt}}" ng-class="{'in active': $index == 0}" class="tab-pane fade">
               <h4>{{day.dt * 1000 | date:'MMMM d, yyyy'}}</h4>
               <h5><span class="temp-high">{{day.main.temp_max | temperatureFilter}} ˚F</span> | <span class="temp-low">{{day.main.temp_min | temperatureFilter}} ˚F</span></h5>
@@ -110,17 +110,31 @@
         <h3 class="panel-title">Hours</h3>
       </div>
       <div class="panel-body">
-        <h4>Sunday: <small>{{park.operatingHours[0].standardHours.sunday}}</small></h4><p></p>
-        <h4>Monday: <small>{{park.operatingHours[0].standardHours.monday}}</small></h4>
-        <h4>Tuesday: <small>{{park.operatingHours[0].standardHours.tuesday}}</small></h4>
-        <h4>Wednesday: <small>{{park.operatingHours[0].standardHours.wednesday}}</small></h4>
-        <h4>Thursday: <small>{{park.operatingHours[0].standardHours.thursday}}</small></h4>
-        <h4>Friday: <small>{{park.operatingHours[0].standardHours.friday}}</small></h4>
-        <h4>Saturday: <small>{{park.operatingHours[0].standardHours.saturday}}</small></h4>
+        <div class="panel-group" id="hourAccordion" role="tablist">
+          <div ng-repeat="hour in park.operatingHours" class="panel panel-default">
+            <div class="panel-heading" role="tab" id="headingHour{{$index}}">
+              <h3 class="panel-title">
+                <a role="button" data-toggle="collapse" data-parent="#hourAccordion" data-target="#hour{{$index}}" aria-expanded="false" aria-controls="{{$index}}">
+                  {{hour.name}}
+                </a>
+              </h3>
+            </div>
+            <div role="tabpanel" class="panel-collapse collapse" ng-class="{in:$first}" id="hour{{$index}}" aria-labelledby="headingHour{{$index}}">
+              <div class="panel-body">
+                  <h4>Sunday: <small>{{hour.standardHours.sunday}}</small></h4><p></p>
+                  <h4>Monday: <small>{{hour.standardHours.monday}}</small></h4>
+                  <h4>Tuesday: <small>{{hour.standardHours.tuesday}}</small></h4>
+                  <h4>Wednesday: <small>{{hour.standardHours.wednesday}}</small></h4>
+                  <h4>Thursday: <small>{{hour.standardHours.thursday}}</small></h4>
+                  <h4>Friday: <small>{{hour.standardHours.friday}}</small></h4>
+                  <h4>Saturday: <small>{{hour.standardHours.saturday}}</small></h4>
+                  <p>{{hour.description}}</p>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
-      <div class="panel-footer">
-        <p>{{park.operatingHours[0].description}}</p>
-      </div>
+      <div class="panel-footer"></div>
     </div>
   </div>
 </div>
@@ -136,7 +150,7 @@
           <div ng-repeat="fee in park.entranceFees" class="panel panel-default">
             <div class="panel-heading" role="tab" id="headingFee{{$index}}">
               <h3 class="panel-title">
-                <a role="button" data-toggle="collapse" data-parent="#feeAccordion" href="/park/{{park.parkCode}}#fee{{$index}}" aria-expanded="false" aria-controls="{{$index}}">
+                <a role="button" data-toggle="collapse" data-parent="#feeAccordion" data-target="#fee{{$index}}" aria-expanded="false" aria-controls="{{$index}}">
                   {{fee.title}}
                 </a>
               </h3>
@@ -144,7 +158,7 @@
             <div role="tabpanel" class="panel-collapse collapse" ng-class="{in:$first}" id="fee{{$index}}" aria-labelledby="headingFee{{$index}}">
               <div class="panel-body">
                 <p>
-                  {{fee.cost | currency}}<br>
+                  {{fee.cost === 0 ? 'Free' : (fee.cost | currency)}}<br>
                   <div ng-bind-html="sanitizeSnippet(fee.description)"></div>
                 </p>
               </div>
@@ -166,7 +180,7 @@
           <div ng-repeat="pass in park.entrancePasses" class="panel panel-default">
             <div class="panel-heading" role="tab" id="headingPass{{$index}}">
               <h3 class="panel-title">
-                <a role="button" data-toggle="collapse" data-parent="#passAccordion" href="/park/{{park.parkCode}}#pass{{$index}}" aria-expanded="false" aria-controls="{{$index}}">
+                <a role="button" data-toggle="collapse" data-parent="#passAccordion" data-target="#pass{{$index}}" aria-expanded="false" aria-controls="{{$index}}">
                   {{pass.title}}
                 </a>
               </h3>
@@ -174,7 +188,7 @@
             <div role="tabpanel" class="panel-collapse collapse" ng-class="{in:$first}" id="pass{{$index}}" aria-labelledby="headingPass{{$index}}">
               <div class="panel-body">
                 <p>
-                  {{pass.cost | currency}}<br>
+                  <span ng-if="pass.cost !== 0">{{pass.cost | currency}}<br></span>
                   <div ng-bind-html="sanitizeSnippet(pass.description)"></div>
                 </p>
               </div>
@@ -202,8 +216,14 @@
         <p ng-if="park.foursquare.venue.contact.twitter">
           <a href="https://twitter.com/{{park.foursquare.venue.contact.twitter}}" target="_blank"><i class="fa fa-twitter" aria-hidden="true"></i> Twitter</a>
         </p>
-        <p ng-if="park.foursquare.venue.contact.formattedPhone">
-          <a href="tel:{{park.foursquare.venue.contact.formattedPhone}}"><i class="fa fa-phone" aria-hidden="true"></i> Telephone</a>
+        <p ng-if="park.foursquare.venue.contact.instagram">
+          <a href="https://instagram.com/{{park.foursquare.venue.contact.instagram}}" target="_blank"><i class="fa fa-instagram" aria-hidden="true"></i> Instagram</a>
+        </p>
+        <p ng-if="park.contacts.emailAddresses[0].emailAddress">
+          <a href="mailto:{{park.contacts.emailAddresses[0].emailAddress}}"><i class="fa fa-envelope-o" aria-hidden="true"></i> Email</a>
+        </p>
+        <p ng-if="park.contacts.phoneNumbers[0].phoneNumber">
+          <a href="tel:{{park.contacts.phoneNumbers[0].phoneNumber}}"><i class="fa fa-phone" aria-hidden="true"></i> Telephone</a>
         </p>
         <p><a href="{{park.url}}" target="_blank"><i class="fa fa-window-maximize" aria-hidden="true"></i> Park Website</a></p>
       </div>

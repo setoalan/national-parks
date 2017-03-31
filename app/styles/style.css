@@ -4,6 +4,7 @@ body {
 }
 
 a {
+  cursor: pointer;
   text-decoration: none !important;
 }
 
@@ -13,11 +14,7 @@ img {
 }
 
 footer {
-  margin-bottom: 70px;
-}
-
-footer > p {
-  float: right !important;
+  margin-bottom: 30px;
 }
 
 .navbar-header .navbar-toggle .icon-bar {
@@ -70,16 +67,24 @@ footer > p {
 .panel {
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
   height: 100%;
   margin-bottom: 0;
+  justify-content: space-between;
+}
+
+.panel-default > .panel-heading {
+  background-color: #ffffff !important;
+}
+
+.panel-default > .panel-footer {
+  background-color: #ffffff !important;
 }
 
 .park-col {
   display: flex;
   flex-direction: column;
-  justify-content: center;
   margin-bottom: 20px;
+  justify-content: center;
 }
 
 .park-hero {
@@ -100,12 +105,16 @@ footer > p {
 }
 
 .park-map-overlay {
-  background: transparent;
   position: relative;
+  top: 360px;
   width: 100%;
   height: 360px;
-  top: 360px;
   margin-top: -360px;
+  background: transparent;
+}
+
+.pointerEventsNone {
+  pointer-events: none;
 }
 
 .park-map {
@@ -131,8 +140,8 @@ footer > p {
 }
 
 #weatherTabs > li {
-  flex: 1;
   text-align: center;
+  flex: 1;
 }
 
 .temp-high {
@@ -141,6 +150,10 @@ footer > p {
 
 .temp-low {
   color: #0000ff;
+}
+
+#map {
+  width: 100%;
 }
 
 @media (max-width: 768px) {
@@ -236,6 +249,10 @@ footer > p {
     display: none;
   }
 
+  .weather-day > p {
+    font-size: 0.8em;
+  }
+
 }
 
 @media (min-width: 1200px) {
@@ -246,6 +263,10 @@ footer > p {
 
   .park-hero {
     height: 478.66px !important;
+  }
+
+  .weather-day > p {
+    font-size: 1em;
   }
 
 }
