@@ -6,14 +6,13 @@ This is a personal project created in Angular 1.x displaying information about a
 
 This project uses [node](http://nodejs.org) and [npm](https://npmjs.com).
 
-
-Clone repository and install all dependencies including `devDependencies` with:
+Clone repository and install all dependencies with:
 
 ```sh
 $ npm install
 ```
 
-Set the environment variables in the provided `.sample.env` files and rename it to '.env'.
+Set the environment variables in the provided `.sample.env` files and rename it to '.env'. Run `gulp` to generate a build that will result with the app in the `public` folder.
 
 ## Usage
 
