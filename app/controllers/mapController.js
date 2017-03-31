@@ -42,12 +42,12 @@ angular.module('national-parks')
         map: map
       });
 
-      var infoContent =
+      const infoContent =
         `<div>
            <h4><a ng-click="goToPark('${park.parkCode}')">${park.fullName}</a></h4>
            <p>${park.states}</p>
          </div>`;
-      var compiledContent = $compile(infoContent)($scope);
+      const compiledContent = $compile(infoContent)($scope);
 
       google.maps.event.addListener(marker, 'click', ((marker, content, scope) => {
         return () => {
