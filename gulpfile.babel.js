@@ -18,7 +18,7 @@ const Server = require('karma').Server;
 const protractor = require('gulp-protractor').protractor;
 
 gulp.task('clean', () => {
-  return del(['dist']);
+  return del(['public']);
 });
 
 gulp.task('jshint', () => {
@@ -35,19 +35,19 @@ gulp.task('usemin', ['jshint'], () => {
           css: [cleancss(), rev()],
           js: [babel({presets: ['es2015'], compact: false}), ngannotate(), uglify(), rev()]
         }))
-        .pipe(gulp.dest('dist/'));
+        .pipe(gulp.dest('./public/'));
     }));
 });
 
 gulp.task('imagemin', () => {
   return gulp.src('app/assets/**/*')
     .pipe(cache(imagemin({ optimizationLevel: 3, progressive: true, interlaced: true })))
-    .pipe(gulp.dest('./dist/assets'));
+    .pipe(gulp.dest('./public/assets'));
 });
 
 gulp.task('copyfonts', ['clean'], () => {
   gulp.src('./node_modules/bootstrap/dist/fonts/**/*.{ttf,woff,eof,svg}*')
-    .pipe(gulp.dest('./dist/fonts'));
+    .pipe(gulp.dest('./public/fonts'));
 });
 
 gulp.task('test', (done) => {

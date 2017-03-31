@@ -6,6 +6,7 @@
   "license": "MIT",
   "author": "Alan Seto <alantseto@gmail.com>",
   "scripts": {
+    "prestart": "gulp",
     "start": "babel-node ./bin/www",
     "test": "karma start ./test/unit/karma.conf.js && protractor ./test/e2e/protractor.conf.js"
   },
@@ -67,6 +68,7 @@
     "karma-safari-launcher": "^1.0.0"
   },
   "engines": {
-    "node": "7.2.1"
+    "node": "7.2.1",
+    "npm": "4.2.0"
   }
 }
