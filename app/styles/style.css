@@ -81,10 +81,7 @@ footer {
 }
 
 .park-col {
-  display: flex;
-  flex-direction: column;
   margin-bottom: 20px;
-  justify-content: center;
 }
 
 .park-hero {

@@ -2,7 +2,7 @@
 
 This is a personal project created in Angular 1.x displaying information about all 59 United States National Parks operated by the National Park Service. Park information is provided by the [NPS API](https://www.nps.gov/subjects/digital/nps-data-api.htm) and [Foursquare API](https://developer.foursquare.com/), images from [Flickr API](https://www.flickr.com/services/api/), maps from [Google Maps API](https://developers.google.com/maps/documentation/javascript/), and weather data from [OpenWeatherMap API](http://openweathermap.org/).
 
-## Installation
+## Install
 
 This project uses [node](http://nodejs.org) and [npm](https://npmjs.com).
 
@@ -22,7 +22,7 @@ Start local Express server with:
 $ npm start
 ```
 
-Open your browswer to `localhost:3000` to view the app. Make sure in the [`app.js` file on line 29 and 37](https://github.com/setoalan/national-parks/blob/master/app.js#L29), the project is being served from the `app` folder instead of the `dist` build folder.
+Open your browser to `localhost:3000` to view the app. Make sure in the [`app.js` file on line 29 and 37](https://github.com/setoalan/national-parks/blob/master/app.js#L29), the project is being served from the `app` folder instead of the `public` build folder.
 
 ## Tests
 

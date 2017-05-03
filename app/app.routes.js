@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('national-parks', ['ui.router', 'slickCarousel'])
+angular.module('national-parks', ['ui.router', 'slickCarousel', 'ngSanitize', 'angular-google-analytics'])
   .config(($stateProvider, $urlRouterProvider, $locationProvider) => {
     $stateProvider
       .state('app', {
@@ -39,4 +39,8 @@ angular.module('national-parks', ['ui.router', 'slickCarousel'])
 
     $urlRouterProvider.otherwise('/');
     $locationProvider.html5Mode(true);
-});
+  })
+  .config(['AnalyticsProvider', (analyticsProvider) => {
+    analyticsProvider.setAccount('UA-80190481-4');
+  }])
+  .run(['Analytics', () => { }]);

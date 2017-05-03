@@ -165,7 +165,7 @@ angular.module('national-parks')
       return $localStorage.getObject('parks', false);
     };
 
-    parksFactory.getPark = (parkCode) =>{
+    parksFactory.getPark = (parkCode) => {
       return $localStorage.getObject('parks').find((park) => {
         return park.parkCode === parkCode;
       });

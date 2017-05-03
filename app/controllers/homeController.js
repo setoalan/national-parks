@@ -19,7 +19,7 @@ angular.module('national-parks')
       $scope.stateField = (state === 'All States') ? undefined : state.substring(0, 2);
     };
 
-    $scope.searchField= (park) => {
+    $scope.searchField = (park) => {
       if (!$scope.searchText) {
         return true;
       }

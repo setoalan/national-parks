@@ -1,6 +1,6 @@
 {
   "name": "national-parks",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "United States National Parks",
   "main": "index.html",
   "license": "MIT",
@@ -12,7 +12,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/setoalan/national-parks.git"
+    "url": "git+ssh://git@github.com/setoalan/national-parks.git"
   },
   "bugs": {
     "url": "https://github.com/setoalan/national-parks/issues"
